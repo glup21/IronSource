@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 
 // I work with C#, so I am used to calling it interface :D
@@ -7,6 +9,6 @@ public:
     // test only
     virtual void Render() = 0;
     
-    virtual ~IRenderTarget();
+    virtual ~IRenderTarget() = default;
 
 };
