@@ -1,11 +1,26 @@
-LOCALLIB = -I./lib -I ./bin
-LIB = -lglfw -lGL
-RESULT = -o iron_source
+CXX      := g++
+CXXFLAGS := -Wall -Wextra -std=c++17 -I./lib -I./bin
 
-TARGET = $(shell find ./bin/src -name '*.cpp')
+LDFLAGS  := -lglfw -lGL
 
-all:
-	g++ $(TARGET) $(LOCALLIB) $(LIB) $(RESULT) && ./iron_source
+RESULT   := iron_source
 
-debug: 
-	g++ $(TARGET) $(LOCALLIB) $(LIB) -g $(RESULT) 
+SRC_DIR  := ./bin/src
+SRCS     := $(shell find $(SRC_DIR) -name '*.cpp')
+OBJS     := $(SRCS:.cpp=.o)
+
+all: $(RESULT)
+
+$(RESULT): $(OBJS)
+	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+debug: CXXFLAGS += -g
+debug: $(RESULT)
+
+clean:
+	rm -f $(OBJS) $(RESULT)
+
+.PHONY: all debug clean
