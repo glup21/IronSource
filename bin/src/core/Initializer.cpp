@@ -10,14 +10,12 @@ Initializer::Initializer(AppContext* appContext)
     this->appContext = appContext;
 }
 
-vector<std::shared_ptr<IRenderTarget>> Initializer::InitApplication()
+void Initializer::InitApplication()
 {
     spdlog::info("Application initialization");
     InitWindow();
-    spdlog::info("Initializing game objects");
-    auto renderTargets = InitGameObjects();
-
-    return renderTargets;
+    spdlog::info("Initializing scene");
+    appContext->scene = InitScene();
 }
 
 void Initializer::InitWindow()
@@ -53,11 +51,17 @@ void Initializer::InitWindow()
 }
 
 // For now its initializing render targets, but in the future they will be replaced with game objects
-vector<std::shared_ptr<IRenderTarget>> Initializer::InitGameObjects()
+std::shared_ptr<Scene> Initializer::InitScene()
 {
     vector<glm::vec3> vertices = vector<glm::vec3> { {-0.6f, -0.4f, 0.f}, {0.6f, -0.4f, 0.f}, {0.f, 0.6f, 0.f}};
     vector<glm::vec3> colors = vector<glm::vec3> { {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f}};
-    Polygon pol = Polygon(vertices, colors);
 
-    return vector<std::shared_ptr<IRenderTarget>>{ std::make_shared<Polygon>(pol)};
+    auto scene = std::make_shared<Scene>(vector<std::shared_ptr<IRenderTarget>>{ std::make_shared<Polygon>(vertices, colors)});
+
+    for(auto renderTarget : scene->renderTargets)
+    {
+        renderTarget->Init();
+    }
+
+    return scene;
 }

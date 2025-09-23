@@ -7,8 +7,9 @@ Polygon::Polygon(vector<glm::vec3> vertices, vector<glm::vec3> color)
 {
     int count = std::min(vertices.size(), color.size());
 
-    for (int i = 0; i < count; i++) {
-        this->vertices.emplace_back(VertexColor{vertices[i], color[i]});
+    for (int i = 0; i < count; i++) 
+    {
+        this->vertices.push_back(VertexColor{vertices[i], color[i]});
     }
 
 }
@@ -23,4 +24,13 @@ void Polygon::Render()
         glVertex3f(v.vertex.x, v.vertex.y, v.vertex.z);
     }
     glEnd();
+}
+
+// Its a bit strange to pass path to shaders separately in Init method, but I dont want to see it in any IRenderTarget
+// children. So I need to create RenderTargetFactory or something, which will take input from json and init everything
+void Polygon::Init(ShaderLibrary* shaderLibrary, std::string vertexShader, std::string fragmentShader)
+{
+
+    shaderLibrary->GetShaderProgram(vertexShader, fragmentShader);
+
 }

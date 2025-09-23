@@ -3,6 +3,8 @@
 #include "headers/interfaces/IRenderTarget.hpp"
 #include <vector>
 #include <glm/vec3.hpp> 
+#include <string>
+
 using std::vector;
 
 struct VertexColor
@@ -22,5 +24,5 @@ public:
 
     vector<VertexColor> vertices;
     void Render();
-
+    void Init(ShaderLibrary* shaderLibrary, std::string vertexShader, std::string fragmentShader);
 };

@@ -2,9 +2,9 @@
 #include <GLFW/glfw3.h>  
 #include "spdlog/spdlog.h"
 
-Renderer::Renderer(vector<std::shared_ptr<IRenderTarget>> renderTargets, AppContext* appContext)
+Renderer::Renderer(AppContext* appContext)
 {
-    this->renderTargets = renderTargets;
+    this->renderTargets = appContext->scene->renderTargets;
     this->appContext = appContext;
 }
 
@@ -31,3 +31,4 @@ void Renderer::RenderScene()
     }
 
 }
+

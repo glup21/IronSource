@@ -13,7 +13,7 @@ public:
     AppContext* appContext;
     vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
-    Renderer(vector<std::shared_ptr<IRenderTarget>> renderTargets, AppContext* appContext);
+    Renderer(AppContext* appContext);
     ~Renderer() = default;
 
     void RenderScene();

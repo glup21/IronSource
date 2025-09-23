@@ -9,7 +9,7 @@ using std::vector;
 class Initializer
 {
 public:
-    vector<std::shared_ptr<IRenderTarget>> InitApplication();
+    void InitApplication();
 
     Initializer(AppContext* appContext);
     ~Initializer() = default;
@@ -18,5 +18,5 @@ private:
     AppContext* appContext;
 
     void InitWindow();
-    vector<std::shared_ptr<IRenderTarget>> InitGameObjects();
+    std::shared_ptr<Scene> InitScene();
 };
