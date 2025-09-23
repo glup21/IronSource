@@ -10,7 +10,7 @@ Shader::Shader(std::string code, GLenum shaderType)
 
 void Shader::CompileShader()
 {
-    spdlog::info("Starting shader preparation");
+    spdlog::info("Starting shader compilation");
     this->shaderId = glCreateShader(shaderType);
 
     const char* src = this->code.c_str();
@@ -26,4 +26,9 @@ void Shader::CompileShader()
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
+}
+
+uint Shader::GetShaderId()
+{
+    return this->shaderId;
 }

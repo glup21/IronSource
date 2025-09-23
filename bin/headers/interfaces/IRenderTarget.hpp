@@ -12,7 +12,7 @@ public:
     virtual ~IRenderTarget() = default;
 
     virtual void Render() = 0;
-    virtual void Init(ShaderLibrary* shaderLibrary) = 0;
+    virtual void Init(ShaderLibrary* shaderLibrary, std::string vertexShader, std::string fragmentShader) = 0;
 
 private:
     std::shared_ptr<ShaderProgram> shaderProgram;

@@ -15,4 +15,5 @@ public:
     ~Shader() = default;
 
     void CompileShader();
+    uint GetShaderId();
 };

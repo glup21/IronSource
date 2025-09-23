@@ -58,9 +58,12 @@ std::shared_ptr<Scene> Initializer::InitScene()
 
     auto scene = std::make_shared<Scene>(vector<std::shared_ptr<IRenderTarget>>{ std::make_shared<Polygon>(vertices, colors)});
 
+    std::string vertexShaderPath = "./shaders/vertexShader.txt";
+    std::string fragmentShaderPath = "./shaders/fragmentShader.txt";
+
     for(auto renderTarget : scene->renderTargets)
     {
-        renderTarget->Init();
+        renderTarget->Init(appContext->shaderLibrary.get(), vertexShaderPath, fragmentShaderPath);
     }
 
     return scene;

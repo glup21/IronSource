@@ -1,7 +1,7 @@
 CXX      := g++
 CXXFLAGS := -Wall -Wextra -std=c++17 -I./lib -I./bin
 
-LDFLAGS  := -lglfw -lGL
+LDFLAGS  := -lglfw -lGL -lGLEW
 
 RESULT   := iron_source
 

@@ -1,9 +1,11 @@
 #pragma once
 
 #include "headers/interfaces/IRenderTarget.hpp"
+#include "headers/graphics/ShaderProgram.hpp"
 #include <vector>
 #include <glm/vec3.hpp> 
 #include <string>
+#include <memory>
 
 using std::vector;
 
@@ -18,11 +20,14 @@ struct VertexColor
 class Polygon : public IRenderTarget
 {
 public:
-
     Polygon(vector<glm::vec3> vertices, vector<glm::vec3> color);
     ~Polygon() = default;
 
     vector<VertexColor> vertices;
     void Render();
     void Init(ShaderLibrary* shaderLibrary, std::string vertexShader, std::string fragmentShader);
+
+private:
+    std::shared_ptr<ShaderProgram> shaderProgram;
+    GLuint VBO, VAO;
 };
