@@ -13,6 +13,7 @@ private:
 
     std::shared_ptr<Shader> GetShader(std::string shaderPath, GLenum shaderType);
 public:
+    ShaderLibrary() = default;
 
     std::shared_ptr<ShaderProgram> GetShaderProgram(std::string vertexShaderPath, std::string fragmentShaderPath);
 };

@@ -18,7 +18,7 @@ $(RESULT): $(OBJS)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 debug: CXXFLAGS += -g
-debug: $(RESULT)
+debug: clean $(RESULT)
 
 clean:
 	rm -f $(OBJS) $(RESULT)

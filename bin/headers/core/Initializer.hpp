@@ -19,4 +19,5 @@ private:
 
     void InitWindow();
     std::shared_ptr<Scene> InitScene();
+    void InitServices();
 };

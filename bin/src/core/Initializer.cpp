@@ -14,41 +14,56 @@ void Initializer::InitApplication()
 {
     spdlog::info("Application initialization");
     InitWindow();
+    InitServices();
     spdlog::info("Initializing scene");
     appContext->scene = InitScene();
+}
+
+void Initializer::InitServices()
+{
+    this->appContext->shaderLibrary = std::make_shared<ShaderLibrary>();
 }
 
 void Initializer::InitWindow()
 {
     spdlog::info("Window initialization");
-    glfwInit();
-    // Sets up OpenGL version and core option, without backward compatibility
+
+    if (!glfwInit()) 
+    {
+        spdlog::critical("Failed to initialize GLFW");
+        exit(EXIT_FAILURE);
+    }
+
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     GLFWwindow* window = glfwCreateWindow(800, 600, "IronSource", NULL, NULL);
-    if (window == NULL)
+    if (!window) 
     {
-        spdlog::critical("Failed to create GLFWWindow");
+        spdlog::critical("Failed to create GLFW window");
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
+
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
-    spdlog::info("Created a window");
+
+    if (glewInit() != GLEW_OK) 
+    {
+        spdlog::critical("Failed to initialize GLEW");
+        exit(EXIT_FAILURE);
+    }
+
+    spdlog::info("Created a window and initialized OpenGL");
+
     appContext->window = window;
 
-	int width, height;
-	glfwGetFramebufferSize(window, &width, &height);
-	float ratio = width / (float)height;
-	glViewport(0, 0, width, height);
-	
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
-
+    int width, height;
+    glfwGetFramebufferSize(window, &width, &height);
+    glViewport(0, 0, width, height);
 }
+
 
 // For now its initializing render targets, but in the future they will be replaced with game objects
 std::shared_ptr<Scene> Initializer::InitScene()
