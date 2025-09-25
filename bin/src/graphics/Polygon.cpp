@@ -15,7 +15,7 @@ Polygon::Polygon(vector<glm::vec3> vertices, vector<glm::vec3> color)
 }
 
 void Polygon::Render()
-{
+{   
     // Use shader program
     this->shaderProgram->UseShaderProgram();
     // Bind VAO

@@ -5,7 +5,6 @@
 std::shared_ptr<ShaderProgram> ShaderLibrary::GetShaderProgram(std::string vertexShaderPath, std::string fragmentShaderPath)
 {
     spdlog::info("Trying to find shader program in shader library");
-    spdlog::info(vertexShaderPath);
     auto key = std::make_pair(vertexShaderPath, fragmentShaderPath);
 
     auto iterator = shaderPrograms.find(key);
@@ -26,12 +25,14 @@ std::shared_ptr<ShaderProgram> ShaderLibrary::GetShaderProgram(std::string verte
 
 std::shared_ptr<Shader> ShaderLibrary::GetShader(std::string shaderPath, GLenum shaderType)
 {
+    spdlog::info("Looking for shader: " + shaderPath);
     auto iterator = shaders.find(shaderPath);
     if (iterator != shaders.end())
     {
         return iterator->second; 
     }
-
+    
+    spdlog::info("Failed to find, creating new shader: " + shaderPath);
     std::string src = FileReaderService::ReadFile(shaderPath);
     auto shader = std::make_shared<Shader>(src, shaderType);
     shader->CompileShader();

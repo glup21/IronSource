@@ -23,7 +23,15 @@ void ShaderProgram::LinkShaderProgram()
     glGetProgramiv(shaderProgramId, GL_LINK_STATUS, &success);
     if (!success)
     {
-        spdlog::critical("Failed to link shader program");
+        spdlog::critical("Failed to link shader program");\
+        GLint logLength;
+        glGetProgramiv(shaderProgramId, GL_INFO_LOG_LENGTH, &logLength);
+
+        std::string infoLog(logLength, '\0');
+        glGetProgramInfoLog(shaderProgramId, logLength, nullptr, infoLog.data());
+
+        spdlog::critical(infoLog);
+
         glfwTerminate();
         exit(EXIT_FAILURE);
     }

@@ -15,6 +15,7 @@ struct VertexColor
     glm::vec3 color;
 };
 
+
 // Deprecated class, which has its points hardocoded
 // Learning purposes only
 class Polygon : public IRenderTarget
@@ -23,11 +24,11 @@ public:
     Polygon(vector<glm::vec3> vertices, vector<glm::vec3> color);
     ~Polygon() = default;
 
-    vector<VertexColor> vertices;
     void Render();
     void Init(ShaderLibrary* shaderLibrary, std::string vertexShader, std::string fragmentShader);
 
 private:
+    vector<VertexColor> vertices;
     std::shared_ptr<ShaderProgram> shaderProgram;
     GLuint VBO, VAO;
     size_t vertexCount;

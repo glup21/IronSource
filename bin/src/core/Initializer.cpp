@@ -66,18 +66,44 @@ void Initializer::InitWindow()
 // For now its initializing render targets, but in the future they will be replaced with game objects
 std::shared_ptr<Scene> Initializer::InitScene()
 {
-    vector<glm::vec3> vertices = vector<glm::vec3> { {-0.6f, -0.4f, 0.f}, {0.6f, -0.4f, 0.f}, {0.f, 0.6f, 0.f}};
-    vector<glm::vec3> colors = vector<glm::vec3> { {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f}};
+    // Replace later with initialization from text files
+    auto firstPolygon = std::make_shared<Polygon>(
+        std::vector<glm::vec3>{ 
+            {0.0f, 0.5f, 0.0f},
+            {0.5f, -0.5f, 0.0f},
+            {-0.5f, -0.5f, 0.0f} },
+        std::vector<glm::vec3>{ {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} }
+    );
 
-    auto scene = std::make_shared<Scene>(vector<std::shared_ptr<IRenderTarget>>{ std::make_shared<Polygon>(vertices, colors)});
+    auto secondPolygon = std::make_shared<Polygon>( 
+        std::vector<glm::vec3>{ 
+            {1.5f, 0.5f, 0.0f},    
+            {1.5f, -0.5f, 0.0f},   
+            {0.5f, -0.5f, 0.0f},   
+            {1.5f, 0.5f, 0.0f},    
+            {0.5f, 0.5f, 0.0f},    
+            {0.5f, -0.5f, 0.0f}},
+        std::vector<glm::vec3>{ 
+            {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f},
+            {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} } 
+    );
 
-    std::string vertexShaderPath = "./shaders/vertexShader.txt";
-    std::string fragmentShaderPath = "./shaders/fragmentShader.txt";
+    auto scene = std::make_shared<Scene>(
+        vector<std::shared_ptr<IRenderTarget>>{ firstPolygon, secondPolygon }
+    );
 
-    for(auto renderTarget : scene->renderTargets)
-    {
-        renderTarget->Init(appContext->shaderLibrary.get(), vertexShaderPath, fragmentShaderPath);
-    }
+    std::string vertexShaderPath = "./shaders/vertexShader.vert";
+    std::string firstFragmentShaderPath = "./shaders/firstFragmentShader.frag";
+    std::string secondFragmentShaderPath = "./shaders/secondFragmentShader.frag";
+
+    // for(auto renderTarget : scene->renderTargets)
+    // {
+    //     renderTarget->Init(appContext->shaderLibrary.get(), vertexShaderPath, fragmentShaderPath);
+    // }
+
+    // For testing multiple shader programs 
+    firstPolygon->Init(appContext->shaderLibrary.get(), vertexShaderPath, firstFragmentShaderPath);
+    secondPolygon->Init(appContext->shaderLibrary.get(), vertexShaderPath, secondFragmentShaderPath);
 
     return scene;
 }

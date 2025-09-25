@@ -23,6 +23,15 @@ void Shader::CompileShader()
     if (!success) 
     {
         spdlog::critical("Failed to compile shader: {}", shaderType);
+
+        GLint logLength;
+        glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength);
+
+        std::string infoLog(logLength, '\0');
+        glGetShaderInfoLog(shaderId, logLength, nullptr, infoLog.data());
+
+        spdlog::critical(infoLog);
+
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
