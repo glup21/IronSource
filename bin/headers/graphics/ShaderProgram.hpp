@@ -15,5 +15,5 @@ public:
     ShaderProgram(std::shared_ptr<Shader> vertexShader, std::shared_ptr<Shader> fragmentShader);
 
     void LinkShaderProgram();
-    void RunShaderProgram();
+    void UseShaderProgram();
 };

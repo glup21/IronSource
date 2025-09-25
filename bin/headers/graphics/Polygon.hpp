@@ -30,4 +30,5 @@ public:
 private:
     std::shared_ptr<ShaderProgram> shaderProgram;
     GLuint VBO, VAO;
+    size_t vertexCount;
 };

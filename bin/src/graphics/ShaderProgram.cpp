@@ -29,7 +29,7 @@ void ShaderProgram::LinkShaderProgram()
     }
 }
 
-void ShaderProgram::RunShaderProgram()
+void ShaderProgram::UseShaderProgram()
 {
-
+    glUseProgram(this->shaderProgramId);
 }

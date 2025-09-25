@@ -6,7 +6,7 @@
 Polygon::Polygon(vector<glm::vec3> vertices, vector<glm::vec3> color)
 {
     int count = std::min(vertices.size(), color.size());
-
+    this->vertexCount = vertices.size();
     for (int i = 0; i < count; i++) 
     {
         this->vertices.push_back(VertexColor{vertices[i], color[i]});
@@ -16,14 +16,12 @@ Polygon::Polygon(vector<glm::vec3> vertices, vector<glm::vec3> color)
 
 void Polygon::Render()
 {
-    // DEPRECATED, REMOVE LATER
-    glBegin(GL_TRIANGLES);
-    for( VertexColor v : vertices )
-    {
-        glColor3f(v.color.x, v.color.y, v.color.z);
-        glVertex3f(v.vertex.x, v.vertex.y, v.vertex.z);
-    }
-    glEnd();
+    // Use shader program
+    this->shaderProgram->UseShaderProgram();
+    // Bind VAO
+    glBindVertexArray(this->VAO);
+    // Render vertices
+    glDrawArrays(GL_TRIANGLES, 0, this->vertexCount);
 }
 
 // Its a bit strange to pass path to shaders separately in Init method, but I dont want to see it in any IRenderTarget

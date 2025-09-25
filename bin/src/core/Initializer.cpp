@@ -34,11 +34,9 @@ void Initializer::InitWindow()
         exit(EXIT_FAILURE);
     }
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+   // glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(800, 600, "IronSource", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(800, 600, "Iron Source", NULL, NULL);
     if (!window) 
     {
         spdlog::critical("Failed to create GLFW window");
