@@ -41,3 +41,17 @@ void ShaderProgram::UseShaderProgram()
 {
     glUseProgram(this->shaderProgramId);
 }
+
+void ShaderProgram::SetUniform(std::string name, glm::mat4 matrix4)
+{
+    GLuint uniformLoc = glGetUniformLocation(shaderProgramId, name.c_str());
+    if(uniformLoc < 0)
+    {
+        // Replace later with statis Application method
+        spdlog::critical("Failed to find uniform in shader program: {}", name);
+
+        glfwTerminate();
+        exit(EXIT_FAILURE);
+    }
+    glUniformMatrix4fv(uniformLoc, 1, GL_FALSE, &matrix4[0][0]);
+}

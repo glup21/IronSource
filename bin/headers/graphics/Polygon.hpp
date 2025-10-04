@@ -24,7 +24,7 @@ public:
     Polygon(vector<glm::vec3> vertices, vector<glm::vec3> color);
     ~Polygon() = default;
 
-    void Render();
+    void Render(glm::mat4 transformMatrix);
     void Init(ShaderLibrary* shaderLibrary, std::string vertexShader, std::string fragmentShader);
 
 private:

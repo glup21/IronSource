@@ -1,4 +1,4 @@
-#include "Scale.hpp"
+#include "headers/transform/Scale.hpp"
 
 Scale::Scale(glm::vec3 scale) : scale(scale) 
 {

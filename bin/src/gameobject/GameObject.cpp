@@ -1,8 +1,8 @@
 #include "headers/gameobject/GameObject.hpp"
 #include <utility> 
 
-GameObject::GameObject(std::string name, IRenderTarget* renderTarget) : 
-    name(name), renderTarget(renderTarget) 
+GameObject::GameObject(std::string name, IRenderTarget* renderTarget, Transform* transform) : 
+    name(name), renderTarget(renderTarget), transform(transform)
 {
 
 }
@@ -14,6 +14,9 @@ void GameObject::Update()
 
 void GameObject::Render()
 {
-    if(this->renderTarget.get() != nullptr)
-        this->renderTarget->Render();
+    if(renderTarget != nullptr && transform != nullptr)
+    {
+        glm::mat4 modelMatrix = transform->GetTransformMatrix();
+        renderTarget->Render(modelMatrix); 
+    }
 }

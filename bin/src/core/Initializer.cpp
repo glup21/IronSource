@@ -1,4 +1,6 @@
 #include "headers/core/Initializer.hpp"
+#include "headers/transform/Transform.hpp"
+#include "headers/transform/Translation.hpp"
 #include "headers/graphics/Polygon.hpp"
 //Include GLFW  
 #include <GLFW/glfw3.h>  
@@ -101,12 +103,15 @@ std::shared_ptr<Scene> Initializer::InitScene()
     firstPolygon->Init(appContext->shaderLibrary.get(), vertexShaderPath, firstFragmentShaderPath);
     secondPolygon->Init(appContext->shaderLibrary.get(), vertexShaderPath, secondFragmentShaderPath);
 
+    std::vector<IBasicTransform*> firstObjectTransforms;
+    firstObjectTransforms.push_back(new Translation(glm::vec3{-0.5, 0.3, 0.0}));
+
     auto scene = std::make_shared<Scene>(
         std::vector<std::shared_ptr<GameObject>>{
-            std::make_shared<GameObject>("firstPolygon", firstPolygon),
-            std::make_shared<GameObject>("secondPolygon", secondPolygon)
+            std::make_shared<GameObject>("firstPolygon", firstPolygon, new Transform( firstObjectTransforms )),
+            std::make_shared<GameObject>("secondPolygon", secondPolygon, new Transform())
         }
     );
-    
+
     return scene;
 }

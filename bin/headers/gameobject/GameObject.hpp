@@ -4,14 +4,16 @@
 
 #include "headers/interfaces/IRenderTarget.hpp"
 #include "headers/services/ShaderLibrary.hpp"
+#include "headers/transform/Transform.hpp"
 
 class GameObject
 {
 private:
     std::shared_ptr<IRenderTarget> renderTarget;
     std::string name;
+    std::unique_ptr<Transform> transform;
 public:
-    GameObject(std::string name, IRenderTarget* renderTarget);
+    GameObject(std::string name, IRenderTarget* renderTarget, Transform* transform);
     ~GameObject() = default;
 
     void Update();

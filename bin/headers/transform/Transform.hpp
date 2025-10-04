@@ -3,7 +3,7 @@
 #include "headers/transform/IBasicTransform.hpp"
 
 #include <vector>
-#include <glm/vec4.hpp> 
+#include <glm/mat4x4.hpp> 
 #include <memory>
 
 class Transform
@@ -13,9 +13,9 @@ private:
 
 public:
     Transform() = default;
-    Transform(std::vector<IBasicTransform> basicTransforms);
+    Transform(std::vector<IBasicTransform*> basicTransforms);
     ~Transform() = default;
 
-    glm::mat4 getTransformMatrix() const;
+    glm::mat4 GetTransformMatrix() const;
     void AddBasicTransform(std::unique_ptr<IBasicTransform> basicTransform);
 };

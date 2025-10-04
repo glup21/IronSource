@@ -14,14 +14,18 @@ Polygon::Polygon(vector<glm::vec3> vertices, vector<glm::vec3> color)
 
 }
 
-void Polygon::Render()
+void Polygon::Render(glm::mat4 transformMatrix)
 {   
     // Use shader program
     this->shaderProgram->UseShaderProgram();
+    // Yes I call modelMatrix as transformMatrix, for me its more intuitive 
+    this->shaderProgram->SetUniform("transformMatrix", transformMatrix);
     // Bind VAO
     glBindVertexArray(this->VAO);
     // Render vertices
     glDrawArrays(GL_TRIANGLES, 0, this->vertexCount);
+    
+    glBindVertexArray(0);
 }
 
 // Its a bit strange to pass path to shaders separately in Init method, but I dont want to see it in any IRenderTarget

@@ -2,6 +2,7 @@
 #include "headers/graphics/Shader.hpp"
 #include <vector>
 #include <memory>
+#include <glm/mat4x4.hpp>
 
 class ShaderProgram
 {
@@ -16,4 +17,6 @@ public:
 
     void LinkShaderProgram();
     void UseShaderProgram();
+
+    void SetUniform(std::string name, glm::mat4 matrix4);
 };
