@@ -1,6 +1,6 @@
 #include "headers/gamelogic/Scene.hpp"
 
-Scene::Scene(std::vector<std::shared_ptr<IRenderTarget>> renderTargets)
+Scene::Scene(std::vector<std::shared_ptr<GameObject>> gameObjects)
 {
-    this->renderTargets = renderTargets;
+    this->gameObjects = gameObjects;
 }

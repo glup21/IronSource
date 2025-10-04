@@ -67,7 +67,7 @@ void Initializer::InitWindow()
 std::shared_ptr<Scene> Initializer::InitScene()
 {
     // Replace later with initialization from text files
-    auto firstPolygon = std::make_shared<Polygon>(
+    auto firstPolygon = new Polygon(
         std::vector<glm::vec3>{ 
             {0.0f, 0.5f, 0.0f},
             {0.5f, -0.5f, 0.0f},
@@ -75,7 +75,7 @@ std::shared_ptr<Scene> Initializer::InitScene()
         std::vector<glm::vec3>{ {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} }
     );
 
-    auto secondPolygon = std::make_shared<Polygon>( 
+    auto secondPolygon = new Polygon( 
         std::vector<glm::vec3>{ 
             {1.5f, 0.5f, 0.0f},    
             {1.5f, -0.5f, 0.0f},   
@@ -86,10 +86,6 @@ std::shared_ptr<Scene> Initializer::InitScene()
         std::vector<glm::vec3>{ 
             {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f},
             {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} } 
-    );
-
-    auto scene = std::make_shared<Scene>(
-        vector<std::shared_ptr<IRenderTarget>>{ firstPolygon, secondPolygon }
     );
 
     std::string vertexShaderPath = "./shaders/vertexShader.vert";
@@ -105,5 +101,12 @@ std::shared_ptr<Scene> Initializer::InitScene()
     firstPolygon->Init(appContext->shaderLibrary.get(), vertexShaderPath, firstFragmentShaderPath);
     secondPolygon->Init(appContext->shaderLibrary.get(), vertexShaderPath, secondFragmentShaderPath);
 
+    auto scene = std::make_shared<Scene>(
+        std::vector<std::shared_ptr<GameObject>>{
+            std::make_shared<GameObject>("firstPolygon", firstPolygon),
+            std::make_shared<GameObject>("secondPolygon", secondPolygon)
+        }
+    );
+    
     return scene;
 }

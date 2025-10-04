@@ -2,19 +2,20 @@
 
 #include <vector>
 #include "headers/interfaces/IRenderTarget.hpp"
+#include "headers/gameobject/GameObject.hpp"
 #include "headers/core/AppContext.hpp"
 #include <memory>
 
 using std::vector;
 
-class Renderer
+class Engine
 {
 public:
     AppContext* appContext;
-    vector<std::shared_ptr<IRenderTarget>> renderTargets;
+    vector<std::shared_ptr<GameObject>> gameObjects;
 
-    Renderer(AppContext* appContext);
-    ~Renderer() = default;
+    Engine(AppContext* appContext);
+    ~Engine() = default;
 
-    void RenderScene();
+    void Run();
 };
