@@ -15,7 +15,7 @@ glm::vec3 Scale::GetScale() const
     return scale;
 }
 
-glm::mat4 Scale::GetTransformMatrix() const 
+glm::mat4 Scale::GetTransformMatrix() 
 {
     return glm::scale(glm::mat4(1.0f), scale);
 }

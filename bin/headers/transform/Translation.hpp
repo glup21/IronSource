@@ -11,5 +11,5 @@ public:
     void SetPosition(glm::vec3 pos);
     glm::vec3 GetPosition() const;
 
-    glm::mat4 GetTransformMatrix() const override;
+    glm::mat4 GetTransformMatrix() override;
 };

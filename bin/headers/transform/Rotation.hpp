@@ -4,7 +4,7 @@
 
 class Rotation : public IBasicTransform
 {
-private:
+protected:
     glm::vec3 angles;
 
 public:
@@ -12,5 +12,5 @@ public:
     void SetAngles(glm::vec3 angles);
     glm::vec3 GetAngles() const;
 
-    glm::mat4 GetTransformMatrix() const override;
+    glm::mat4 GetTransformMatrix() override;
 };

@@ -16,7 +16,7 @@ glm::vec3 Translation::GetPosition() const
     return position;
 }
 
-glm::mat4 Translation::GetTransformMatrix() const
+glm::mat4 Translation::GetTransformMatrix() 
 {
     return glm::translate(glm::mat4(1.0f), position);
 }

@@ -4,6 +4,7 @@
 #include "headers/transform/Rotation.hpp"
 #include "headers/transform/Scale.hpp"
 #include "headers/graphics/Polygon.hpp"
+#include "headers/transform/DynamicRotation.hpp"
 
 std::shared_ptr<Scene> SceneManager::GetFirstScene(std::shared_ptr<ShaderLibrary> shaderLibrary)
 {
@@ -44,7 +45,7 @@ std::shared_ptr<Scene> SceneManager::GetFirstScene(std::shared_ptr<ShaderLibrary
 
     std::vector<IBasicTransform*> firstObjectTransforms;
     firstObjectTransforms.push_back(new Translation(glm::vec3{-0.5, 0.3, 0.0}));
-    firstObjectTransforms.push_back(new Rotation(glm::vec3(45.0f, 0.0, 1.0))); 
+    firstObjectTransforms.push_back(new DynamicRotation(glm::vec3(45.0f, 0.0, 1.0), glm::radians(90.0f))); 
     firstObjectTransforms.push_back(new Scale(glm::vec3(0.8, 1.2, 1.0))); 
 
     std::vector<IBasicTransform*> secondObjectTransforms;

@@ -12,5 +12,5 @@ public:
     void SetScale(glm::vec3 scale);
     glm::vec3 GetScale() const;
 
-    glm::mat4 GetTransformMatrix() const override;
+    glm::mat4 GetTransformMatrix() override;
 };
