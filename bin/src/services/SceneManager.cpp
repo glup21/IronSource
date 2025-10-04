@@ -88,6 +88,14 @@ std::shared_ptr<Scene> SceneManager::GetSecondScene(std::shared_ptr<ShaderLibrar
             {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} } 
     );
 
+    auto thirdPolygon = new Polygon(
+        std::vector<glm::vec3>{ 
+            {0.0f, 0.5f, 0.0f},
+            {0.5f, -0.5f, 0.0f},
+            {-0.5f, -0.5f, 0.0f} },
+        std::vector<glm::vec3>{ {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} }
+    );
+
     std::string vertexShaderPath = "./shaders/vertexShader.vert";
     std::string firstFragmentShaderPath = "./shaders/firstFragmentShader.frag";
     std::string secondFragmentShaderPath = "./shaders/secondFragmentShader.frag";
@@ -100,6 +108,7 @@ std::shared_ptr<Scene> SceneManager::GetSecondScene(std::shared_ptr<ShaderLibrar
     // For testing multiple shader programs and transforms (replace with text reading later)
     firstPolygon->Init(shaderLibrary.get(), vertexShaderPath, firstFragmentShaderPath);
     secondPolygon->Init(shaderLibrary.get(), vertexShaderPath, secondFragmentShaderPath);
+    thirdPolygon->Init(shaderLibrary.get(), vertexShaderPath, firstFragmentShaderPath);
 
     std::vector<IBasicTransform*> firstObjectTransforms;
     firstObjectTransforms.push_back(new Translation(glm::vec3{-0.5, 0.3, 0.0}));
@@ -111,12 +120,17 @@ std::shared_ptr<Scene> SceneManager::GetSecondScene(std::shared_ptr<ShaderLibrar
     secondObjectTransforms.push_back(new Rotation(glm::vec3(0.0, -30.0f, 1.0))); 
     secondObjectTransforms.push_back(new Scale(glm::vec3(0.7, 0.7, 1.0))); 
 
+    std::vector<IBasicTransform*> thirdObjectTransforms;
+    thirdObjectTransforms.push_back(new Translation(glm::vec3{0.2, -0.6, 0.0}));
+    thirdObjectTransforms.push_back(new Rotation(glm::vec3(0.0, 35.0f, 1.0))); 
+    thirdObjectTransforms.push_back(new Scale(glm::vec3(0.7, 0.24, 1.3))); 
 
     auto scene = std::make_shared<Scene>
     (
         std::vector<std::shared_ptr<GameObject>>{
             std::make_shared<GameObject>("firstPolygon", firstPolygon, new Transform( firstObjectTransforms )),
-            std::make_shared<GameObject>("secondPolygon", secondPolygon, new Transform( secondObjectTransforms ))
+            std::make_shared<GameObject>("secondPolygon", secondPolygon, new Transform( secondObjectTransforms )),
+            std::make_shared<GameObject>("thirdPolygon", thirdPolygon, new Transform( thirdObjectTransforms )),
         }
     );
 

@@ -4,12 +4,13 @@
 
 std::shared_ptr<ShaderProgram> ShaderLibrary::GetShaderProgram(std::string vertexShaderPath, std::string fragmentShaderPath)
 {
-    spdlog::info("Trying to find shader program in shader library");
+    spdlog::info("Trying to find shader program in shader program library");
     auto key = std::make_pair(vertexShaderPath, fragmentShaderPath);
 
     auto iterator = shaderPrograms.find(key);
     if (iterator != shaderPrograms.end())
     {
+        spdlog::info("Found shader program in shader program library!");
         return iterator->second; 
     }
 
