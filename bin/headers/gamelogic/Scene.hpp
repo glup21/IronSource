@@ -6,10 +6,13 @@
 
 class Scene
 {
-public:
-    std::vector<std::shared_ptr<GameObject>> gameObjects;    
+private:
+    std::vector<std::shared_ptr<GameObject>> gameObjects;
 
+public:
     Scene(std::vector<std::shared_ptr<GameObject>> gameObjects);
     ~Scene() = default;
+
+    std::vector<std::shared_ptr<GameObject>>* GetGameObjects();
 
 };

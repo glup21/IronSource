@@ -18,6 +18,5 @@ private:
     AppContext* appContext;
 
     void InitWindow();
-    std::shared_ptr<Scene> InitScene();
     void InitServices();
 };

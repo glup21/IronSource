@@ -1,7 +1,4 @@
 #include "headers/core/Initializer.hpp"
-#include "headers/transform/Transform.hpp"
-#include "headers/transform/Translation.hpp"
-#include "headers/graphics/Polygon.hpp"
 //Include GLFW  
 #include <GLFW/glfw3.h>  
 //Logging
@@ -18,7 +15,6 @@ void Initializer::InitApplication()
     InitWindow();
     InitServices();
     spdlog::info("Initializing scene");
-    appContext->scene = InitScene();
 }
 
 void Initializer::InitServices()
@@ -62,56 +58,4 @@ void Initializer::InitWindow()
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
     glViewport(0, 0, width, height);
-}
-
-
-// For now its initializing render targets, but in the future they will be replaced with game objects
-std::shared_ptr<Scene> Initializer::InitScene()
-{
-    // Replace later with initialization from text files
-    auto firstPolygon = new Polygon(
-        std::vector<glm::vec3>{ 
-            {0.0f, 0.5f, 0.0f},
-            {0.5f, -0.5f, 0.0f},
-            {-0.5f, -0.5f, 0.0f} },
-        std::vector<glm::vec3>{ {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} }
-    );
-
-    auto secondPolygon = new Polygon( 
-        std::vector<glm::vec3>{ 
-            {1.5f, 0.5f, 0.0f},    
-            {1.5f, -0.5f, 0.0f},   
-            {0.5f, -0.5f, 0.0f},   
-            {1.5f, 0.5f, 0.0f},    
-            {0.5f, 0.5f, 0.0f},    
-            {0.5f, -0.5f, 0.0f}},
-        std::vector<glm::vec3>{ 
-            {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f},
-            {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} } 
-    );
-
-    std::string vertexShaderPath = "./shaders/vertexShader.vert";
-    std::string firstFragmentShaderPath = "./shaders/firstFragmentShader.frag";
-    std::string secondFragmentShaderPath = "./shaders/secondFragmentShader.frag";
-
-    // for(auto renderTarget : scene->renderTargets)
-    // {
-    //     renderTarget->Init(appContext->shaderLibrary.get(), vertexShaderPath, fragmentShaderPath);
-    // }
-
-    // For testing multiple shader programs 
-    firstPolygon->Init(appContext->shaderLibrary.get(), vertexShaderPath, firstFragmentShaderPath);
-    secondPolygon->Init(appContext->shaderLibrary.get(), vertexShaderPath, secondFragmentShaderPath);
-
-    std::vector<IBasicTransform*> firstObjectTransforms;
-    firstObjectTransforms.push_back(new Translation(glm::vec3{-0.5, 0.3, 0.0}));
-
-    auto scene = std::make_shared<Scene>(
-        std::vector<std::shared_ptr<GameObject>>{
-            std::make_shared<GameObject>("firstPolygon", firstPolygon, new Transform( firstObjectTransforms )),
-            std::make_shared<GameObject>("secondPolygon", secondPolygon, new Transform())
-        }
-    );
-
-    return scene;
 }

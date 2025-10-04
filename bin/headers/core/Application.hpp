@@ -11,6 +11,8 @@ public:
     Application(){};
     ~Application() = default;
 
+    void SwitchScene(std::shared_ptr<Scene> newScene);
+
 private:
     AppContext appContext;
     std::unique_ptr<Engine> engine; 
