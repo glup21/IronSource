@@ -33,7 +33,7 @@ void Initializer::InitWindow()
     }
 
    // glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
+    glfwWindowHint(GLFW_DEPTH_BITS, 24); 
     GLFWwindow* window = glfwCreateWindow(800, 600, "Iron Source", NULL, NULL);
     if (!window) 
     {
@@ -58,4 +58,8 @@ void Initializer::InitWindow()
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
     glViewport(0, 0, width, height);
+    
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS); 
+
 }

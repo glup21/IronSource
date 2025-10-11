@@ -9,9 +9,15 @@ Engine::Engine(AppContext* appContext)
 
 void Engine::Run()
 {
+    float lastFrame = 0.0f;
     while (!glfwWindowShouldClose(appContext->window))
     {
+        float currentFrame = glfwGetTime();
+        float deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
         auto* gameObjects = appContext->scene->GetGameObjects();
+        auto* camera = appContext->scene->GetCamera();
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
@@ -20,6 +26,8 @@ void Engine::Run()
         {
             gameObject->Update();
         }
+
+        appContext->scene->GetCamera()->ProcessInput(appContext->window, deltaTime);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

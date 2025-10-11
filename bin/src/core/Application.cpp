@@ -9,17 +9,34 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     if (action == GLFW_PRESS)
     {
         Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
+        AppContext* appContext = app->GetAppContext();
 
         switch (key)
         {
             case GLFW_KEY_1:
+            {
                 spdlog::info("Switching scenes: {}", 1);
-                app->SwitchScene(SceneManager::GetFirstScene(app->GetAppContext()->shaderLibrary));
+                std::shared_ptr<Scene> scene = SceneManager::GetFirstScene(app->GetAppContext()->shaderLibrary);
+                app->SwitchScene(scene);
+                appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
                 break;
+            }
             case GLFW_KEY_2:
+            {
                 spdlog::info("Switching scenes: {}", 2);
-                app->SwitchScene(SceneManager::GetSecondScene(app->GetAppContext()->shaderLibrary));
+                std::shared_ptr<Scene> scene = SceneManager::GetSecondScene(app->GetAppContext()->shaderLibrary);
+                app->SwitchScene(scene);
+                appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
                 break;
+            }
+            case GLFW_KEY_3:
+            {
+                spdlog::info("Switching scenes: {}", 3);
+                std::shared_ptr<Scene> scene = SceneManager::GetThirdScene(app->GetAppContext()->shaderLibrary);
+                app->SwitchScene(scene);
+                appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
+                break;
+            }
             default:
                 break;
         }
@@ -36,8 +53,9 @@ void Application::Run()
     glfwSetWindowUserPointer(appContext.window, this);
     glfwSetKeyCallback(appContext.window, KeyCallback);
 
-    spdlog::info("Loading scene 1");
-    appContext.scene = SceneManager::GetFirstScene(appContext.shaderLibrary);
+    spdlog::info("Loading scene 3");
+    appContext.scene = SceneManager::GetThirdScene(appContext.shaderLibrary);
+    appContext.shaderLibrary->RegisterCamera(appContext.scene->GetCamera());
 
     spdlog::info("Constructing engine");
     engine = std::make_unique<Engine>(&appContext);

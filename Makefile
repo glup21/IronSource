@@ -1,5 +1,5 @@
 CXX      := g++
-CXXFLAGS := -Wall -Wextra -std=c++17 -I./lib -I./bin
+CXXFLAGS := -Wall -Wextra -std=c++17 -I./lib -I./bin -I.
 
 LDFLAGS  := -lglfw -lGL -lGLEW
 

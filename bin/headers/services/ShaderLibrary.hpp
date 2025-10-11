@@ -16,4 +16,5 @@ public:
     ShaderLibrary() = default;
 
     std::shared_ptr<ShaderProgram> GetShaderProgram(std::string vertexShaderPath, std::string fragmentShaderPath);
+    void RegisterCamera(Camera* camera);
 };

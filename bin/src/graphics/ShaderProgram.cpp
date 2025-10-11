@@ -1,6 +1,7 @@
 #include "headers/graphics/ShaderProgram.hpp"
+#include "headers/gameobject/Camera.hpp"
 #include "spdlog/spdlog.h"
-#include <GLFW/glfw3.h>  
+
 
 ShaderProgram::ShaderProgram(std::shared_ptr<Shader> vertexShader, std::shared_ptr<Shader> fragmentShader)
 {
@@ -23,7 +24,7 @@ void ShaderProgram::LinkShaderProgram()
     glGetProgramiv(shaderProgramId, GL_LINK_STATUS, &success);
     if (!success)
     {
-        spdlog::critical("Failed to link shader program");\
+        spdlog::critical("Failed to link shader program");
         GLint logLength;
         glGetProgramiv(shaderProgramId, GL_INFO_LOG_LENGTH, &logLength);
 
@@ -54,4 +55,15 @@ void ShaderProgram::SetUniform(std::string name, glm::mat4 matrix4)
         exit(EXIT_FAILURE);
     }
     glUniformMatrix4fv(uniformLoc, 1, GL_FALSE, &matrix4[0][0]);
+}
+
+void ShaderProgram::Update(Subject* caller)
+{
+    Camera* camera = dynamic_cast<Camera*>(caller);
+    if (camera) 
+    {
+        // We dont need to recalculate product of projection and view matrix on each thread
+        glm::mat4 cameraMatrix = camera->GetProjectionMatrix() * camera->GetViewMatrix();
+        SetUniform("cameraMatrix", cameraMatrix);
+    }
 }

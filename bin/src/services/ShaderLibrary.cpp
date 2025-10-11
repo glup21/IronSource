@@ -41,3 +41,11 @@ std::shared_ptr<Shader> ShaderLibrary::GetShader(std::string shaderPath, GLenum 
     shaders[shaderPath] = shader;
     return shader;
 }
+
+void ShaderLibrary::RegisterCamera(Camera* camera)
+{
+    for (auto pair : this->shaderPrograms)
+    {
+        camera->Attach(pair.second.get());
+    }
+}

@@ -5,9 +5,10 @@ layout(location = 1) in vec3 aColor;
 out vec3 inputColor;
 
 uniform mat4 transformMatrix;
+uniform mat4 cameraMatrix;
 
 void main()
 {
-    gl_Position = transformMatrix * vec4(aPos, 1.0);
+    gl_Position = cameraMatrix * transformMatrix * vec4(aPos, 1.0);
     inputColor = aColor; 
 }

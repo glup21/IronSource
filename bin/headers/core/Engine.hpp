@@ -12,7 +12,6 @@ class Engine
 {
 public:
     AppContext* appContext;
-    vector<std::shared_ptr<GameObject>> gameObjects;
 
     Engine(AppContext* appContext);
     ~Engine() = default;

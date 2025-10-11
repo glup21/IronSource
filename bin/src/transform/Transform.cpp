@@ -13,10 +13,11 @@ void Transform::AddBasicTransform(std::unique_ptr<IBasicTransform> basicTransfor
     basicTransforms.push_back(std::move(basicTransform));
 }
 
-glm::mat4 Transform::GetTransformMatrix() const
+glm::mat4 Transform::GetTransformMatrix() 
 {
     glm::mat4 result(1.0f);
-    for (auto& basicTransform : basicTransforms) {
+    for (auto& basicTransform : basicTransforms) 
+    {
         result *= basicTransform->GetTransformMatrix();
     }
     return result;

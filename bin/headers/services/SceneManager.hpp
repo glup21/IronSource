@@ -12,5 +12,5 @@ public:
     // TO DO: Replace later with proper JSON scene import
     static std::shared_ptr<Scene> GetFirstScene(std::shared_ptr<ShaderLibrary> shaderLibrary);
     static std::shared_ptr<Scene> GetSecondScene(std::shared_ptr<ShaderLibrary> shaderLibrary);
-
+    static std::shared_ptr<Scene> GetThirdScene(std::shared_ptr<ShaderLibrary> shaderLibrary);
 };
