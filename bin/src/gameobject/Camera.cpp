@@ -40,36 +40,43 @@ void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
     if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         eye += right * velocity;
 
-    double xpos, ypos;
-    glfwGetCursorPos(window, &xpos, &ypos);
-    if(firstMouse)
+    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
     {
+        double xpos, ypos;
+        glfwGetCursorPos(window, &xpos, &ypos);
+
+        if (!rotating)
+        {
+            lastX = xpos;
+            lastY = ypos;
+            rotating = true;
+        }
+
+        float xoffset = xpos - lastX;
+        float yoffset = lastY - ypos;
         lastX = xpos;
         lastY = ypos;
-        firstMouse = false;
+
+        float sensitivity = 0.1f;
+        xoffset *= sensitivity;
+        yoffset *= sensitivity;
+
+        yaw += xoffset;
+        pitch += yoffset;
+
+        if(pitch > 89.0f) pitch = 89.0f;
+        if(pitch < -89.0f) pitch = -89.0f;
+
+        glm::vec3 dir;
+        dir.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+        dir.y = sin(glm::radians(pitch));
+        dir.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+        forward = glm::normalize(dir);
     }
-    float xoffset = xpos - lastX;
-    float yoffset = lastY - ypos;
-    lastX = xpos;
-    lastY = ypos;
-
-    float sensitivity = 0.1f;
-    xoffset *= sensitivity;
-    yoffset *= sensitivity;
-
-    yaw += xoffset;
-    pitch += yoffset;
-
-    if(pitch > 89.0f) pitch = 89.0f;
-    if(pitch < -89.0f) pitch = -89.0f;
-
-    glm::vec3 dir;
-    dir.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-    dir.y = sin(glm::radians(pitch));
-    dir.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-
-    // if(glm::all(glm::isfinite(dir)))
-    forward = glm::normalize(dir);
+    else
+    {
+        rotating = false;
+    }
 
     Update();
 }

@@ -1,6 +1,8 @@
 #include "headers/core/Engine.hpp"
 #include <GLFW/glfw3.h>  
 #include "spdlog/spdlog.h"
+#include <thread>
+#include <chrono>
 
 Engine::Engine(AppContext* appContext)
 {
@@ -9,6 +11,9 @@ Engine::Engine(AppContext* appContext)
 
 void Engine::Run()
 {
+    float targetFPS = 60.0f;
+    float targetFrameTime = 1.0f / targetFPS;
+
     float lastFrame = 0.0f;
     while (!glfwWindowShouldClose(appContext->window))
     {
@@ -39,6 +44,14 @@ void Engine::Run()
         glfwSwapBuffers(appContext->window);
 
         glfwPollEvents();
+
+        float frameTime = glfwGetTime() - currentFrame;
+        if (frameTime < targetFrameTime)
+        {
+            std::this_thread::sleep_for(
+                std::chrono::duration<float>(targetFrameTime - frameTime)
+            );
+        }
     }
 
 }

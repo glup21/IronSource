@@ -15,6 +15,7 @@ private:
     float lastX = 400.0f;
     float lastY = 300.0f;
     bool firstMouse = true;
+    bool rotating = false;
 
 
     float speed;
