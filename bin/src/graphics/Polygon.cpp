@@ -9,6 +9,17 @@ Polygon::Polygon(vector<glm::vec3> vertices, vector<glm::vec3> color)
     this->vertexCount = vertices.size();
     for (int i = 0; i < count; i++) 
     {
+        this->vertices.push_back(VertexColor{vertices[i], color[i], glm::vec3(1.0)});
+    }
+
+}
+
+Polygon::Polygon(vector<glm::vec3> vertices, vector<glm::vec3> color)
+{
+    int count = std::min(vertices.size(), color.size());
+    this->vertexCount = vertices.size();
+    for (int i = 0; i < count; i++) 
+    {
         this->vertices.push_back(VertexColor{vertices[i], color[i]});
     }
 

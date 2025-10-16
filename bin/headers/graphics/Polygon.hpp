@@ -13,6 +13,7 @@ struct VertexColor
 {
     glm::vec3 vertex;
     glm::vec3 color;
+    glm::vec3 normal;
 };
 
 
@@ -22,6 +23,7 @@ class Polygon : public IRenderTarget
 {
 public:
     Polygon(vector<glm::vec3> vertices, vector<glm::vec3> color);
+    Polygon(vector<glm::vec3> vertices, vector<glm::vec3> color, vector<glm::vec3> normal);
     ~Polygon() = default;
 
     void Render(glm::mat4 transformMatrix);

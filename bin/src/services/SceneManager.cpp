@@ -5,6 +5,7 @@
 #include "headers/transform/Scale.hpp"
 #include "headers/graphics/Polygon.hpp"
 #include "headers/transform/DynamicRotation.hpp"
+#include "headers/graphics/PointLight.hpp"
 
 #include "./Models/sphere.h"
 #include "./Models/bushes.h"
@@ -197,6 +198,9 @@ std::shared_ptr<Scene> SceneManager::GetSecondScene(std::shared_ptr<ShaderLibrar
     forthObjectTransforms.push_back(new Translation(glm::vec3{0.0, -0.5, 0.0}));
     forthObjectTransforms.push_back(new Scale(glm::vec3(0.25, 0.25, 0.25))); 
 
+    //    PointLight(Transform transform, glm::vec3 color, float intensity);
+    PointLight* pointLight = new PointLight(Transform(), glm::vec3(1.0, 1.0, 1.0), 10.0);
+
     auto scene = std::make_shared<Scene>
     (
         std::vector<std::shared_ptr<GameObject>>{
@@ -204,6 +208,9 @@ std::shared_ptr<Scene> SceneManager::GetSecondScene(std::shared_ptr<ShaderLibrar
             std::make_shared<GameObject>("secondSphere", spherePolygon, new Transform( secondObjectTransforms )),
             std::make_shared<GameObject>("thirdSphere", spherePolygon, new Transform( thirdObjectTransforms )),
             std::make_shared<GameObject>("forthSphere", spherePolygon, new Transform( forthObjectTransforms )),
+        },
+        std::vector<PointLight*>{
+            pointLight
         }
     );
 

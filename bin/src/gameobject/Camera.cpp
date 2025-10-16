@@ -83,7 +83,5 @@ void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
 
 void Camera::Update()
 {
-    // For now we just notify shader programs
-    // Later it will handle inpit as well
     NotifyAll();
 }

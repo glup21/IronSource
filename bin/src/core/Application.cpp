@@ -19,6 +19,12 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
                 std::shared_ptr<Scene> scene = SceneManager::GetFirstScene(app->GetAppContext()->shaderLibrary);
                 app->SwitchScene(scene);
                 appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
+                auto lights = appContext->scene->GetLights();
+                for (auto light : *lights)
+                {
+                    appContext->shaderLibrary->RegisterLight(light);
+                }
+
                 break;
             }
             case GLFW_KEY_2:
@@ -27,6 +33,11 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
                 std::shared_ptr<Scene> scene = SceneManager::GetSecondScene(app->GetAppContext()->shaderLibrary);
                 app->SwitchScene(scene);
                 appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
+                auto lights = appContext->scene->GetLights();
+                for (auto light : *lights)
+                {
+                    appContext->shaderLibrary->RegisterLight(light);
+                }
                 break;
             }
             case GLFW_KEY_3:
@@ -35,6 +46,11 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
                 std::shared_ptr<Scene> scene = SceneManager::GetThirdScene(app->GetAppContext()->shaderLibrary);
                 app->SwitchScene(scene);
                 appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
+                auto lights = appContext->scene->GetLights();
+                for (auto light : *lights)
+                {
+                    appContext->shaderLibrary->RegisterLight(light);
+                }
                 break;
             }
             default:

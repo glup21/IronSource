@@ -27,8 +27,7 @@ public:
 
     glm::mat4 GetProjectionMatrix();
     glm::mat4 GetViewMatrix();
-
-    // Only update if input from keyboard or mouse is present
+    
     void Update();
     void ProcessInput(GLFWwindow* window, float deltaTime);
 };

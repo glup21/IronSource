@@ -22,6 +22,7 @@ void Engine::Run()
         lastFrame = currentFrame;
 
         auto* gameObjects = appContext->scene->GetGameObjects();
+        auto* lights = appContext->scene->GetLights();
         auto* camera = appContext->scene->GetCamera();
 
 		glMatrixMode(GL_MODELVIEW);
@@ -30,6 +31,11 @@ void Engine::Run()
         for (auto& gameObject : *gameObjects)
         {
             gameObject->Update();
+        }
+
+        for (auto& light : *lights)
+        {
+            light->Update();
         }
 
         appContext->scene->GetCamera()->ProcessInput(appContext->window, deltaTime);
