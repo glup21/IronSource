@@ -18,11 +18,11 @@ struct VertexColor
 
 // Deprecated class, which has its points hardocoded
 // Learning purposes only
-class Polygon : public IRenderTarget
+class Mesh : public IRenderTarget
 {
 public:
-    Polygon(vector<glm::vec3> vertices, vector<glm::vec3> color);
-    ~Polygon() = default;
+    Mesh(vector<glm::vec3> vertices, vector<glm::vec3> color);
+    ~Mesh() = default;
 
     void Render(glm::mat4 transformMatrix);
     void Init(ShaderLibrary* shaderLibrary, std::string vertexShader, std::string fragmentShader);

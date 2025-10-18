@@ -1,9 +1,9 @@
-#include "headers/graphics/Polygon.hpp"
+#include "headers/graphics/Mesh.hpp"
 #include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>  
 
-Polygon::Polygon(vector<glm::vec3> vertices, vector<glm::vec3> color)
+Mesh::Mesh(vector<glm::vec3> vertices, vector<glm::vec3> color)
 {
     int count = std::min(vertices.size(), color.size());
     this->vertexCount = vertices.size();
@@ -14,7 +14,7 @@ Polygon::Polygon(vector<glm::vec3> vertices, vector<glm::vec3> color)
 
 }
 
-void Polygon::Render(glm::mat4 transformMatrix)
+void Mesh::Render(glm::mat4 transformMatrix)
 {   
     // Use shader program
     this->shaderProgram->UseShaderProgram();
@@ -30,7 +30,7 @@ void Polygon::Render(glm::mat4 transformMatrix)
 
 // Its a bit strange to pass path to shaders separately in Init method, but I dont want to see it in any IRenderTarget
 // children. So I need to create RenderTargetFactory or something, which will take input from json and init everything
-void Polygon::Init(ShaderLibrary* shaderLibrary, std::string vertexShader, std::string fragmentShader)
+void Mesh::Init(ShaderLibrary* shaderLibrary, std::string vertexShader, std::string fragmentShader)
 {
     this->shaderProgram = shaderLibrary->GetShaderProgram(vertexShader, fragmentShader);
 
