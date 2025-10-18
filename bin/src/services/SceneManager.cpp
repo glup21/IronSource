@@ -20,102 +20,121 @@ std::vector<Mesh*> LoadAllPredefinedModels()
     vector<Mesh*> meshes;
     std::vector<glm::vec3> positions;
     std::vector<glm::vec3> colors;
+    std::vector<glm::vec3> normals;
 
     // Bushes
     int vertexCount = 8730 * 6;
 
     positions.reserve(vertexCount / 6);
     colors.reserve(vertexCount / 6);
+    normals.reserve(vertexCount / 6);
 
     for (size_t i = 0; i < vertexCount; i += 6)
     {
         positions.emplace_back(bushes[i], bushes[i + 1], bushes[i + 2]);
         colors.emplace_back(bushes[i + 3], bushes[i + 4], bushes[i + 5]);
+        normals.emplace_back(bushes[i + 3], bushes[i + 4], bushes[i + 5]);
     }
 
-    meshes.push_back(new Mesh(positions, colors));
+    meshes.push_back(new Mesh(positions, colors, normals));
     positions.clear();
     colors.clear();
+    normals.clear();
 
     // Gift
     vertexCount = 66624 * 6;
 
     positions.reserve(vertexCount / 6);
     colors.reserve(vertexCount / 6);
+    normals.reserve(vertexCount / 6);
 
     for (size_t i = 0; i < vertexCount; i += 6)
     {
         positions.emplace_back(gift[i], gift[i + 1], gift[i + 2]);
         colors.emplace_back(gift[i + 3], gift[i + 4], gift[i + 5]);
+        normals.emplace_back(gift[i + 3], gift[i + 4], gift[i + 5]);
     }
 
-    meshes.push_back(new Mesh(positions, colors));
+    meshes.push_back(new Mesh(positions, colors, normals));
     positions.clear();
     colors.clear();
+    normals.clear();
 
     // Plain
     vertexCount = 36;
 
     positions.reserve(vertexCount / 6);
     colors.reserve(vertexCount / 6);
+    normals.reserve(vertexCount / 6);
 
     for (size_t i = 0; i < vertexCount; i += 6)
     {
         positions.emplace_back(plain[i], plain[i + 1], plain[i + 2]);
         colors.emplace_back(plain[i + 3], plain[i + 4], plain[i + 5]);
+        normals.emplace_back(plain[i + 3], plain[i + 4], plain[i + 5]);
     }
 
-    meshes.push_back(new Mesh(positions, colors));
+    meshes.push_back(new Mesh(positions, colors, normals));
     positions.clear();
     colors.clear();
+    normals.clear();
 
     // Suzi flat
     vertexCount = 2904 * 6;
 
     positions.reserve(vertexCount / 6);
     colors.reserve(vertexCount / 6);
+    normals.reserve(vertexCount / 6);
 
     for (size_t i = 0; i < vertexCount; i += 6)
     {
         positions.emplace_back(suziFlat[i], suziFlat[i + 1], suziFlat[i + 2]);
         colors.emplace_back(suziFlat[i + 3], suziFlat[i + 4], suziFlat[i + 5]);
+        normals.emplace_back(suziFlat[i + 3], suziFlat[i + 4], suziFlat[i + 5]);
     }
 
-    meshes.push_back(new Mesh(positions, colors));
+    meshes.push_back(new Mesh(positions, colors, normals));
     positions.clear();
     colors.clear();
+    normals.clear();
 
     // Suzi smooth
     vertexCount = 2904 * 6;
 
     positions.reserve(vertexCount / 6);
     colors.reserve(vertexCount / 6);
+    normals.reserve(vertexCount / 6);
 
     for (size_t i = 0; i < vertexCount; i += 6)
     {
         positions.emplace_back(suziSmooth[i], suziSmooth[i + 1], suziSmooth[i + 2]);
         colors.emplace_back(suziSmooth[i + 3], suziSmooth[i + 4], suziSmooth[i + 5]);
+        normals.emplace_back(suziSmooth[i + 3], suziSmooth[i + 4], suziSmooth[i + 5]);
     }
 
-    meshes.push_back(new Mesh(positions, colors));
+    meshes.push_back(new Mesh(positions, colors, normals));
     positions.clear();
     colors.clear();
+    normals.clear();
 
     // Tree
     vertexCount = 92814 * 6;
 
     positions.reserve(vertexCount / 6);
     colors.reserve(vertexCount / 6);
+    normals.reserve(vertexCount / 6);
 
     for (size_t i = 0; i < vertexCount; i += 6)
     {
         positions.emplace_back(tree[i], tree[i + 1], tree[i + 2]);
         colors.emplace_back(tree[i + 3], tree[i + 4], tree[i + 5]);
+        normals.emplace_back(tree[i + 3], tree[i + 4], tree[i + 5]);
     }
 
-    meshes.push_back(new Mesh(positions, colors));
+    meshes.push_back(new Mesh(positions, colors, normals));
     positions.clear();
     colors.clear();
+    normals.clear();
 
     return meshes;
 }
@@ -128,6 +147,7 @@ std::shared_ptr<Scene> SceneManager::GetFirstScene(std::shared_ptr<ShaderLibrary
             {0.0f, 0.5f, 0.0f},
             {0.5f, -0.5f, 0.0f},
             {-0.5f, -0.5f, 0.0f} },
+        std::vector<glm::vec3>{ {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} },
         std::vector<glm::vec3>{ {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} }
     );
 
@@ -166,7 +186,7 @@ std::shared_ptr<Scene> SceneManager::GetSecondScene(std::shared_ptr<ShaderLibrar
         positions.emplace_back(sphere[i], sphere[i + 1], sphere[i + 2]);
         colors.emplace_back(sphere[i + 3], sphere[i + 4], sphere[i + 5]);
     }
-    auto sphereMesh = new Mesh(positions, colors);
+    auto sphereMesh = new Mesh(positions, colors, colors);
 
 
     std::string vertexShaderPath = "./shaders/vertexShader.vert";

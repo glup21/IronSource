@@ -3,14 +3,20 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>  
 
-Mesh::Mesh(vector<glm::vec3> vertices, vector<glm::vec3> color)
+Mesh::Mesh(vector<glm::vec3> vertices, vector<glm::vec3> color, vector<glm::vec3> normals)
 {
     int count = std::min(vertices.size(), color.size());
-    this->vertexCount = vertices.size();
+    count = std::min((size_t)count, normals.size());
+    this->vertexCount = count;
     for (int i = 0; i < count; i++) 
     {
-        this->vertices.push_back(VertexColor{vertices[i], color[i]});
+        this->vertices.push_back(Vertex{vertices[i], color[i]});//, normals[i]});
     }
+
+    for(int i = 0; i < 5; i++)
+    std::cout << "color[" << i << "] = " << this->vertices[i].color.r << ", "
+              << this->vertices[i].color.g << ", " << this->vertices[i].color.b << "\n";
+
 
 }
 
@@ -40,15 +46,19 @@ void Mesh::Init(ShaderLibrary* shaderLibrary, std::string vertexShader, std::str
     glBindVertexArray(this->VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(VertexColor), this->vertices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(Vertex), this->vertices.data(), GL_STATIC_DRAW);
 
     // Position 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexColor), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
     glEnableVertexAttribArray(0);
 
     // Color 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexColor), (void*)offsetof(VertexColor, color));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
     glEnableVertexAttribArray(1);
+
+    // // Normal
+    // glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+    // glEnableVertexAttribArray(2);
 
     glEnableVertexAttribArray(0);
 
