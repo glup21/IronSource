@@ -1,6 +1,9 @@
 #include "headers/graphics/ShaderProgram.hpp"
 #include "headers/gameobject/Camera.hpp"
+#include "headers/graphics/PointLight.hpp"
 #include "spdlog/spdlog.h"
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/string_cast.hpp>
 
 
 ShaderProgram::ShaderProgram(std::shared_ptr<Shader> vertexShader, std::shared_ptr<Shader> fragmentShader)
@@ -47,19 +50,37 @@ void ShaderProgram::UseShaderProgram()
 void ShaderProgram::SetUniform(std::string name, glm::mat4 matrix4)
 {
     glUseProgram(this->shaderProgramId);
-    GLuint uniformLoc = glGetUniformLocation(shaderProgramId, name.c_str());
-    if(uniformLoc < 0)
-    {
-        // Replace later with statis Application method
-        spdlog::critical("Failed to find uniform in shader program: {}", name);
 
+    GLuint uniformLoc = glGetUniformLocation(shaderProgramId, name.c_str());
+    if (uniformLoc < 0)
+    {
+        spdlog::critical("Failed to find uniform (mat4) in shader program: {}", name);
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
-    glUniformMatrix4fv(uniformLoc, 1, GL_FALSE, &matrix4[0][0]);
 
-    glUseProgram(0);
+    glUniformMatrix4fv(uniformLoc, 1, GL_FALSE, &matrix4[0][0]);
+    //spdlog::debug("Set uniform (mat4): {}\n{}", name, glm::to_string(matrix4));
 }
+
+void ShaderProgram::SetUniform(std::string name, glm::vec3 vec)
+{
+    glUseProgram(this->shaderProgramId);
+
+    GLint uniformLoc = glGetUniformLocation(this->shaderProgramId, name.c_str());
+    if (uniformLoc < 0)
+    {
+        // DEBUG
+        // spdlog::critical("Failed to find uniform (vec3) in shader program: {}", name);
+        // glfwTerminate();
+        // exit(EXIT_FAILURE);
+    }
+
+    glUniform3fv(uniformLoc, 1, &vec[0]);
+    //spdlog::debug("Set uniform (vec3): {} = {}", name, glm::to_string(vec));
+}
+
+
 
 void ShaderProgram::Update(Subject* caller)
 {
@@ -70,4 +91,17 @@ void ShaderProgram::Update(Subject* caller)
         glm::mat4 cameraMatrix = camera->GetProjectionMatrix() * camera->GetViewMatrix();
         SetUniform("cameraMatrix", cameraMatrix);
     }
+
+    PointLight* pointLight = dynamic_cast<PointLight*>(caller);
+    if (pointLight) 
+    {
+        SetUniform("lightPos[" + std::to_string(lightCount) + "]", pointLight->GetPosition());
+        SetUniform("lightColor[" + std::to_string(lightCount) + "]", pointLight->GetColor());
+        lightCount++;
+    }
+}
+
+void ShaderProgram::Reset()
+{
+    lightCount = 0;
 }

@@ -16,7 +16,7 @@ private:
 
 public:
     Scene(std::vector<std::shared_ptr<GameObject>> gameObjects);
-    Scene(std::vector<std::shared_ptr<GameObject>> gameObjects, std::vector<PointLight*> lights);
+    Scene(std::vector<std::shared_ptr<GameObject>> gameObjects, std::vector<std::unique_ptr<PointLight>> lights);
     ~Scene() = default;
 
     std::vector<std::shared_ptr<GameObject>>* GetGameObjects();

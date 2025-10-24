@@ -34,6 +34,7 @@ void Initializer::InitWindow()
 
    // glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_DEPTH_BITS, 24); 
+    glfwWindowHint(GLFW_SAMPLES, 8);
     GLFWwindow* window = glfwCreateWindow(800, 600, "Iron Source", NULL, NULL);
     if (!window) 
     {

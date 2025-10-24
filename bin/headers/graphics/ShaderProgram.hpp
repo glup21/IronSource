@@ -13,6 +13,7 @@ private:
     std::shared_ptr<Shader> fragmentShader;
 
     GLuint shaderProgramId;
+    int lightCount;
 
 public:
     ShaderProgram(std::shared_ptr<Shader> vertexShader, std::shared_ptr<Shader> fragmentShader);
@@ -21,6 +22,8 @@ public:
     void UseShaderProgram();
 
     void SetUniform(std::string name, glm::mat4 matrix4);
+    void SetUniform(std::string name, glm::vec3 vec);
 
     void Update(Subject* caller) override;
+    void Reset();
 };

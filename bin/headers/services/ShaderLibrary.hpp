@@ -19,4 +19,6 @@ public:
     std::shared_ptr<ShaderProgram> GetShaderProgram(std::string vertexShaderPath, std::string fragmentShaderPath);
     void RegisterCamera(Camera* camera);
     void RegisterLight(PointLight* pointLight);
+
+    void ResetShaderPrograms();
 };

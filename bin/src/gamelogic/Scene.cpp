@@ -6,16 +6,14 @@ Scene::Scene(std::vector<std::shared_ptr<GameObject>> gameObjects)
     this->camera = std::make_unique<Camera>();
 }
 
-Scene::Scene(std::vector<std::shared_ptr<GameObject>> gameObjects, std::vector<PointLight*> lights)
-    : gameObjects(gameObjects)
+Scene::Scene(std::vector<std::shared_ptr<GameObject>> gameObjects,
+             std::vector<std::unique_ptr<PointLight>> lights)
+    : gameObjects(std::move(gameObjects)), lights(std::move(lights))
 {
-    for( auto light : lights )
-    {
-        this->lights.push_back(std::make_unique<PointLight>(light));
-    }
-
-    this->camera = std::make_unique<Camera>();
+    camera = std::make_unique<Camera>();
 }
+
+
 
 std::vector<std::shared_ptr<GameObject>>* Scene::GetGameObjects()
 {

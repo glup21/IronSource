@@ -5,14 +5,19 @@
 class PointLight : public Subject
 {
 private:
-    std::unique_ptr<Transform> transform;
+    Transform* transform;
     glm::vec3 color;   
     float intensity; 
 
     void NotifyAll() override;
 public:
-    PointLight(Transform transform, glm::vec3 color, float intensity);
+    PointLight(Transform* transform, glm::vec3 color, float intensity);
     ~PointLight() = default;
+
+    glm::vec3 GetColor();
+    glm::vec3 GetPosition();
+
+    void SetPosition(glm::vec3 newPosition);
 
     void Update();
 };

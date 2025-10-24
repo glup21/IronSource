@@ -72,6 +72,11 @@ void Application::Run()
     spdlog::info("Loading scene 3");
     appContext.scene = SceneManager::GetThirdScene(appContext.shaderLibrary);
     appContext.shaderLibrary->RegisterCamera(appContext.scene->GetCamera());
+    auto lights = appContext.scene->GetLights();
+    for (auto light : *lights)
+    {
+        appContext.shaderLibrary->RegisterLight(light);
+    }
 
     spdlog::info("Constructing engine");
     engine = std::make_unique<Engine>(&appContext);

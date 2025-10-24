@@ -13,8 +13,8 @@ void Engine::Run()
 {
     float targetFPS = 60.0f;
     float targetFrameTime = 1.0f / targetFPS;
-
     float lastFrame = 0.0f;
+
     while (!glfwWindowShouldClose(appContext->window))
     {
         float currentFrame = glfwGetTime();
@@ -22,8 +22,6 @@ void Engine::Run()
         lastFrame = currentFrame;
 
         auto* gameObjects = appContext->scene->GetGameObjects();
-        auto* lights = appContext->scene->GetLights();
-        auto* camera = appContext->scene->GetCamera();
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
@@ -33,6 +31,7 @@ void Engine::Run()
             gameObject->Update();
         }
 
+        auto* lights = appContext->scene->GetLights();
         for (auto& light : *lights)
         {
             light->Update();
@@ -51,6 +50,9 @@ void Engine::Run()
 
         glfwPollEvents();
 
+        // Resets light count
+        appContext->shaderLibrary->ResetShaderPrograms();
+
         float frameTime = glfwGetTime() - currentFrame;
         if (frameTime < targetFrameTime)
         {
@@ -58,6 +60,7 @@ void Engine::Run()
                 std::chrono::duration<float>(targetFrameTime - frameTime)
             );
         }
+
     }
 
 }

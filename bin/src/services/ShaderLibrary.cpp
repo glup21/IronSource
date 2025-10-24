@@ -57,3 +57,11 @@ void ShaderLibrary::RegisterLight(PointLight* pointLight)
         pointLight->Attach(pair.second.get());
     }
 }
+
+void ShaderLibrary::ResetShaderPrograms()
+{
+    for (auto pair : this->shaderPrograms)
+    {
+        pair.second->Reset();
+    }
+}
