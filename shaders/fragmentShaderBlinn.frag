@@ -9,8 +9,8 @@ in vec3 vertexColor;
 struct PointLight {
     vec3 position;
     vec3 color;
-    float k_l; // linear term
-    float k_q; // quadratic term
+    float k_l; 
+    float k_q; 
 };
 
 uniform int numLights;

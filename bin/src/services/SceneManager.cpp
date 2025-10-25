@@ -335,10 +335,10 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
 
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_real_distribution<float> distPos(-10.0f, 10.0f);
+    std::uniform_real_distribution<float> distPos(-50.0f, 50.0f);
     std::uniform_real_distribution<float> distScale(0.5f, 1.5f);
 
-    for (int i = 0; i < 50; ++i)
+    for (int i = 0; i < 400; ++i)
     {
         std::vector<IBasicTransform*> treeTransforms{
             new Translation(glm::vec3(distPos(gen), 0.0f, distPos(gen))),
@@ -348,11 +348,12 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
         objects.push_back(std::make_shared<GameObject>("tree", meshes[5], new Transform(treeTransforms)));
     }
 
-    for (int i = 0; i < 50; ++i)
+    for (int i = 0; i < 1600; ++i)
     {
         std::vector<IBasicTransform*> bushTransforms{
             new Translation(glm::vec3(distPos(gen), 0.0f, distPos(gen))),
-            new Scale(glm::vec3(distScale(gen) * 0.5f))
+            new Scale(glm::vec3(distScale(gen) * 2.0f)),
+            new Rotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f))
         };
         objects.push_back(std::make_shared<GameObject>("bush", meshes[0], new Transform(bushTransforms)));
     }
@@ -364,9 +365,9 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
     objects.push_back(std::make_shared<GameObject>("plain", meshes[2], new Transform(plainTransforms)));
 
     std::vector<std::unique_ptr<PointLight>> lights;
-    lights.push_back(std::make_unique<PointLight>(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(5.0f, 10.0f, 5.0f))}), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.09f, 0.032f));
-    lights.push_back(std::make_unique<PointLight>(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(-5.0f, 10.0f, -5.0f))}), glm::vec3(1.0f, 0.8f, 0.6f), 1.0f, 0.09f, 0.032f));
-    lights.push_back(std::make_unique<PointLight>(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), glm::vec3(0.6f, 0.8f, 1.0f), 1.0f, 0.09f, 0.032f));
+    lights.push_back(std::make_unique<PointLight>(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(35.0f, 15.0f, 5.0f))}), glm::vec3(1.0f, 0.0f, 0.0f), 1.0f, 0.09f, 0.032f));
+    lights.push_back(std::make_unique<PointLight>(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(-25.0f, 10.0f, -5.0f))}), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f, 0.09f, 0.032f));
+    lights.push_back(std::make_unique<PointLight>(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), glm::vec3(0.0f, 0.0f, 1.0f), 3.0f, 0.09f, 0.032f));
 
     auto scene = std::make_shared<Scene>(objects, std::move(lights));
 
