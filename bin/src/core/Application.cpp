@@ -59,6 +59,17 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     }
 }
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+
+    Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
+    AppContext* appContext = app->GetAppContext();
+
+    appContext->scene->GetCamera()->ResizeViewport(width, height);
+}
+
+
 void Application::Run()
 {
 
@@ -68,10 +79,12 @@ void Application::Run()
 
     glfwSetWindowUserPointer(appContext.window, this);
     glfwSetKeyCallback(appContext.window, KeyCallback);
+    glfwSetFramebufferSizeCallback(appContext.window, framebuffer_size_callback);
 
-    spdlog::info("Loading scene 3");
-    appContext.scene = SceneManager::GetThirdScene(appContext.shaderLibrary);
+    spdlog::info("Loading scene 4");
+    appContext.scene = SceneManager::GetForthScene(appContext.shaderLibrary);
     appContext.shaderLibrary->RegisterCamera(appContext.scene->GetCamera());
+
     auto lights = appContext.scene->GetLights();
     for (auto light : *lights)
     {

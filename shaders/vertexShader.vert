@@ -16,7 +16,7 @@ void main()
     vec4 worldPos = transformMatrix * vec4(aPos, 1.0);
     fragPos = worldPos.xyz;
 
-    fragNormal = mat3(transpose(inverse(transformMatrix))) * aNormal;
+    fragNormal = normalize(mat3(transpose(inverse(transformMatrix))) * aNormal);
 
     vertexColor = aColor;
 

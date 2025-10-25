@@ -19,12 +19,18 @@ void Camera::NotifyAll()
 glm::mat4 Camera::GetProjectionMatrix()
 {
     // Default constants, replace with variables later
-    return glm::perspective(glm::radians(45.0f), 16.0f / 9.0f, 0.1f, 100.0f);
+    return glm::perspective(glm::radians(this->fov), this->width / this->height, 0.1f, 100.0f);
 }
 
 glm::mat4 Camera::GetViewMatrix()
 {
     return glm::lookAt(eye, eye + forward, up);
+}
+
+void Camera::ResizeViewport(int width, int height)
+{
+    this->width = (float)width;
+    this->height = (float)height;
 }
 
 void Camera::ProcessInput(GLFWwindow* window, float deltaTime)

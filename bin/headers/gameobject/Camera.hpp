@@ -10,13 +10,16 @@ private:
     glm::vec3 eye;
     glm::vec3 up;
 
+    float fov = 60.0f;
+    float width = 800.0f;
+    float height = 800.0f;
+
     float yaw = -90.0f;
     float pitch = 0.0f;
     float lastX = 400.0f;
     float lastY = 300.0f;
     bool firstMouse = true;
     bool rotating = false;
-
 
     float speed;
 
@@ -30,4 +33,5 @@ public:
     
     void Update();
     void ProcessInput(GLFWwindow* window, float deltaTime);
+    void ResizeViewport(int width, int height);
 };
