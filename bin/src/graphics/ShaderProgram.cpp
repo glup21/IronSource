@@ -51,7 +51,7 @@ void ShaderProgram::SetUniform(std::string name, glm::mat4 matrix4)
 {
     glUseProgram(this->shaderProgramId);
 
-    GLuint uniformLoc = glGetUniformLocation(shaderProgramId, name.c_str());
+    GLint uniformLoc = glGetUniformLocation(shaderProgramId, name.c_str());
     if (uniformLoc < 0)
     {
         spdlog::critical("Failed to find uniform (mat4) in shader program: {}", name);
@@ -80,6 +80,23 @@ void ShaderProgram::SetUniform(std::string name, glm::vec3 vec)
     //spdlog::debug("Set uniform (vec3): {} = {}", name, glm::to_string(vec));
 }
 
+void ShaderProgram::SetUniform(std::string name, float value)
+{
+    glUseProgram(this->shaderProgramId);
+
+    GLint uniformLoc = glGetUniformLocation(this->shaderProgramId, name.c_str());
+    if (uniformLoc < 0)
+    {
+        // DEBUG
+        // spdlog::critical("Failed to find uniform (float) in shader program: {}", name);
+        // glfwTerminate();
+        // exit(EXIT_FAILURE);
+        return;
+    }
+
+    glUniform1f(uniformLoc, value);
+    // spdlog::debug("Set uniform (float): {} = {}", name, value);
+}
 
 
 void ShaderProgram::Update(Subject* caller)
@@ -93,12 +110,15 @@ void ShaderProgram::Update(Subject* caller)
     }
 
     PointLight* pointLight = dynamic_cast<PointLight*>(caller);
-    if (pointLight) 
+    if (pointLight)
     {
-        SetUniform("lightPos[" + std::to_string(lightCount) + "]", pointLight->GetPosition());
-        SetUniform("lightColor[" + std::to_string(lightCount) + "]", pointLight->GetColor());
+        SetUniform("lights[" + std::to_string(lightCount) + "].position", pointLight->GetPosition());
+        SetUniform("lights[" + std::to_string(lightCount) + "].color", pointLight->GetColor());
+        SetUniform("lights[" + std::to_string(lightCount) + "].k_l", pointLight->GetLinear());
+        SetUniform("lights[" + std::to_string(lightCount) + "].k_q", pointLight->GetQuadratic());
         lightCount++;
     }
+
 }
 
 void ShaderProgram::Reset()

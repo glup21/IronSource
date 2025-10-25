@@ -23,6 +23,7 @@ public:
 
     void SetUniform(std::string name, glm::mat4 matrix4);
     void SetUniform(std::string name, glm::vec3 vec);
+    void SetUniform(std::string name, float value);
 
     void Update(Subject* caller) override;
     void Reset();

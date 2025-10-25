@@ -220,7 +220,7 @@ std::shared_ptr<Scene> SceneManager::GetSecondScene(std::shared_ptr<ShaderLibrar
     forthObjectTransforms.push_back(new Scale(glm::vec3(0.25, 0.25, 0.25))); 
 
     std::vector<std::unique_ptr<PointLight>> lights;
-    lights.push_back(std::make_unique<PointLight>(new Transform(), glm::vec3(1.0, 1.0, 1.0), 10.0));
+    lights.push_back(std::make_unique<PointLight>(new Transform(), glm::vec3(1.0, 1.0, 1.0), 1.0, 2.0, 1.0));
 
     auto scene = std::make_shared<Scene>
     (
@@ -301,9 +301,9 @@ std::shared_ptr<Scene> SceneManager::GetThirdScene(std::shared_ptr<ShaderLibrary
     std::vector<IBasicTransform*> lightTransforms{
         new Translation(glm::vec3{-0.75, -0.5, 0.0})
     };
-    lights.push_back(std::make_unique<PointLight>(new Transform(lightTransforms), glm::vec3(1.0, 1.0, 1.0), 1.0));
+    lights.push_back(std::make_unique<PointLight>(new Transform(lightTransforms), glm::vec3(1.0, 1.0, 1.0), 1.0, 2.0, 1.0));
     lightTransforms.push_back(new Translation(glm::vec3{1.0, 1.0, 0.0}));
-    lights.push_back(std::make_unique<PointLight>(new Transform(lightTransforms), glm::vec3(0.0, 0.0, 1.0), 1.0));
+    lights.push_back(std::make_unique<PointLight>(new Transform(lightTransforms), glm::vec3(0.0, 0.0, 1.0), 3.0, 1.0, 0.5));
 
     auto scene = std::make_shared<Scene>(
         std::vector<std::shared_ptr<GameObject>>{
