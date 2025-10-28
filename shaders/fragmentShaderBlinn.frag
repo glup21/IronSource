@@ -2,6 +2,7 @@
 
 #define MAX_POINT_LIGHTS 8
 #define MAX_AMBIENT_LIGHTS 4
+#define MAX_DIRECTIONAL_LIGHTS 4
 
 struct AmbientLight
 {
@@ -20,11 +21,19 @@ struct PointLight
     float k_q;
 };
 
+struct DirectionalLight
+{
+    vec3 color;
+    float intensity;
+    vec3 direction; 
+};
+
 uniform int numPointLights;
 uniform int numAmbientLights;
 
 uniform PointLight pointLights[MAX_POINT_LIGHTS];
 uniform AmbientLight ambientLights[MAX_AMBIENT_LIGHTS];
+uniform DirectionalLight directionalLights[MAX_DIRECTIONAL_LIGHTS];
 
 uniform vec3 viewPos;
 
@@ -60,6 +69,22 @@ void main()
 
         vec3 diffuse = diff * light.color * light.intensity * attenuation;
         vec3 specular = spec * light.color * 0.5 * attenuation;
+
+        result += diffuse + specular;
+    }
+
+    for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)
+    {
+        DirectionalLight light = directionalLights[i];
+
+        vec3 L = normalize(-light.direction);
+
+        float diff = max(dot(N, L), 0.0);           
+        vec3 H = normalize(L + V);                 
+        float spec = pow(max(dot(N, H), 0.0), 2.0);
+
+        vec3 diffuse = diff * light.color * light.intensity;
+        vec3 specular = spec * light.color * 0.5;
 
         result += diffuse + specular;
     }

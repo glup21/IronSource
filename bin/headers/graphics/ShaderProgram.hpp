@@ -4,6 +4,7 @@
 #include "headers/gameobject/Camera.hpp"
 #include "headers/graphics/PointLight.hpp"
 #include "headers/graphics/AmbientLight.hpp"
+#include "headers/graphics/DirectionalLight.hpp"
 #include <vector>
 #include <memory>
 #include <glm/mat4x4.hpp>
@@ -19,6 +20,7 @@ private:
 
     void HandlePointLight(PointLight* pointLight);
     void HandleAmbientLight(AmbientLight* ambientLight);
+    void HandleDirectionalLight(DirectionalLight* directionalLight);
 
 public:
     ShaderProgram(std::shared_ptr<Shader> vertexShader, std::shared_ptr<Shader> fragmentShader);

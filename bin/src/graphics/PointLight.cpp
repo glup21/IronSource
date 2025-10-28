@@ -16,11 +16,6 @@ LightType PointLight::GetType() const
     return LightType::Point;
 }
 
-glm::vec3 PointLight::GetColor()
-{
-    return color * intensity;
-}
-
 glm::vec3 PointLight::GetPosition()
 {
     glm::mat4 matrix = transform->GetTransformMatrix();

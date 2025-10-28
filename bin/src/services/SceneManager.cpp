@@ -8,6 +8,7 @@
 #include "headers/graphics/PointLight.hpp"
 #include "headers/graphics/AmbientLight.hpp"
 #include "headers/graphics/Light.hpp"
+#include "headers/graphics/DirectionalLight.hpp"
 
 #include "./Models/sphere.h"
 #include "./Models/bushes.h"
@@ -370,7 +371,13 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
     lights.push_back(std::make_unique<PointLight>(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(35.0f, 15.0f, 5.0f))}), glm::vec3(1.0f, 0.0f, 0.0f), 1.0f, 0.09f, 0.032f));
     lights.push_back(std::make_unique<PointLight>(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(-25.0f, 10.0f, -5.0f))}), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f, 0.09f, 0.032f));
     //lights.push_back(std::make_unique<PointLight>(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), glm::vec3(0.0f, 0.0f, 1.0f), 1.0f, 0.09f, 0.032f));
-    lights.push_back(std::make_unique<AmbientLight>(glm::vec3(1.0f, 1.0f, 1.0f), 0.05f));
+    lights.push_back(std::make_unique<AmbientLight>(glm::vec3(0.05f, 0.05f, 0.1f), 0.01f));
+    lights.push_back(std::make_unique<DirectionalLight>(
+        glm::vec3(0.6f, 0.7f, 1.0f),
+        glm::vec3(-0.3f, -1.0f, -0.5f), 
+        0.050f 
+    ));
+
 
     auto scene = std::make_shared<Scene>(objects, std::move(lights));
 

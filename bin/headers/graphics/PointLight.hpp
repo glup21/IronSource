@@ -16,7 +16,6 @@ public:
     ~PointLight() = default;
 
     LightType GetType() const override;
-    glm::vec3 GetColor();
     glm::vec3 GetPosition();
     float GetLinear();
     float GetQuadratic();

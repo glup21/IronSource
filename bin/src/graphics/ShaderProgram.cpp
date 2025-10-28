@@ -129,27 +129,14 @@ void ShaderProgram::Update(Subject* caller)
             case LightType::Ambient:
                 HandleAmbientLight(static_cast<AmbientLight*>(light));
                 break;
+            case LightType::Directional:
+                HandleDirectionalLight(static_cast<DirectionalLight*>(light));
             default:
                 break;
         }
     }
 }
-/*
-struct Light
-{
-    int type;            
 
-    vec3 color;          
-    float intensity;     
-
-    vec3 position;       
-    vec3 direction;      
-
-    float k_l;           
-    float k_q;          
-};
-
-*/
 void ShaderProgram::HandlePointLight(PointLight* pointLight)
 {
     SetUniform("pointLights[" + std::to_string(lightCount) + "].color", pointLight->GetColor());
@@ -166,6 +153,14 @@ void ShaderProgram::HandleAmbientLight(AmbientLight* ambientLight)
 {
     SetUniform("ambientLights[" + std::to_string(lightCount) + "].color", ambientLight->GetColor());
     SetUniform("ambientLights[" + std::to_string(lightCount) + "].intensity", ambientLight->GetIntensity());
+    lightCount++;  
+}
+
+void ShaderProgram::HandleDirectionalLight(DirectionalLight* directionalLight)
+{
+    SetUniform("directionalLights[" + std::to_string(lightCount) + "].color", directionalLight->GetColor());
+    SetUniform("directionalLights[" + std::to_string(lightCount) + "].intensity", directionalLight->GetIntensity());
+    SetUniform("directionalLights[" + std::to_string(lightCount) + "].direction", directionalLight->GetDirection());
     lightCount++;  
 }
 
