@@ -3,7 +3,7 @@
 
 AmbientLight::AmbientLight(glm::vec3 color, float intensity)
 {
-    this->color = color;
+    this->color = glm::normalize(color);
     this->intensity = intensity;
     this->enabled = true;
 }

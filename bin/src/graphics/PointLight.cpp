@@ -6,7 +6,7 @@
 PointLight::PointLight(Transform* transform, glm::vec3 color, float intensity, float k_l, float k_q)
     : transform(transform), k_l(k_l), k_q(k_q)
 {
-    this->color = color;
+    this->color = glm::normalize(color);
     this->intensity = intensity;
     this->enabled = true;
 }

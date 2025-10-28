@@ -6,7 +6,7 @@
 DirectionalLight::DirectionalLight(glm::vec3 color, glm::vec3 direction, float intensity)
     : direction(direction)
 {
-    this->color = color;
+    this->color = glm::normalize(color);
     this->intensity = intensity;
     this->enabled = true;
 }

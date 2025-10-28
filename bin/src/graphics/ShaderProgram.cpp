@@ -131,6 +131,10 @@ void ShaderProgram::Update(Subject* caller)
                 break;
             case LightType::Directional:
                 HandleDirectionalLight(static_cast<DirectionalLight*>(light));
+                break;
+            case LightType::Spot:
+                HandleSpotLight(static_cast<SpotLight*>(light));
+                break;
             default:
                 break;
         }
@@ -163,6 +167,37 @@ void ShaderProgram::HandleDirectionalLight(DirectionalLight* directionalLight)
     SetUniform("directionalLights[" + std::to_string(lightCount) + "].direction", directionalLight->GetDirection());
     lightCount++;  
 }
+
+/*
+
+struct Reflector
+{
+    vec3 position;
+    vec3 direction;
+    vec3 color;
+    float intensity;
+    float cutOff;      
+    float outerCutOff; 
+};
+*/
+
+void ShaderProgram::HandleSpotLight(SpotLight* spotLight)
+{
+    SetUniform("spotLights[" + std::to_string(lightCount) + "].position", spotLight->GetPosition());
+    SetUniform("spotLights[" + std::to_string(lightCount) + "].direction", spotLight->GetDirection());
+
+    SetUniform("spotLights[" + std::to_string(lightCount) + "].color", spotLight->GetColor());
+    SetUniform("spotLights[" + std::to_string(lightCount) + "].intensity", spotLight->GetIntensity());
+    
+    SetUniform("spotLights[" + std::to_string(lightCount) + "].k_l", spotLight->GetLinear());
+    SetUniform("spotLights[" + std::to_string(lightCount) + "].k_q", spotLight->GetQuadratic());
+
+    SetUniform("spotLights[" + std::to_string(lightCount) + "].cutOff", cos(glm::radians(spotLight->GetCutOff())));
+    SetUniform("spotLights[" + std::to_string(lightCount) + "].outerCutOff", cos(glm::radians(spotLight->GetOuterCutOff())));
+
+    lightCount++;  
+}
+
 
 void ShaderProgram::Reset()
 {
