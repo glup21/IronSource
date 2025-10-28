@@ -1,21 +1,31 @@
 #pragma once
 #include "headers/interfaces/Subject.hpp"
-#include "headers/transform/Transform.hpp"
+#include <glm/glm.hpp>
 
-class PointLight : public Subject
+enum class LightType {
+    Ambient,
+    Directional,
+    Point
+};
+
+class Light : public Subject
 {
-private:
-    Transform* transform;
-    glm::vec3 color;   
-    float intensity; 
+protected:
+    glm::vec3 color = glm::vec3(1.0f);
+    float intensity = 1.0f;
+    bool enabled = true;
 
-    void NotifyAll() override;
 public:
-    PointLight(Transform* transform, glm::vec3 color, float intensity);
-    ~PointLight() = default;
+    Light() = default;                
+    virtual ~Light() = default;       
 
-    glm::vec3 GetColor();
-    glm::vec3 GetPosition();
+    virtual LightType GetType() const = 0; 
 
-    void Update();
+    glm::vec3 GetColor() const;
+    float GetIntensity() const;
+    bool IsEnabled() const;
+
+    void SetEnabled(bool value);
+
+    virtual void Update() = 0;  
 };

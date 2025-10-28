@@ -2,6 +2,7 @@
 #include "headers/graphics/Shader.hpp"
 #include "headers/interfaces/Observer.hpp"
 #include "headers/gameobject/Camera.hpp"
+#include "headers/graphics/PointLight.hpp"
 #include <vector>
 #include <memory>
 #include <glm/mat4x4.hpp>
@@ -14,6 +15,8 @@ private:
 
     GLuint shaderProgramId;
     int lightCount;
+
+    void HandlePointLight(PointLight* pointLight);
 
 public:
     ShaderProgram(std::shared_ptr<Shader> vertexShader, std::shared_ptr<Shader> fragmentShader);

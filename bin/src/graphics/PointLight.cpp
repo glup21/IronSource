@@ -4,8 +4,15 @@
 #include <glm/gtc/type_ptr.hpp>
 
 PointLight::PointLight(Transform* transform, glm::vec3 color, float intensity, float k_l, float k_q)
-    : transform(transform), color(color), intensity(intensity), k_l(k_l), k_q(k_q)
+    : transform(transform), k_l(k_l), k_q(k_q)
 {
+    this->color = color;
+    this->intensity = intensity;
+}
+
+LightType PointLight::GetType() const 
+{
+    return LightType::Point;
 }
 
 glm::vec3 PointLight::GetColor()

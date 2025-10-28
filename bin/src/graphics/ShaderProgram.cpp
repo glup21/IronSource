@@ -1,6 +1,5 @@
 #include "headers/graphics/ShaderProgram.hpp"
 #include "headers/gameobject/Camera.hpp"
-#include "headers/graphics/PointLight.hpp"
 #include "spdlog/spdlog.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
@@ -109,16 +108,34 @@ void ShaderProgram::Update(Subject* caller)
         SetUniform("cameraMatrix", cameraMatrix);
     }
 
-    PointLight* pointLight = dynamic_cast<PointLight*>(caller);
-    if (pointLight)
-    {
-        SetUniform("lights[" + std::to_string(lightCount) + "].position", pointLight->GetPosition());
-        SetUniform("lights[" + std::to_string(lightCount) + "].color", pointLight->GetColor());
-        SetUniform("lights[" + std::to_string(lightCount) + "].k_l", pointLight->GetLinear());
-        SetUniform("lights[" + std::to_string(lightCount) + "].k_q", pointLight->GetQuadratic());
-        lightCount++;
-    }
+    // PointLight* pointLight = dynamic_cast<PointLight*>(caller);
+    // if (pointLight)
+    // {
+    //     SetUniform("lights[" + std::to_string(lightCount) + "].position", pointLight->GetPosition());
+    //     SetUniform("lights[" + std::to_string(lightCount) + "].color", pointLight->GetColor());
+    //     SetUniform("lights[" + std::to_string(lightCount) + "].k_l", pointLight->GetLinear());
+    //     SetUniform("lights[" + std::to_string(lightCount) + "].k_q", pointLight->GetQuadratic());
+    //     lightCount++;
+    // }
 
+
+    if(auto* light = dynamic_cast<Light*>(caller))
+    {
+        switch (light->GetType())
+        {
+            case LightType::Point:
+                HandlePointLight(static_cast<PointLight*>(light));
+        }
+    }
+}
+
+void ShaderProgram::HandlePointLight(PointLight* pointLight)
+{
+    SetUniform("lights[" + std::to_string(lightCount) + "].position", pointLight->GetPosition());
+    SetUniform("lights[" + std::to_string(lightCount) + "].color", pointLight->GetColor());
+    SetUniform("lights[" + std::to_string(lightCount) + "].k_l", pointLight->GetLinear());
+    SetUniform("lights[" + std::to_string(lightCount) + "].k_q", pointLight->GetQuadratic());
+    lightCount++;  
 }
 
 void ShaderProgram::Reset()

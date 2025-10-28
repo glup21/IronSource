@@ -1,13 +1,11 @@
 #pragma once
-#include "headers/interfaces/Subject.hpp"
+#include "headers/graphics/Light.hpp"
 #include "headers/transform/Transform.hpp"
 
-class PointLight : public Subject
+class PointLight : public Light
 {
 private:
     Transform* transform;
-    glm::vec3 color;
-    float intensity;
     float k_l;
     float k_q;
 
@@ -17,6 +15,7 @@ public:
     PointLight(Transform* transform, glm::vec3 color, float intensity, float k_l, float k_q);
     ~PointLight() = default;
 
+    LightType GetType() const override;
     glm::vec3 GetColor();
     glm::vec3 GetPosition();
     float GetLinear();
