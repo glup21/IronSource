@@ -50,11 +50,11 @@ void ShaderLibrary::RegisterCamera(Camera* camera)
     }
 }
 
-void ShaderLibrary::RegisterLight(PointLight* pointLight)
+void ShaderLibrary::RegisterLight(Light* light)
 {
     for (auto pair : this->shaderPrograms)
     {
-        pointLight->Attach(pair.second.get());
+        light->Attach(pair.second.get());
     }
 }
 

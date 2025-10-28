@@ -125,16 +125,47 @@ void ShaderProgram::Update(Subject* caller)
         {
             case LightType::Point:
                 HandlePointLight(static_cast<PointLight*>(light));
+                break;
+            case LightType::Ambient:
+                HandleAmbientLight(static_cast<AmbientLight*>(light));
+                break;
+            default:
+                break;
         }
     }
 }
+/*
+struct Light
+{
+    int type;            
 
+    vec3 color;          
+    float intensity;     
+
+    vec3 position;       
+    vec3 direction;      
+
+    float k_l;           
+    float k_q;          
+};
+
+*/
 void ShaderProgram::HandlePointLight(PointLight* pointLight)
 {
-    SetUniform("lights[" + std::to_string(lightCount) + "].position", pointLight->GetPosition());
-    SetUniform("lights[" + std::to_string(lightCount) + "].color", pointLight->GetColor());
-    SetUniform("lights[" + std::to_string(lightCount) + "].k_l", pointLight->GetLinear());
-    SetUniform("lights[" + std::to_string(lightCount) + "].k_q", pointLight->GetQuadratic());
+    SetUniform("pointLights[" + std::to_string(lightCount) + "].color", pointLight->GetColor());
+    SetUniform("pointLights[" + std::to_string(lightCount) + "].intensity", pointLight->GetIntensity());
+
+    SetUniform("pointLights[" + std::to_string(lightCount) + "].position", pointLight->GetPosition());
+    
+    SetUniform("pointLights[" + std::to_string(lightCount) + "].k_l", pointLight->GetLinear());
+    SetUniform("pointLights[" + std::to_string(lightCount) + "].k_q", pointLight->GetQuadratic());
+    lightCount++;  
+}
+
+void ShaderProgram::HandleAmbientLight(AmbientLight* ambientLight)
+{
+    SetUniform("ambientLights[" + std::to_string(lightCount) + "].color", ambientLight->GetColor());
+    SetUniform("ambientLights[" + std::to_string(lightCount) + "].intensity", ambientLight->GetIntensity());
     lightCount++;  
 }
 

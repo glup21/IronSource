@@ -8,6 +8,7 @@ PointLight::PointLight(Transform* transform, glm::vec3 color, float intensity, f
 {
     this->color = color;
     this->intensity = intensity;
+    this->enabled = true;
 }
 
 LightType PointLight::GetType() const 

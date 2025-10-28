@@ -3,9 +3,9 @@
 #include <glm/glm.hpp>
 
 enum class LightType {
-    Ambient,
-    Directional,
-    Point
+    Ambient = 0,
+    Directional = 1,
+    Point = 2  
 };
 
 class Light : public Subject

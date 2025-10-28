@@ -1,7 +1,7 @@
 #pragma once
 #include "headers/graphics/Shader.hpp"
 #include "headers/graphics/ShaderProgram.hpp"
-#include "headers/graphics/PointLight.hpp"
+#include "headers/graphics/Light.hpp"
 #include <vector>
 #include <bits/stdc++.h>
 #include <string>
@@ -18,7 +18,7 @@ public:
 
     std::shared_ptr<ShaderProgram> GetShaderProgram(std::string vertexShaderPath, std::string fragmentShaderPath);
     void RegisterCamera(Camera* camera);
-    void RegisterLight(PointLight* pointLight);
+    void RegisterLight(Light* light);
 
     void ResetShaderPrograms();
 };
