@@ -82,7 +82,7 @@ void Application::Run()
     glfwSetFramebufferSizeCallback(appContext.window, framebuffer_size_callback);
 
     spdlog::info("Loading scene 4");
-    appContext.scene = SceneManager::GetThirdScene(appContext.shaderLibrary);
+    appContext.scene = SceneManager::GetForthScene(appContext.shaderLibrary);
     appContext.shaderLibrary->RegisterCamera(appContext.scene->GetCamera());
 
     auto lights = appContext.scene->GetLights();

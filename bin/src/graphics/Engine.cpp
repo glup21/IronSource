@@ -39,6 +39,8 @@ void Engine::Run()
 
         appContext->scene->GetCamera()->ProcessInput(appContext->window, deltaTime);
 
+        glClearColor(0.12f, 0.09f, 0.18f, 1.0f); 
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         for (auto& gameObject : *gameObjects)

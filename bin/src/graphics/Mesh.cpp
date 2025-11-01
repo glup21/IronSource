@@ -62,4 +62,5 @@ void Mesh::Init(ShaderLibrary* shaderLibrary, std::string vertexShader, std::str
 void Mesh::AddVertex(glm::vec3 vertex, glm::vec3 color, glm::vec3 normal)
 {
     this->vertices.push_back(Vertex{vertex, color, normal});
+    this->vertexCount++;
 }

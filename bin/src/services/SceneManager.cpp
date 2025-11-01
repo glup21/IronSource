@@ -26,8 +26,8 @@ std::shared_ptr<Scene> SceneManager::GetFirstScene(std::shared_ptr<ShaderLibrary
         std::vector<glm::vec3>{ {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} }
     );
 
-    std::string vertexShaderPath = "./shaders/vertexShader.vert";
-    std::string fragmentShaderPath = "./shaders/firstFragmentShader.frag";
+    std::string vertexShaderPath = "./bin/shaders/vertexShader.vert";
+    std::string fragmentShaderPath = "./bin/shaders/firstFragmentShader.frag";
 
     firstMesh->Init(shaderLibrary.get(), vertexShaderPath, fragmentShaderPath);
 
@@ -51,10 +51,11 @@ std::shared_ptr<Scene> SceneManager::GetSecondScene(std::shared_ptr<ShaderLibrar
 {
     // Replace later with initialization from text files
 
-    auto sphereMesh = MeshFactory::LoadSphere();
+    //auto sphereMesh = MeshFactory::LoadSphere();
+    auto sphereMesh = MeshFactory::LoadFromFile("./Models/formula2.obj");
 
-    std::string vertexShaderPath = "./shaders/vertexShader.vert";
-    std::string fragmentShaderPath = "./shaders/fragmentShaderBlinn.frag";
+    std::string vertexShaderPath = "./bin/shaders/vertexShader.vert";
+    std::string fragmentShaderPath = "./bin/shaders/fragmentShaderBlinn.frag";
 
     // for(auto renderTarget : scene->renderTargets)
     // {
@@ -101,21 +102,21 @@ std::shared_ptr<Scene> SceneManager::GetSecondScene(std::shared_ptr<ShaderLibrar
 std::shared_ptr<Scene> SceneManager::GetThirdScene(std::shared_ptr<ShaderLibrary> shaderLibrary)
 {
     auto meshes = MeshFactory::LoadAllPredefinedModels();
-    meshes.push_back(MeshFactory::LoadFromFile("./Models/formula1.obj"));
+    meshes.push_back(MeshFactory::LoadFromFile("./Models/formula2.obj"));
 
-    std::string vertexShaderPath = "./shaders/vertexShader.vert";
+    std::string vertexShaderPath = "./bin/shaders/vertexShader.vert";
     // std::vector<std::string> fragmentShaderPaths = {
-    //     "./shaders/fragmentShaderConstant.frag",
-    //     "./shaders/fragmentShaderLambert.frag",
-    //     "./shaders/fragmentShaderPhong.frag",
-    //     "./shaders/fragmentShaderBlinn.frag"
+    //     "./bin/shaders/fragmentShaderConstant.frag",
+    //     "./bin/shaders/fragmentShaderLambert.frag",
+    //     "./bin/shaders/fragmentShaderPhong.frag",
+    //     "./bin/shaders/fragmentShaderBlinn.frag"
     // };
 
     std::vector<std::string> fragmentShaderPaths = {
-        "./shaders/fragmentShaderBlinn.frag",
-        "./shaders/fragmentShaderBlinn.frag",
-        "./shaders/fragmentShaderBlinn.frag",
-        "./shaders/fragmentShaderBlinn.frag"
+        "./bin/shaders/fragmentShaderBlinn.frag",
+        "./bin/shaders/fragmentShaderBlinn.frag",
+        "./bin/shaders/fragmentShaderBlinn.frag",
+        "./bin/shaders/fragmentShaderBlinn.frag"
     };
 
     for (size_t i = 0; i < meshes.size(); ++i)
@@ -194,10 +195,10 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
 {
     auto meshes = MeshFactory::LoadAllPredefinedModels();
 
-    meshes.push_back(MeshFactory::LoadFromFile("./Models/formula1.obj"));
+    meshes.push_back(MeshFactory::LoadFromFile("./Models/formula2.obj"));
 
-    std::string vertexShaderPath = "./shaders/vertexShader.vert";
-    std::string fragmentShaderPath = "./shaders/fragmentShaderBlinn.frag";
+    std::string vertexShaderPath = "./bin/shaders/vertexShader.vert";
+    std::string fragmentShaderPath = "./bin/shaders/fragmentShaderBlinn.frag";
 
     for (auto& mesh : meshes)
         mesh->Init(shaderLibrary.get(), vertexShaderPath, fragmentShaderPath);

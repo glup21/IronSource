@@ -7,6 +7,13 @@ GameObject::GameObject(std::string name, IRenderTarget* renderTarget, Transform*
 
 }
 
+GameObject::GameObject(std::string name, Transform* transform) : 
+    name(name), transform(transform)
+{
+
+}
+
+
 void GameObject::Update()
 {
     // Game logic here
