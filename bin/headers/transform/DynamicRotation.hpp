@@ -1,6 +1,7 @@
 #pragma once
 #include "headers/transform/Rotation.hpp"
-#include <GLFW/glfw3.h> 
+#include "headers/pch.hpp"
+
 
 class DynamicRotation : public Rotation
 {

@@ -156,26 +156,21 @@ void ShaderProgram::HandleDirectionalLight(DirectionalLight* directionalLight)
     lightCount++;  
 }
 
-/*
-
-struct Reflector
-{
-    vec3 position;
-    vec3 direction;
-    vec3 color;
-    float intensity;
-    float cutOff;      
-    float outerCutOff; 
-};
-*/
-
 void ShaderProgram::HandleSpotLight(SpotLight* spotLight)
 {
-    SetUniform("spotLights[" + std::to_string(lightCount) + "].position", spotLight->GetPosition());
+    SetUniform("spotLights[" + std::to_string(lightCount) + "].position", spotLight->transform->GetPosition());
     SetUniform("spotLights[" + std::to_string(lightCount) + "].direction", spotLight->GetDirection());
 
     SetUniform("spotLights[" + std::to_string(lightCount) + "].color", spotLight->GetColor());
-    SetUniform("spotLights[" + std::to_string(lightCount) + "].intensity", spotLight->GetIntensity());
+    if(spotLight->IsEnabled())
+    {
+        SetUniform("spotLights[" + std::to_string(lightCount) + "].intensity", spotLight->GetIntensity());
+    }
+    else
+    {
+        SetUniform("spotLights[" + std::to_string(lightCount) + "].intensity", 0.0f);
+    }
+    
     
     SetUniform("spotLights[" + std::to_string(lightCount) + "].k_l", spotLight->GetLinear());
     SetUniform("spotLights[" + std::to_string(lightCount) + "].k_q", spotLight->GetQuadratic());

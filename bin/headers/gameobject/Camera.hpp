@@ -1,8 +1,9 @@
 #pragma once
-#include <glm/glm.hpp>
-#include <GLFW/glfw3.h>
+#include "headers/graphics/SpotLight.hpp"
 #include "headers/interfaces/Subject.hpp"
-#include "headers/graphics/PointLight.hpp"
+
+#include "headers/pch.hpp"
+
 
 class Camera : public Subject
 {
@@ -24,7 +25,7 @@ private:
 
     float speed;
 
-    std::shared_ptr<PointLight> flashLight;
+    std::shared_ptr<SpotLight> flashLight;
 
     void NotifyAll() override;
 public:

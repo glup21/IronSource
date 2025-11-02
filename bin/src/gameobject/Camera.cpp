@@ -1,11 +1,35 @@
 #include "headers/gameobject/Camera.hpp"
 #include "spdlog/spdlog.h"
 #include "headers/interfaces/Observer.hpp" 
+#include "headers/services/LightFactory.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 
 Camera::Camera() : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 0.0f, 2.0f), up(0.0f, 1.0f, 0.0f), speed(10.0f)
 {
     forward = glm::normalize(forward);
+    Transform* flashlightTransform = new Transform();
+    flashlightTransform->SetPosition(eye);
+    flashLight = std::shared_ptr<SpotLight>(LightFactory::GetSpotLight(
+        flashlightTransform,
+        glm::vec3(1.0f, 1.0f, 0.0f),
+        5.0f,
+        0.09f,
+        0.032f,
+        -forward,
+        15.0f,
+        17.0f
+    ));
+
+    // new Transform(
+    //     std::vector<IBasicTransform*>{new Translation(glm::vec3(5.0f, 10.0f, 5.0f))}),
+    //     glm::vec3(1.0f, 0.0f, 0.0f),
+    //     15.0f,
+    //     0.09f,
+    //     0.032f,
+    //     glm::vec3(0.0f, -1.0f, 0.0f),
+    //     30.0f,
+    //     45.0f));
+
 }
 
 void Camera::NotifyAll() 
@@ -35,8 +59,11 @@ void Camera::ResizeViewport(int width, int height)
 
 void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
 {
+    static bool fPressedLastFrame = false;
+
     glm::vec3 right = glm::normalize(glm::cross(forward, up));
     float velocity = speed * deltaTime;
+
     if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         eye += forward * velocity;
     if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -45,6 +72,11 @@ void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
         eye -= right * velocity;
     if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         eye += right * velocity;
+
+    bool fPressedNow = glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS;
+    if (fPressedNow && !fPressedLastFrame)
+        this->flashLight->SetEnabled(!this->flashLight->IsEnabled());
+    fPressedLastFrame = fPressedNow;
 
     if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
     {
@@ -84,10 +116,14 @@ void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
         rotating = false;
     }
 
+    this->flashLight->SetDirection(forward);
+    this->flashLight->transform->SetPosition(eye);
     Update();
 }
+
 
 void Camera::Update()
 {
     NotifyAll();
+    this->flashLight->Update();
 }

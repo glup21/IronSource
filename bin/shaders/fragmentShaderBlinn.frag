@@ -1,9 +1,9 @@
 #version 440 core
 
 #define MAX_POINT_LIGHTS 8
-#define MAX_AMBIENT_LIGHTS 4
-#define MAX_DIRECTIONAL_LIGHTS 4
-#define MAX_SPOT_LIGHTS 4
+#define MAX_AMBIENT_LIGHTS 8
+#define MAX_DIRECTIONAL_LIGHTS 8
+#define MAX_SPOT_LIGHTS 8
 
 struct AmbientLight
 {

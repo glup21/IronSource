@@ -1,6 +1,6 @@
 #include "headers/core/Initializer.hpp"
-//Include GLFW  
-#include <GLFW/glfw3.h>  
+#include "headers/pch.hpp"
+
 //Logging
 #include "spdlog/spdlog.h"
 

@@ -1,6 +1,7 @@
 #include "headers/graphics/Shader.hpp"
 #include "spdlog/spdlog.h"
-#include <GLFW/glfw3.h>  
+#include "headers/pch.hpp"
+
 
 Shader::Shader(std::string code, GLenum shaderType)
 {

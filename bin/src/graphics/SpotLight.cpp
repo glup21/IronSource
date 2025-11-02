@@ -16,12 +16,6 @@ LightType SpotLight::GetType() const
     return LightType::Spot;
 }
 
-glm::vec3 SpotLight::GetPosition()
-{
-    glm::mat4 matrix = transform->GetWorldMatrix();
-    return glm::vec3(matrix[3]);
-}
-
 float SpotLight::GetLinear() { return k_l; }
 float SpotLight::GetQuadratic() { return k_q; }
 
@@ -40,7 +34,10 @@ glm::vec3 SpotLight::GetDirection()
     return direction;
 }
 
-void SpotLight::Update() { NotifyAll(); }
+void SpotLight::Update() 
+{
+    NotifyAll();
+}
 
 void SpotLight::NotifyAll()
 {
@@ -48,4 +45,8 @@ void SpotLight::NotifyAll()
         observer->Update(this);
 }
 
-void SpotLight::SetPosition(glm::vec3 newPosition) {}
+void SpotLight::SetDirection(glm::vec3 newDirection)
+{
+    this->direction = newDirection;
+}
+

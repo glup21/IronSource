@@ -1,7 +1,7 @@
 #include "headers/graphics/Mesh.hpp"
 #include <iostream>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>  
+#include "headers/pch.hpp"
+
 
 Mesh::Mesh(vector<glm::vec3> vertices, vector<glm::vec3> color, vector<glm::vec3> normals)
 {

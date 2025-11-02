@@ -5,7 +5,7 @@
 class SpotLight : public Light
 {
 private:
-    Transform* transform;
+    
     float k_l;
     float k_q;
     glm::vec3 direction;
@@ -15,6 +15,7 @@ private:
     void NotifyAll() override;
 
 public:
+    Transform* transform;
     // Replace manual direction with proper Transform 
     SpotLight(Transform* transform, glm::vec3 color, float intensity, float k_l, float k_q, glm::vec3 direction, float cutOff, float outerCutOff);
     ~SpotLight() = default;
@@ -27,6 +28,6 @@ public:
     float GetOuterCutOff();
     glm::vec3 GetDirection();
 
-    void SetPosition(glm::vec3 newPosition);
+    void SetDirection(glm::vec3 newDirection);
     void Update();
 };

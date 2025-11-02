@@ -1,5 +1,6 @@
 #include "headers/core/Engine.hpp"
-#include <GLFW/glfw3.h>  
+#include "headers/pch.hpp"
+
 #include "spdlog/spdlog.h"
 #include <thread>
 #include <chrono>

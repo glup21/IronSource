@@ -1,6 +1,7 @@
 #pragma once
 
-#include <GLFW/glfw3.h>  
+#include "headers/pch.hpp"
+
 #include "headers/gamelogic/Scene.hpp"
 #include <memory>
 #include "headers/services/ShaderLibrary.hpp"

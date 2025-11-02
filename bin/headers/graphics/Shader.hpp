@@ -1,8 +1,7 @@
 #pragma once
 #include <string>
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include "headers/pch.hpp"
+
 
 class Shader
 {
