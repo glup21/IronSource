@@ -17,6 +17,8 @@ public:
     GameObject(std::string name, Transform* transform);
     ~GameObject() = default;
 
-    void Update();
+    virtual void Update(float deltaTime);
     void Render();
+
+    IRenderTarget* GetRenderTarget();
 };

@@ -14,7 +14,7 @@ GameObject::GameObject(std::string name, Transform* transform) :
 }
 
 
-void GameObject::Update()
+void GameObject::Update(float debug)
 {
     // Game logic here
 }
@@ -26,4 +26,9 @@ void GameObject::Render()
         glm::mat4 modelMatrix = transform->GetWorldMatrix();
         renderTarget->Render(modelMatrix); 
     }
+}
+
+IRenderTarget* GameObject::GetRenderTarget()
+{
+    return renderTarget.get();
 }

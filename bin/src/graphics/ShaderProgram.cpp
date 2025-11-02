@@ -107,18 +107,6 @@ void ShaderProgram::Update(Subject* caller)
         glm::mat4 cameraMatrix = camera->GetProjectionMatrix() * camera->GetViewMatrix();
         SetUniform("cameraMatrix", cameraMatrix);
     }
-
-    // PointLight* pointLight = dynamic_cast<PointLight*>(caller);
-    // if (pointLight)
-    // {
-    //     SetUniform("lights[" + std::to_string(lightCount) + "].position", pointLight->GetPosition());
-    //     SetUniform("lights[" + std::to_string(lightCount) + "].color", pointLight->GetColor());
-    //     SetUniform("lights[" + std::to_string(lightCount) + "].k_l", pointLight->GetLinear());
-    //     SetUniform("lights[" + std::to_string(lightCount) + "].k_q", pointLight->GetQuadratic());
-    //     lightCount++;
-    // }
-
-
     if(auto* light = dynamic_cast<Light*>(caller))
     {
         switch (light->GetType())

@@ -28,7 +28,7 @@ void Engine::Run()
 
         for (auto& gameObject : *gameObjects)
         {
-            gameObject->Update();
+            gameObject->Update(deltaTime);
         }
 
         auto* lights = appContext->scene->GetLights();
