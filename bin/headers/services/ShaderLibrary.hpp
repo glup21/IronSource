@@ -13,8 +13,14 @@ private:
     std::map<std::string, std::shared_ptr<Shader>> shaders;
 
     std::shared_ptr<Shader> GetShader(std::string shaderPath, GLenum shaderType);
-public:
+
     ShaderLibrary() = default;
+public:
+    static ShaderLibrary& GetInstance()
+    {
+        static ShaderLibrary instance;
+        return instance;
+    }
 
     std::shared_ptr<ShaderProgram> GetShaderProgram(std::string vertexShaderPath, std::string fragmentShaderPath);
     void RegisterCamera(Camera* camera);

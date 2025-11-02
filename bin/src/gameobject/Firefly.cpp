@@ -1,18 +1,20 @@
 #include "headers/gameobject/Firefly.hpp"
 #include "headers/services/MeshFactory.hpp"
+#include "headers/services/LightFactory.hpp"
 #include <spdlog/spdlog.h>
 
 // REWRITE THIS MESS WITH NORMAL FACTORIES AND STOP PUSHING AROUND SHADER LIBRARY
 Firefly::Firefly(Transform* transform, float distance, glm::vec3 color, float intensity, float k_l, float k_q, float speed,
-    ShaderLibrary* shaderLibrary, std::string vertexShader, std::string fragmentShader) 
+    ShaderLibrary* shaderLibrary, std::string vertexShader) 
     : GameObject(std::string("Firefly"), transform), distance(distance), speed(speed)
 {
     // Mesh
     this->renderTarget = std::shared_ptr<Mesh>(MeshFactory::LoadSphere());
-    this->renderTarget->Init(shaderLibrary, vertexShader, fragmentShader);
+    this->renderTarget->Init(shaderLibrary, vertexShader, "./bin/shaders/fragmentShaderFirefly.frag");
     // Light
-    this->light = std::make_shared<PointLight>(transform, color, intensity, k_l, k_q);
-    shaderLibrary->RegisterLight(this->light.get());
+    this->light = std::shared_ptr<PointLight>(LightFactory::GetPointLight(transform, color, intensity, k_l, k_q));
+
+    this->transform->SetScale(glm::vec3(0.01));
 }
 
 void Firefly::Update(float deltaTime)

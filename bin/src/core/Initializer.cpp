@@ -19,7 +19,7 @@ void Initializer::InitApplication()
 
 void Initializer::InitServices()
 {
-    this->appContext->shaderLibrary = std::make_shared<ShaderLibrary>();
+    this->appContext->shaderLibrary = std::shared_ptr<ShaderLibrary>(&ShaderLibrary::GetInstance());
 }
 
 void Initializer::InitWindow()

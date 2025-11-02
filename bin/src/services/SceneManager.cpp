@@ -241,8 +241,9 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
     objects.push_back(std::make_shared<GameObject>("Car", meshes[6], carTransform));
 
     //Transform* transform, float distance, glm::vec3 color, float intensity, float k_l, float k_q, float speed
-    auto firefly = std::make_shared<Firefly>(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), 50.0f, glm::vec3(1.0, 1.0, 0.0), 3.0f, 0.09f, 0.032f, 5.0f,
-        shaderLibrary.get(), vertexShaderPath, fragmentShaderPath);
+    auto firefly = std::make_shared<Firefly>(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), 50.0f,
+        glm::vec3(1.0, 1.0, 0.0), 3.0f, 0.09f, 0.032f, 7.5f,
+        shaderLibrary.get(), vertexShaderPath);
     objects.push_back(firefly);
 
     std::vector<std::unique_ptr<Light>> lights;

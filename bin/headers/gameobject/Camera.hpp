@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include <GLFW/glfw3.h>
 #include "headers/interfaces/Subject.hpp"
+#include "headers/graphics/PointLight.hpp"
 
 class Camera : public Subject
 {
@@ -22,6 +23,8 @@ private:
     bool rotating = false;
 
     float speed;
+
+    std::shared_ptr<PointLight> flashLight;
 
     void NotifyAll() override;
 public:

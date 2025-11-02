@@ -16,8 +16,9 @@ Mesh* MeshFactory::LoadSphere()
         positions.emplace_back(sphere[i], sphere[i + 1], sphere[i + 2]);
         colors.emplace_back(sphere[i + 3], sphere[i + 4], sphere[i + 5]);
     }
-
-    return new Mesh(positions, colors, colors);
+    Mesh* mesh = new Mesh(positions, colors, colors);
+    mesh->Init(ShaderLibrary::GetInstance())
+    return mesh;
 }
 
 std::vector<Mesh*> MeshFactory::LoadAllPredefinedModels()
