@@ -5,12 +5,8 @@
 #include "headers/transform/Scale.hpp"
 #include "headers/graphics/Mesh.hpp"
 #include "headers/transform/DynamicRotation.hpp"
-#include "headers/graphics/PointLight.hpp"
-#include "headers/graphics/AmbientLight.hpp"
-#include "headers/graphics/Light.hpp"
-#include "headers/graphics/DirectionalLight.hpp"
 #include "headers/gameobject/Firefly.hpp"
-
+#include "headers/services/LightFactory.hpp"
 #include "headers/services/MeshFactory.hpp"
 
 #include <spdlog/spdlog.h>
@@ -195,14 +191,7 @@ std::shared_ptr<Scene> SceneManager::GetThirdScene(std::shared_ptr<ShaderLibrary
 std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary> shaderLibrary)
 {
     auto meshes = MeshFactory::LoadAllPredefinedModels();
-
     meshes.push_back(MeshFactory::LoadFromFile("./Models/formula2.obj"));
-
-    std::string vertexShaderPath = "./bin/shaders/vertexShader.vert";
-    std::string fragmentShaderPath = "./bin/shaders/fragmentShaderBlinn.frag";
-
-    for (auto& mesh : meshes)
-        mesh->Init(shaderLibrary.get(), vertexShaderPath, fragmentShaderPath);
 
     std::vector<std::shared_ptr<GameObject>> objects;
 
@@ -213,49 +202,55 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
 
     for (int i = 0; i < 400; i++)
     {
-        Transform* treeTransform = new Transform();
-        treeTransform->SetPosition(glm::vec3(distPos(gen), 0.0f, distPos(gen)));
-        treeTransform->SetScale(glm::vec3(distScale(gen)));
-        treeTransform->SetRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
-        objects.push_back(std::make_shared<GameObject>("tree", meshes[5], treeTransform));
+        auto tree = new GameObject("tree", meshes[5]);
+        tree->transform->SetPosition(glm::vec3(distPos(gen), 0.0f, distPos(gen)));
+        tree->transform->SetScale(glm::vec3(distScale(gen)));
+        tree->transform->SetRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
+
+        objects.push_back(std::shared_ptr<GameObject>(tree));
     }
 
     for (int i = 0; i < 2500; i++)
     {
-        Transform* bushTransform = new Transform();
-        bushTransform->SetPosition(glm::vec3(distPos(gen), 0.0f, distPos(gen)));
-        bushTransform->SetScale(glm::vec3(distScale(gen) * 2.0f));
-        bushTransform->SetRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
-        objects.push_back(std::make_shared<GameObject>("bush", meshes[0], bushTransform));
+        auto bush = new GameObject("bush", meshes[0]);
+        bush->transform->SetPosition(glm::vec3(distPos(gen), 0.0f, distPos(gen)));
+        bush->transform->SetScale(glm::vec3(distScale(gen) * 2.0f));
+        bush->transform->SetRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
+
+        objects.push_back(std::shared_ptr<GameObject>(bush));
     }
 
-    Transform* plainTransform = new Transform();
-    plainTransform->SetPosition(glm::vec3(0.0f, -0.01f, 0.0f));
-    plainTransform->SetScale(glm::vec3(50.0f, 1.0f, 50.0f));
-    objects.push_back(std::make_shared<GameObject>("plain", meshes[2], plainTransform));
+    auto plane = new GameObject("plain", meshes[2]);
+    plane->transform->SetPosition(glm::vec3(0.0f, -0.01f, 0.0f));
+    plane->transform->SetScale(glm::vec3(50.0f, 1.0f, 50.0f));
+    objects.push_back(std::shared_ptr<GameObject>(plane));
 
-    Transform* carTransform = new Transform();
-    carTransform->SetPosition(glm::vec3(distPos(gen), 10.0f, distPos(gen)));
-    carTransform->SetScale(glm::vec3(0.001));
-    carTransform->SetRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
-    objects.push_back(std::make_shared<GameObject>("Car", meshes[6], carTransform));
+    auto car = new GameObject("Car", meshes[6]);
+    car->transform->SetPosition(glm::vec3(distPos(gen), 10.0f, distPos(gen)));
+    car->transform->SetScale(glm::vec3(0.001));
+    car->transform->SetRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
+    objects.push_back(std::shared_ptr<GameObject>(car));
 
-    //Transform* transform, float distance, glm::vec3 color, float intensity, float k_l, float k_q, float speed
-    auto firefly = std::make_shared<Firefly>(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), 50.0f,
-        glm::vec3(1.0, 1.0, 0.0), 3.0f, 0.09f, 0.032f, 7.5f,
-        shaderLibrary.get(), vertexShaderPath);
-    objects.push_back(firefly);
+    auto fireflyTransform = new Transform();
+    fireflyTransform->SetPosition(glm::vec3(0.0f, 10.0f, 0.0f));
+    auto firefly = new Firefly(fireflyTransform, 50.0f,glm::vec3(1.0, 1.0, 0.0), 3.0f, 0.09f, 0.032f, 7.5f);
+    objects.push_back(std::shared_ptr<Firefly>(firefly));
 
     std::vector<std::unique_ptr<Light>> lights;
-    lights.push_back(std::make_unique<PointLight>(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(35.0f, 15.0f, 5.0f))}), glm::vec3(1.0f, 0.0f, 0.0f), 1.0f, 0.09f, 0.032f));
-    lights.push_back(std::make_unique<PointLight>(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(-25.0f, 10.0f, -5.0f))}), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f, 0.09f, 0.032f));
-    lights.push_back(std::make_unique<PointLight>(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), glm::vec3(0.0f, 0.0f, 1.0f), 3.0f, 0.09f, 0.032f));
-    lights.push_back(std::make_unique<AmbientLight>(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
-    lights.push_back(std::make_unique<DirectionalLight>(
+
+    
+    lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(35.0f, 15.0f, 5.0f))}), 
+        glm::vec3(1.0f, 0.0f, 0.0f), 1.0f, 0.09f, 0.032f)));
+    lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(-25.0f, 10.0f, -5.0f))}), 
+        glm::vec3(0.0f, 1.0f, 1.0f), 2.0f, 0.09f, 0.032f)));
+    lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), 
+        glm::vec3(0.0f, 0.0f, 1.0f), 3.0f, 0.09f, 0.032f)));
+    lights.push_back(std::unique_ptr<AmbientLight>(LightFactory::GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f)));
+    lights.push_back(std::unique_ptr<DirectionalLight>(LightFactory::GetDirectionalLight(
         glm::vec3(0.6f, 0.7f, 1.0f),
         glm::vec3(-0.3f, -1.0f, -0.5f), 
         0.025f 
-    ));
+    )));
     // lights.push_back(std::make_unique<SpotLight>(new Transform(
     //     std::vector<IBasicTransform*>{new Translation(glm::vec3(5.0f, 10.0f, 5.0f))}),
     //     glm::vec3(1.0f, 0.0f, 0.0f),

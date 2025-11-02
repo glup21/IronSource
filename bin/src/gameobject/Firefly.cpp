@@ -4,13 +4,11 @@
 #include <spdlog/spdlog.h>
 
 // REWRITE THIS MESS WITH NORMAL FACTORIES AND STOP PUSHING AROUND SHADER LIBRARY
-Firefly::Firefly(Transform* transform, float distance, glm::vec3 color, float intensity, float k_l, float k_q, float speed,
-    ShaderLibrary* shaderLibrary, std::string vertexShader) 
+Firefly::Firefly(Transform* transform, float distance, glm::vec3 color, float intensity, float k_l, float k_q, float speed) 
     : GameObject(std::string("Firefly"), transform), distance(distance), speed(speed)
 {
     // Mesh
     this->renderTarget = std::shared_ptr<Mesh>(MeshFactory::LoadSphere());
-    this->renderTarget->Init(shaderLibrary, vertexShader, "./bin/shaders/fragmentShaderFirefly.frag");
     // Light
     this->light = std::shared_ptr<PointLight>(LightFactory::GetPointLight(transform, color, intensity, k_l, k_q));
 
@@ -51,8 +49,9 @@ void Firefly::SetNewDestination()
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> distPos(-distance, distance);
+    std::uniform_real_distribution<float> heightPos(0, 10.0f);
 
-    destination = glm::vec3(distPos(gen), 0.0f, distPos(gen));
+    destination = glm::vec3(distPos(gen), heightPos(gen), distPos(gen));
     reachedDestination = false;
     
 }

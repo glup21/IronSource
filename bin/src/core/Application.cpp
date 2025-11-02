@@ -85,12 +85,6 @@ void Application::Run()
     appContext.scene = SceneManager::GetForthScene(appContext.shaderLibrary);
     appContext.shaderLibrary->RegisterCamera(appContext.scene->GetCamera());
 
-    auto lights = appContext.scene->GetLights();
-    for (auto light : *lights)
-    {
-        appContext.shaderLibrary->RegisterLight(light);
-    }
-
     spdlog::info("Constructing engine");
     engine = std::make_unique<Engine>(&appContext);
 

@@ -1,5 +1,6 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "headers/services/MeshFactory.hpp"
+#include "headers/services/GlobalConfig.hpp"
 #include <tiny_obj_loader.h>
 #include <spdlog/spdlog.h>
 
@@ -17,7 +18,7 @@ Mesh* MeshFactory::LoadSphere()
         colors.emplace_back(sphere[i + 3], sphere[i + 4], sphere[i + 5]);
     }
     Mesh* mesh = new Mesh(positions, colors, colors);
-    mesh->Init(ShaderLibrary::GetInstance())
+    mesh->Init(&ShaderLibrary::GetInstance(), GlobalConfig::GetDefaultVertexShaderPath(), GlobalConfig::GetDefaultFragmentShaderPath());
     return mesh;
 }
 
@@ -141,6 +142,11 @@ std::vector<Mesh*> MeshFactory::LoadAllPredefinedModels()
     colors.clear();
     normals.clear();
 
+    for(auto mesh : meshes)
+    {
+        mesh->Init(&ShaderLibrary::GetInstance(), GlobalConfig::GetDefaultVertexShaderPath(), GlobalConfig::GetDefaultFragmentShaderPath());
+    }
+
     return meshes;
 }
 
@@ -224,6 +230,8 @@ Mesh* MeshFactory::LoadFromFile(std::string filePath)
             mesh->AddVertex(position, normal, glm::vec3(1.0));
         }
     }
+
+    mesh->Init(&ShaderLibrary::GetInstance(), GlobalConfig::GetDefaultVertexShaderPath(), GlobalConfig::GetDefaultFragmentShaderPath());
 
     spdlog::info("Finished processing OBJ mesh: {}", filePath);
     return mesh;

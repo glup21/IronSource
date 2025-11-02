@@ -13,8 +13,7 @@ private:
     bool reachedDestination = false;
     std::optional<glm::vec3> destination;
 public:
-    Firefly(Transform* transform, float distance, glm::vec3 color, float intensity, float k_l, float k_q, float speed, ShaderLibrary* shaderLibrary,
-        std::string vertexShader);
+    Firefly(Transform* transform, float distance, glm::vec3 color, float intensity, float k_l, float k_q, float speed);
     ~Firefly() = default;
 
     void Update(float deltaTime) override;
