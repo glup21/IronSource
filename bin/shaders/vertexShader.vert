@@ -9,7 +9,8 @@ out vec3 fragNormal;
 out vec3 vertexColor;
 
 uniform mat4 transformMatrix;
-uniform mat4 cameraMatrix;
+uniform mat4 projectionMatrix;
+uniform mat4 viewMatrix;
 
 void main()
 {
@@ -21,5 +22,5 @@ void main()
 
     vertexColor = aColor;
 
-    gl_Position = cameraMatrix * worldPos;
+    gl_Position = projectionMatrix * viewMatrix * worldPos;
 }

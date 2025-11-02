@@ -38,4 +38,5 @@ public:
     glm::vec3 GetPosition() const;
     glm::quat GetRotation() const;
     glm::vec3 GetScale() const;
+    glm::vec3 GetForward() const { return rotation * glm::vec3(0, 0, -1); }
 };

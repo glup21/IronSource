@@ -103,9 +103,8 @@ void ShaderProgram::Update(Subject* caller)
     Camera* camera = dynamic_cast<Camera*>(caller);
     if (camera) 
     {
-        // We dont need to recalculate product of projection and view matrix on each thread
-        glm::mat4 cameraMatrix = camera->GetProjectionMatrix() * camera->GetViewMatrix();
-        SetUniform("cameraMatrix", cameraMatrix);
+        SetUniform("viewMatrix", camera->GetViewMatrix());
+        SetUniform("projectionMatrix", camera->GetProjectionMatrix());
     }
     if(auto* light = dynamic_cast<Light*>(caller))
     {
