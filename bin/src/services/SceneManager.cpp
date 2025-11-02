@@ -210,39 +210,34 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
     std::uniform_real_distribution<float> distPos(-50.0f, 50.0f);
     std::uniform_real_distribution<float> distScale(0.5f, 1.5f);
 
-    for (int i = 0; i < 400; ++i)
+    for (int i = 0; i < 400; i++)
     {
-        std::vector<IBasicTransform*> treeTransforms{
-            new Translation(glm::vec3(distPos(gen), 0.0f, distPos(gen))),
-            new Scale(glm::vec3(distScale(gen))),
-            new Rotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f))
-        };
-        objects.push_back(std::make_shared<GameObject>("tree", meshes[5], new Transform(treeTransforms)));
+        Transform* treeTransform = new Transform();
+        treeTransform->SetPosition(glm::vec3(distPos(gen), 0.0f, distPos(gen)));
+        treeTransform->SetScale(glm::vec3(distScale(gen)));
+        treeTransform->SetRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
+        objects.push_back(std::make_shared<GameObject>("tree", meshes[5], treeTransform));
     }
 
-    for (int i = 0; i < 1600; ++i)
+    for (int i = 0; i < 2500; i++)
     {
-        std::vector<IBasicTransform*> bushTransforms{
-            new Translation(glm::vec3(distPos(gen), 0.0f, distPos(gen))),
-            new Scale(glm::vec3(distScale(gen) * 2.0f)),
-            new Rotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f))
-        };
-        objects.push_back(std::make_shared<GameObject>("bush", meshes[0], new Transform(bushTransforms)));
+        Transform* bushTransform = new Transform();
+        bushTransform->SetPosition(glm::vec3(distPos(gen), 0.0f, distPos(gen)));
+        bushTransform->SetScale(glm::vec3(distScale(gen) * 2.0f));
+        bushTransform->SetRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
+        objects.push_back(std::make_shared<GameObject>("bush", meshes[0], bushTransform));
     }
 
-    std::vector<IBasicTransform*> plainTransforms{
-        new Translation(glm::vec3(0.0f, -0.01f, 0.0f)),
-        new Scale(glm::vec3(50.0f, 1.0f, 50.0f))
-    };
-    objects.push_back(std::make_shared<GameObject>("plain", meshes[2], new Transform(plainTransforms)));
+    Transform* plainTransform = new Transform();
+    plainTransform->SetPosition(glm::vec3(0.0f, -0.01f, 0.0f));
+    plainTransform->SetScale(glm::vec3(50.0f, 1.0f, 50.0f));
+    objects.push_back(std::make_shared<GameObject>("plain", meshes[2], plainTransform));
 
-
-    std::vector<IBasicTransform*> carTransforms{
-        new Translation(glm::vec3(distPos(gen), 0.0f, distPos(gen))),
-        new Scale(glm::vec3(0.001)),
-        new Rotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f))
-    };
-    objects.push_back(std::make_shared<GameObject>("Car", meshes[6], new Transform(carTransforms)));
+    Transform* carTransform = new Transform();
+    carTransform->SetPosition(glm::vec3(distPos(gen), 0.0f, distPos(gen)));
+    carTransform->SetScale(glm::vec3(0.001));
+    carTransform->SetRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
+    objects.push_back(std::make_shared<GameObject>("Car", meshes[6], carTransform));
 
     std::vector<std::unique_ptr<Light>> lights;
     // lights.push_back(std::make_unique<PointLight>(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(35.0f, 15.0f, 5.0f))}), glm::vec3(1.0f, 0.0f, 0.0f), 1.0f, 0.09f, 0.032f));

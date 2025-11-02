@@ -10,7 +10,7 @@ private:
     glm::vec3 eye;
     glm::vec3 up;
 
-    float fov = 135.0f;
+    float fov = 60.0f;
     float width = 800.0f;
     float height = 600.0f;
 

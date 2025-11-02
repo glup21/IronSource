@@ -18,7 +18,7 @@ LightType SpotLight::GetType() const
 
 glm::vec3 SpotLight::GetPosition()
 {
-    glm::mat4 matrix = transform->GetTransformMatrix();
+    glm::mat4 matrix = transform->GetWorldMatrix();
     return glm::vec3(matrix[3]);
 }
 

@@ -18,7 +18,7 @@ LightType PointLight::GetType() const
 
 glm::vec3 PointLight::GetPosition()
 {
-    glm::mat4 matrix = transform->GetTransformMatrix();
+    glm::mat4 matrix = transform->GetWorldMatrix();
     return glm::vec3(matrix[3]);
 }
 

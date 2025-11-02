@@ -23,7 +23,7 @@ void GameObject::Render()
 {
     if(renderTarget != nullptr && transform != nullptr)
     {
-        glm::mat4 modelMatrix = transform->GetTransformMatrix();
+        glm::mat4 modelMatrix = transform->GetWorldMatrix();
         renderTarget->Render(modelMatrix); 
     }
 }
