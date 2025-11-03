@@ -3,8 +3,9 @@
 #include "headers/services/GlobalConfig.hpp"
 #include <tiny_obj_loader.h>
 #include <spdlog/spdlog.h>
+#include "headers/services/MaterialFactory.hpp"
 
-Mesh* MeshFactory::LoadSphere()
+Mesh* MeshFactory::LoadSphere(std::string vertexShaderPath, std::string fragmentShaderPath)
 {
     std::vector<glm::vec3> positions;
     std::vector<glm::vec3> colors;
@@ -17,8 +18,13 @@ Mesh* MeshFactory::LoadSphere()
         positions.emplace_back(sphere[i], sphere[i + 1], sphere[i + 2]);
         colors.emplace_back(sphere[i + 3], sphere[i + 4], sphere[i + 5]);
     }
-    Mesh* mesh = new Mesh(positions, colors, colors);
-    mesh->Init(&ShaderLibrary::GetInstance(), GlobalConfig::GetDefaultVertexShaderPath(), GlobalConfig::GetDefaultFragmentShaderPath());
+    std::string vertexShader = vertexShaderPath.empty() 
+        ? GlobalConfig::GetDefaultVertexShaderPath() 
+        : vertexShaderPath;
+    std::string fragmentShader = fragmentShaderPath.empty() 
+        ? GlobalConfig::GetDefaultFragmentShaderPath() 
+        : fragmentShaderPath;
+    Mesh* mesh = new Mesh(positions, colors, colors, MaterialFactory::GetMaterial(vertexShaderPath, fragmentShaderPath));
     return mesh;
 }
 
@@ -43,7 +49,7 @@ std::vector<Mesh*> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(bushes[i + 3], bushes[i + 4], bushes[i + 5]);
     }
 
-    meshes.push_back(new Mesh(positions, colors, normals));
+    meshes.push_back(new Mesh(positions, colors, normals, MaterialFactory::GetMaterial()));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -61,7 +67,7 @@ std::vector<Mesh*> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(gift[i + 3], gift[i + 4], gift[i + 5]);
     }
 
-    meshes.push_back(new Mesh(positions, colors, normals));
+    meshes.push_back(new Mesh(positions, colors, normals, MaterialFactory::GetMaterial()));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -80,7 +86,7 @@ std::vector<Mesh*> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(plain[i + 3], plain[i + 4], plain[i + 5]);
     }
 
-    meshes.push_back(new Mesh(positions, colors, normals));
+    meshes.push_back(new Mesh(positions, colors, normals, MaterialFactory::GetMaterial()));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -99,7 +105,7 @@ std::vector<Mesh*> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(suziFlat[i + 3], suziFlat[i + 4], suziFlat[i + 5]);
     }
 
-    meshes.push_back(new Mesh(positions, colors, normals));
+    meshes.push_back(new Mesh(positions, colors, normals, MaterialFactory::GetMaterial()));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -118,7 +124,7 @@ std::vector<Mesh*> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(suziSmooth[i + 3], suziSmooth[i + 4], suziSmooth[i + 5]);
     }
 
-    meshes.push_back(new Mesh(positions, colors, normals));
+    meshes.push_back(new Mesh(positions, colors, normals, MaterialFactory::GetMaterial()));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -137,15 +143,10 @@ std::vector<Mesh*> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(tree[i + 3], tree[i + 4], tree[i + 5]);
     }
 
-    meshes.push_back(new Mesh(positions, colors, normals));
+    meshes.push_back(new Mesh(positions, colors, normals, MaterialFactory::GetMaterial()));
     positions.clear();
     colors.clear();
     normals.clear();
-
-    for(auto mesh : meshes)
-    {
-        mesh->Init(&ShaderLibrary::GetInstance(), GlobalConfig::GetDefaultVertexShaderPath(), GlobalConfig::GetDefaultFragmentShaderPath());
-    }
 
     return meshes;
 }
@@ -188,9 +189,10 @@ Mesh* MeshFactory::LoadFromFile(std::string filePath)
         materials.size()
     );
 
-    Mesh* mesh = new Mesh();
+    std::vector<glm::vec3> positions;
+    std::vector<glm::vec3> normals;
 
-    for (const auto& shape : shapes)
+    for (auto shape : shapes)
     {
         spdlog::debug("Processing shape: {}", shape.name);
 
@@ -207,8 +209,9 @@ Mesh* MeshFactory::LoadFromFile(std::string filePath)
                     attributes.vertices[3 * index.vertex_index + 1],
                     attributes.vertices[3 * index.vertex_index + 2]
                 );
+                positions.push_back(position);
             }
-
+            
             if (index.normal_index >= 0)
             {
                 normal = glm::vec3(
@@ -216,6 +219,7 @@ Mesh* MeshFactory::LoadFromFile(std::string filePath)
                     attributes.normals[3 * index.normal_index + 1],
                     attributes.normals[3 * index.normal_index + 2]
                 );
+                normals.push_back(normal);
             }
 
             // if (index.texcoord_index >= 0)
@@ -227,12 +231,11 @@ Mesh* MeshFactory::LoadFromFile(std::string filePath)
             // }
 
             // Place texture coordinate here later
-            mesh->AddVertex(position, normal, glm::vec3(1.0));
+            //mesh->AddVertex(position, normal, glm::vec3(1.0));
         }
     }
 
-    mesh->Init(&ShaderLibrary::GetInstance(), GlobalConfig::GetDefaultVertexShaderPath(), GlobalConfig::GetDefaultFragmentShaderPath());
-
+    Mesh* mesh = new Mesh(positions, normals, normals, MaterialFactory::GetMaterial());
     spdlog::info("Finished processing OBJ mesh: {}", filePath);
     return mesh;
 }

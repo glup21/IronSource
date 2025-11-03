@@ -8,7 +8,7 @@
 #include "headers/gameobject/Firefly.hpp"
 #include "headers/services/LightFactory.hpp"
 #include "headers/services/MeshFactory.hpp"
-
+#include "headers/services/MaterialFactory.hpp"
 #include <spdlog/spdlog.h>
 
 std::shared_ptr<Scene> SceneManager::GetFirstScene(std::shared_ptr<ShaderLibrary> shaderLibrary)
@@ -20,13 +20,12 @@ std::shared_ptr<Scene> SceneManager::GetFirstScene(std::shared_ptr<ShaderLibrary
             {0.5f, -0.5f, 0.0f},
             {-0.5f, -0.5f, 0.0f} },
         std::vector<glm::vec3>{ {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} },
-        std::vector<glm::vec3>{ {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} }
+        std::vector<glm::vec3>{ {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} },
+        MaterialFactory::GetMaterial()
     );
 
     std::string vertexShaderPath = "./bin/shaders/vertexShader.vert";
     std::string fragmentShaderPath = "./bin/shaders/firstFragmentShader.frag";
-
-    firstMesh->Init(shaderLibrary.get(), vertexShaderPath, fragmentShaderPath);
 
     std::vector<IBasicTransform*> firstObjectTransforms;
     firstObjectTransforms.push_back(new Translation(glm::vec3{0.0, 0.0, 0.0}));
@@ -60,7 +59,6 @@ std::shared_ptr<Scene> SceneManager::GetSecondScene(std::shared_ptr<ShaderLibrar
     // }
 
     // For testing multiple shader programs and transforms (replace with text reading later)
-    sphereMesh->Init(shaderLibrary.get(), vertexShaderPath, fragmentShaderPath);
 
 
     std::vector<IBasicTransform*> firstObjectTransforms;
@@ -115,13 +113,6 @@ std::shared_ptr<Scene> SceneManager::GetThirdScene(std::shared_ptr<ShaderLibrary
         "./bin/shaders/fragmentShaderBlinn.frag",
         "./bin/shaders/fragmentShaderBlinn.frag"
     };
-
-    for (size_t i = 0; i < meshes.size(); ++i)
-    {
-        std::string fragPath = fragmentShaderPaths[i % fragmentShaderPaths.size()];
-        meshes[i]->Init(shaderLibrary.get(), vertexShaderPath, fragPath);
-        spdlog::info("Initialized mesh {} with shader: {}", i, fragPath);
-    }
 
     std::vector<IBasicTransform*> firstObjectTransforms{
         new Translation(glm::vec3{0.5, -0.25, 0.0}),
@@ -231,14 +222,38 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
     car->transform->SetRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
     objects.push_back(std::shared_ptr<GameObject>(car));
 
-    auto fireflyTransform = new Transform();
-    fireflyTransform->SetPosition(glm::vec3(0.0f, 10.0f, 0.0f));
-    auto firefly = new Firefly(fireflyTransform, 50.0f,glm::vec3(1.0, 1.0, 0.0), 3.0f, 0.09f, 0.032f, 7.5f);
-    objects.push_back(std::shared_ptr<Firefly>(firefly));
+    std::uniform_real_distribution<float> posDist(-10.0f, 10.0f);
+    std::uniform_real_distribution<float> heightDist(9.0f, 12.0f);
+    std::uniform_real_distribution<float> intensityDist(0.5f, 0.75f);
+    std::uniform_real_distribution<float> klDist(0.2f, 0.4f);
+    std::uniform_real_distribution<float> kqDist(0.08f, 0.15f);
+    std::uniform_real_distribution<float> colorShift(0.8f, 1.0f);
+
+    for (int i = 0; i < 10; ++i)
+    {
+        auto fireflyTransform = new Transform();
+        fireflyTransform->SetPosition(glm::vec3(posDist(gen), heightDist(gen), posDist(gen)));
+
+        glm::vec3 color = glm::vec3(1.0f, colorShift(gen), 0.3f + 0.2f * colorShift(gen));
+
+        float intensity = intensityDist(gen);
+        float k_l = klDist(gen);
+        float k_q = kqDist(gen);
+
+        auto firefly = new Firefly(
+            fireflyTransform,
+            10.0f,     
+            color,
+            intensity,
+            k_l,
+            k_q,
+            7.5f      
+        );
+
+        objects.push_back(std::shared_ptr<Firefly>(firefly));
+    }
 
     std::vector<std::unique_ptr<Light>> lights;
-
-    
     lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(35.0f, 15.0f, 5.0f))}), 
         glm::vec3(1.0f, 0.0f, 0.0f), 1.0f, 0.09f, 0.032f)));
     lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(-25.0f, 10.0f, -5.0f))}), 

@@ -18,7 +18,7 @@ std::shared_ptr<ShaderProgram> ShaderLibrary::GetShaderProgram(std::string verte
     auto vertexShader = GetShader(vertexShaderPath, GL_VERTEX_SHADER);
     auto fragmentShader = GetShader(fragmentShaderPath, GL_FRAGMENT_SHADER);
     auto shaderProgram = std::make_shared<ShaderProgram>(vertexShader, fragmentShader);
-    shaderProgram->LinkShaderProgram();
+    shaderProgram->Link();
 
     shaderPrograms[key] = shaderProgram;
     return shaderProgram;

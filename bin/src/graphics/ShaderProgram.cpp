@@ -11,7 +11,7 @@ ShaderProgram::ShaderProgram(std::shared_ptr<Shader> vertexShader, std::shared_p
     this->fragmentShader = fragmentShader;
 }
 
-void ShaderProgram::LinkShaderProgram()
+void ShaderProgram::Link()
 {
     
     spdlog::info("Linking shader program");
@@ -41,7 +41,7 @@ void ShaderProgram::LinkShaderProgram()
     }
 }
 
-void ShaderProgram::UseShaderProgram()
+void ShaderProgram::Use()
 {
     glUseProgram(this->shaderProgramId);
 }

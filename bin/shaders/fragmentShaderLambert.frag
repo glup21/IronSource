@@ -11,14 +11,11 @@ out vec4 fragColor;
 
 void main()
 {
-    // Normalize vectors
     vec3 N = normalize(fragNormal);
     vec3 L = normalize(lightPos - fragPos);
 
-    // Diffuse lighting
     float diff = max(dot(N, L), 0.0);
 
-    // Combine light and vertex color
     vec3 result = lightColor * vertexColor * diff;
 
     fragColor = vec4(result, 1.0);

@@ -27,8 +27,8 @@ private:
 public:
     ShaderProgram(std::shared_ptr<Shader> vertexShader, std::shared_ptr<Shader> fragmentShader);
 
-    void LinkShaderProgram();
-    void UseShaderProgram();
+    void Link();
+    void Use();
 
     void SetUniform(std::string name, glm::mat4 matrix4);
     void SetUniform(std::string name, glm::vec3 vec);
