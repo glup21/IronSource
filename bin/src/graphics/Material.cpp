@@ -8,6 +8,10 @@ Material::Material(std::shared_ptr<ShaderProgram> shaderProgram) : shaderProgram
 void Material::Use()
 {
     this->shaderProgram->Use();
+
+    // Color texture
+    this->colorTexture->Use(GL_TEXTURE0);
+    this->shaderProgram->SetUniform("colorTexture", 0);
 }
 
 void Material::SetTransformMatrix(glm::mat4 transformMatrix)

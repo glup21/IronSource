@@ -14,5 +14,8 @@ std::shared_ptr<Texture> TextureFactory::GetTexture(std::string texturePath)
     unsigned char* data = stbi_load(texturePath.c_str(), &width, &height, &channels, 0);
 
     auto texture = std::make_shared<Texture>(data, width, height, channels);
+    this->textures[texturePath] = texture;
+    stbi_image_free(data);
+    
     return texture;
 }
