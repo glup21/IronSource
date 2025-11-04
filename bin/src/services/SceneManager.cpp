@@ -14,7 +14,7 @@
 std::shared_ptr<Scene> SceneManager::GetFirstScene(std::shared_ptr<ShaderLibrary> shaderLibrary)
 {
     // Replace later with initialization from text files
-    auto firstMesh = new Mesh(
+    auto firstMesh = std::make_shared<SimpleMesh>(
         std::vector<glm::vec3>{ 
             {0.0f, 0.5f, 0.0f},
             {0.5f, -0.5f, 0.0f},
@@ -96,16 +96,17 @@ std::shared_ptr<Scene> SceneManager::GetSecondScene(std::shared_ptr<ShaderLibrar
 
 std::shared_ptr<Scene> SceneManager::GetThirdScene(std::shared_ptr<ShaderLibrary> shaderLibrary)
 {
-    auto meshes = MeshFactory::LoadAllPredefinedModels();
-    meshes.push_back(MeshFactory::LoadFromFile("./Models/formula2.obj"));
+    std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
+
+    std::vector<std::shared_ptr<SimpleMesh>> meshes = MeshFactory::LoadAllPredefinedModels();
+    renderTargets.reserve(meshes.size() + 1);
+    renderTargets.push_back(MeshFactory::LoadFromFile("./Models/formula2.obj"));
+    for (auto& mesh : meshes)
+    {
+        renderTargets.push_back(mesh); 
+    }
 
     std::string vertexShaderPath = "./bin/shaders/vertexShader.vert";
-    // std::vector<std::string> fragmentShaderPaths = {
-    //     "./bin/shaders/fragmentShaderConstant.frag",
-    //     "./bin/shaders/fragmentShaderLambert.frag",
-    //     "./bin/shaders/fragmentShaderPhong.frag",
-    //     "./bin/shaders/fragmentShaderBlinn.frag"
-    // };
 
     std::vector<std::string> fragmentShaderPaths = {
         "./bin/shaders/fragmentShaderBlinn.frag",
@@ -164,13 +165,13 @@ std::shared_ptr<Scene> SceneManager::GetThirdScene(std::shared_ptr<ShaderLibrary
     ));
     auto scene = std::make_shared<Scene>(
         std::vector<std::shared_ptr<GameObject>>{
-            std::make_shared<GameObject>("firstSphere", meshes[0], new Transform(firstObjectTransforms)),
-            std::make_shared<GameObject>("secondSphere", meshes[1], new Transform(secondObjectTransforms)),
-            std::make_shared<GameObject>("thirdSphere", meshes[2], new Transform(thirdObjectTransforms)),
-            std::make_shared<GameObject>("forthSphere", meshes[3], new Transform(forthObjectTransforms)),
-            std::make_shared<GameObject>("fifthSphere", meshes[4], new Transform(fifthObjectTransforms)),
-            std::make_shared<GameObject>("sixthSphere", meshes[5], new Transform(sixthObjectTransforms)),
-            std::make_shared<GameObject>("Car", meshes[6], new Transform(sixthObjectTransforms))
+            std::make_shared<GameObject>("firstSphere", renderTargets[0], new Transform(firstObjectTransforms)),
+            std::make_shared<GameObject>("secondSphere", renderTargets[1], new Transform(secondObjectTransforms)),
+            std::make_shared<GameObject>("thirdSphere", renderTargets[2], new Transform(thirdObjectTransforms)),
+            std::make_shared<GameObject>("forthSphere", renderTargets[3], new Transform(forthObjectTransforms)),
+            std::make_shared<GameObject>("fifthSphere", renderTargets[4], new Transform(fifthObjectTransforms)),
+            std::make_shared<GameObject>("sixthSphere", renderTargets[5], new Transform(sixthObjectTransforms)),
+            std::make_shared<GameObject>("Car", renderTargets[6], new Transform(sixthObjectTransforms))
         },
         std::move(lights)
     );
@@ -181,8 +182,15 @@ std::shared_ptr<Scene> SceneManager::GetThirdScene(std::shared_ptr<ShaderLibrary
 
 std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary> shaderLibrary)
 {
-    auto meshes = MeshFactory::LoadAllPredefinedModels();
-    meshes.push_back(MeshFactory::LoadFromFile("./Models/formula2.obj"));
+    std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
+
+    std::vector<std::shared_ptr<SimpleMesh>> meshes = MeshFactory::LoadAllPredefinedModels();
+    renderTargets.reserve(meshes.size() + 1);  
+    for (auto& mesh : meshes)
+    {
+        renderTargets.push_back(mesh); 
+    }
+    renderTargets.push_back(MeshFactory::LoadFromFile("./Models/formula2.obj"));
 
     std::vector<std::shared_ptr<GameObject>> objects;
 
@@ -193,7 +201,7 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
 
     for (int i = 0; i < 400; i++)
     {
-        auto tree = new GameObject("tree", meshes[5]);
+        auto tree = new GameObject("tree", renderTargets[5]);
         tree->transform->SetPosition(glm::vec3(distPos(gen), 0.0f, distPos(gen)));
         tree->transform->SetScale(glm::vec3(distScale(gen)));
         tree->transform->SetRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
@@ -203,7 +211,7 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
 
     for (int i = 0; i < 2500; i++)
     {
-        auto bush = new GameObject("bush", meshes[0]);
+        auto bush = new GameObject("bush", renderTargets[0]);
         bush->transform->SetPosition(glm::vec3(distPos(gen), 0.0f, distPos(gen)));
         bush->transform->SetScale(glm::vec3(distScale(gen) * 2.0f));
         bush->transform->SetRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
@@ -211,12 +219,12 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
         objects.push_back(std::shared_ptr<GameObject>(bush));
     }
 
-    auto plane = new GameObject("plain", meshes[2]);
+    auto plane = new GameObject("plain", renderTargets[2]);
     plane->transform->SetPosition(glm::vec3(0.0f, -0.01f, 0.0f));
     plane->transform->SetScale(glm::vec3(50.0f, 1.0f, 50.0f));
     objects.push_back(std::shared_ptr<GameObject>(plane));
 
-    auto car = new GameObject("Car", meshes[6]);
+    auto car = new GameObject("Car", renderTargets[6]);
     car->transform->SetPosition(glm::vec3(distPos(gen), 10.0f, distPos(gen)));
     car->transform->SetScale(glm::vec3(0.001));
     car->transform->SetRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));

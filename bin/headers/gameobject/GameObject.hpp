@@ -14,8 +14,8 @@ protected:
 public:
     std::unique_ptr<Transform> transform;
 
-    GameObject(std::string name, IRenderTarget* renderTarget, Transform* transform);
-    GameObject(std::string name, IRenderTarget* renderTarget);
+    GameObject(std::string name, std::shared_ptr<IRenderTarget> renderTarget, Transform* transform);
+    GameObject(std::string name, std::shared_ptr<IRenderTarget> renderTarget);
     GameObject(std::string name, Transform* transform);
     ~GameObject() = default;
 

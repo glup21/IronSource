@@ -1,6 +1,6 @@
 #include "headers/services/TextureFactory.hpp"
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include "lib/stb_image/stb_image.h"
 
 std::shared_ptr<Texture> TextureFactory::GetTexture(std::string texturePath)
 {

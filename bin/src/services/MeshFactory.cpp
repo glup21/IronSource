@@ -5,7 +5,11 @@
 #include <spdlog/spdlog.h>
 #include "headers/services/MaterialFactory.hpp"
 
-Mesh* MeshFactory::LoadSphere(std::string vertexShaderPath, std::string fragmentShaderPath)
+
+/*    static std::vector<std::shared_ptr<SimpleMesh>> LoadAllPredefinedModels();
+    static std::shared_ptr<SimpleMesh> LoadSphere(std::string vertexShaderPath = "", std::string fragmentShaderPath = "");
+    static std::shared_ptr<Mesh> LoadFromFile(std::string fileName);*/
+std::shared_ptr<SimpleMesh> MeshFactory::LoadSphere(std::string vertexShaderPath, std::string fragmentShaderPath)
 {
     std::vector<glm::vec3> positions;
     std::vector<glm::vec3> colors;
@@ -24,13 +28,13 @@ Mesh* MeshFactory::LoadSphere(std::string vertexShaderPath, std::string fragment
     std::string fragmentShader = fragmentShaderPath.empty() 
         ? GlobalConfig::GetDefaultFragmentShaderPath() 
         : fragmentShaderPath;
-    Mesh* mesh = new Mesh(positions, colors, colors, MaterialFactory::GetMaterial(vertexShaderPath, fragmentShaderPath));
+    auto mesh = std::make_shared<SimpleMesh>(positions, colors, colors, MaterialFactory::GetMaterial(vertexShaderPath, fragmentShaderPath));
     return mesh;
 }
 
-std::vector<Mesh*> MeshFactory::LoadAllPredefinedModels()
+std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels()
 {
-    vector<Mesh*> meshes;
+    std::vector<std::shared_ptr<SimpleMesh>> meshes;
     std::vector<glm::vec3> positions;
     std::vector<glm::vec3> colors;
     std::vector<glm::vec3> normals;
@@ -49,7 +53,7 @@ std::vector<Mesh*> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(bushes[i + 3], bushes[i + 4], bushes[i + 5]);
     }
 
-    meshes.push_back(new Mesh(positions, colors, normals, MaterialFactory::GetMaterial()));
+    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, MaterialFactory::GetMaterial()));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -67,7 +71,7 @@ std::vector<Mesh*> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(gift[i + 3], gift[i + 4], gift[i + 5]);
     }
 
-    meshes.push_back(new Mesh(positions, colors, normals, MaterialFactory::GetMaterial()));
+    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, MaterialFactory::GetMaterial()));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -86,7 +90,7 @@ std::vector<Mesh*> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(plain[i + 3], plain[i + 4], plain[i + 5]);
     }
 
-    meshes.push_back(new Mesh(positions, colors, normals, MaterialFactory::GetMaterial()));
+    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, MaterialFactory::GetMaterial()));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -105,7 +109,7 @@ std::vector<Mesh*> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(suziFlat[i + 3], suziFlat[i + 4], suziFlat[i + 5]);
     }
 
-    meshes.push_back(new Mesh(positions, colors, normals, MaterialFactory::GetMaterial()));
+    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, MaterialFactory::GetMaterial()));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -124,7 +128,7 @@ std::vector<Mesh*> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(suziSmooth[i + 3], suziSmooth[i + 4], suziSmooth[i + 5]);
     }
 
-    meshes.push_back(new Mesh(positions, colors, normals, MaterialFactory::GetMaterial()));
+    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, MaterialFactory::GetMaterial()));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -143,7 +147,7 @@ std::vector<Mesh*> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(tree[i + 3], tree[i + 4], tree[i + 5]);
     }
 
-    meshes.push_back(new Mesh(positions, colors, normals, MaterialFactory::GetMaterial()));
+    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, MaterialFactory::GetMaterial()));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -151,7 +155,7 @@ std::vector<Mesh*> MeshFactory::LoadAllPredefinedModels()
     return meshes;
 }
 
-Mesh* MeshFactory::LoadFromFile(std::string filePath)
+std::shared_ptr<Mesh> MeshFactory::LoadFromFile(std::string filePath)
 {
     spdlog::info("Loading OBJ model from path: {}", filePath);
 
@@ -235,7 +239,7 @@ Mesh* MeshFactory::LoadFromFile(std::string filePath)
         }
     }
 
-    Mesh* mesh = new Mesh(positions, normals, normals, MaterialFactory::GetMaterial());
+    auto mesh = std::make_shared<Mesh>(positions, normals, normals, MaterialFactory::GetMaterial());
     spdlog::info("Finished processing OBJ mesh: {}", filePath);
     return mesh;
 }

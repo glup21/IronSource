@@ -4,12 +4,11 @@
 #include <spdlog/spdlog.h>
 #include "headers/services/GlobalConfig.hpp"
 
-// REWRITE THIS MESS WITH NORMAL FACTORIES AND STOP PUSHING AROUND SHADER LIBRARY
 Firefly::Firefly(Transform* transform, float distance, glm::vec3 color, float intensity, float k_l, float k_q, float speed) 
     : GameObject(std::string("Firefly"), transform), distance(distance), speed(speed)
 {
     // Mesh
-    this->renderTarget = std::shared_ptr<Mesh>(MeshFactory::LoadSphere(GlobalConfig::GetDefaultVertexShaderPath(), "./bin/shaders/fragmentShaderFirefly.frag"));
+    this->renderTarget = std::shared_ptr<SimpleMesh>(MeshFactory::LoadSphere(GlobalConfig::GetDefaultVertexShaderPath(), "./bin/shaders/fragmentShaderFirefly.frag"));
     // Light
     this->light = std::shared_ptr<PointLight>(LightFactory::GetPointLight(transform, color, intensity, k_l, k_q));
 

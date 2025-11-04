@@ -41,10 +41,6 @@ Mesh::Mesh(vector<glm::vec3> vertices, vector<glm::vec3> color, vector<glm::vec3
 
 void Mesh::Render(glm::mat4 transformMatrix)
 {   
-    // Use shader program
-    //this->shaderProgram->UseShaderProgram();
-    // Yes I call modelMatrix as transformMatrix, for me its more intuitive 
-    //this->shaderProgram->SetUniform("transformMatrix", transformMatrix);
     this->material->Use();
     this->material->SetTransformMatrix(transformMatrix);
     // Bind VAO
@@ -54,40 +50,3 @@ void Mesh::Render(glm::mat4 transformMatrix)
     
     glBindVertexArray(0);
 }
-
-// Its a bit strange to pass path to shaders separately in Init method, but I dont want to see it in any IRenderTarget
-// children. So I need to create RenderTargetFactory or something, which will take input from json and init everything
-// void Mesh::Init(ShaderLibrary* shaderLibrary, std::string vertexShader, std::string fragmentShader)
-// {
-//     // this->shaderProgram = shaderLibrary->GetShaderProgram(vertexShader, fragmentShader);
-
-//     // glGenBuffers(1, &this->VBO);
-//     // glGenVertexArrays(1, &this->VAO);
-
-//     // glBindVertexArray(this->VAO);
-
-//     // glBindBuffer(GL_ARRAY_BUFFER, VBO);
-//     // glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(Vertex), this->vertices.data(), GL_STATIC_DRAW);
-
-//     // // Position 
-//     // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-//     // glEnableVertexAttribArray(0);
-
-//     // // Color 
-//     // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
-//     // glEnableVertexAttribArray(1);
-
-//     // // Normals
-//     // glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-//     // glEnableVertexAttribArray(2);
-
-//     // glEnableVertexAttribArray(0);
-
-//     // glBindVertexArray(0);
-// }
-
-// void Mesh::AddVertex(glm::vec3 vertex, glm::vec3 color, glm::vec3 normal)
-// {
-//     this->vertices.push_back(Vertex{vertex, color, normal});
-//     this->vertexCount++;
-// }

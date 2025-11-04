@@ -9,6 +9,7 @@
 #include "./Models/tree.h"
 #include "headers/graphics/Mesh.hpp"
 #include "headers/services/GlobalConfig.hpp"
+#include "headers/graphics/SimpleMesh.hpp"
 
 #include <vector>
 #include <string>
@@ -16,7 +17,7 @@
 class MeshFactory
 {
 public:
-    static std::vector<Mesh*> LoadAllPredefinedModels();
-    static Mesh* LoadSphere(std::string vertexShaderPath = "", std::string fragmentShaderPath = "");
-    static Mesh* LoadFromFile(std::string fileName);
+    static std::vector<std::shared_ptr<SimpleMesh>> LoadAllPredefinedModels();
+    static std::shared_ptr<SimpleMesh> LoadSphere(std::string vertexShaderPath = "", std::string fragmentShaderPath = "");
+    static std::shared_ptr<Mesh> LoadFromFile(std::string fileName);
 };

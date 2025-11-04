@@ -1,4 +1,5 @@
 #pragma once
+#include "headers/pch.hpp"
 
 class Texture
 {
