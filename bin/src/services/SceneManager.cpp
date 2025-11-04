@@ -184,7 +184,7 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
     {
         renderTargets.push_back(mesh); 
     }
-    renderTargets.push_back(MeshFactory::LoadFromFile("./Models/formula2.obj"));
+    renderTargets.push_back(MeshFactory::LoadFromFile("./Models/shrek.obj"));
 
     std::vector<std::shared_ptr<GameObject>> objects;
 
@@ -220,7 +220,7 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
 
     auto car = new GameObject("Car", renderTargets[6]);
     car->transform->SetPosition(glm::vec3(distPos(gen), 10.0f, distPos(gen)));
-    car->transform->SetScale(glm::vec3(0.001));
+    car->transform->SetScale(glm::vec3(10.0));
     car->transform->SetRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
     objects.push_back(std::shared_ptr<GameObject>(car));
 
@@ -262,11 +262,11 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
         glm::vec3(0.0f, 1.0f, 1.0f), 2.0f, 0.09f, 0.032f)));
     lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), 
         glm::vec3(0.0f, 0.0f, 1.0f), 3.0f, 0.09f, 0.032f)));
-    lights.push_back(std::unique_ptr<AmbientLight>(LightFactory::GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f)));
+    lights.push_back(std::unique_ptr<AmbientLight>(LightFactory::GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 1.1f)));
     lights.push_back(std::unique_ptr<DirectionalLight>(LightFactory::GetDirectionalLight(
         glm::vec3(0.6f, 0.7f, 1.0f),
         glm::vec3(-0.3f, -1.0f, -0.5f), 
-        0.025f 
+        1.025f 
     )));
     // lights.push_back(std::make_unique<SpotLight>(new Transform(
     //     std::vector<IBasicTransform*>{new Translation(glm::vec3(5.0f, 10.0f, 5.0f))}),

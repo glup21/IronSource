@@ -17,7 +17,10 @@ void Material::Use()
         this->colorTexture->Use(GL_TEXTURE0);
         this->shaderProgram->SetUniform("colorTexture", 0);
     }
-
+    this->shaderProgram->SetUniform("materialAmbient", this->ambient);
+    this->shaderProgram->SetUniform("materialDiffuse", this->diffuse);
+    this->shaderProgram->SetUniform("materialSpecular", this->specular);
+    this->shaderProgram->SetUniform("materialShinnines", this->shininess);
 }
 
 void Material::SetTransformMatrix(glm::mat4 transformMatrix)

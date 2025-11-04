@@ -44,11 +44,13 @@ struct SpotLight
     float outerCutOff; 
 };
 
+// Lights number
 uniform int numPointLights;
 uniform int numAmbientLights;
 uniform int numDirectionalLights;
 uniform int numSpotLights;
 
+// Light arrays
 uniform PointLight pointLights[MAX_POINT_LIGHTS];
 uniform AmbientLight ambientLights[MAX_AMBIENT_LIGHTS];
 uniform DirectionalLight directionalLights[MAX_DIRECTIONAL_LIGHTS];
@@ -56,6 +58,11 @@ uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
 
 uniform vec3 viewPos;
 uniform sampler2D colorTexture;
+
+uniform vec3 materialAmbient;
+uniform vec3 materialDiffuse;
+uniform vec3 materialSpecular;
+uniform float materialShinnines;
 
 in vec3 fragNormal;
 in vec3 fragPos;
@@ -72,7 +79,7 @@ void main()
     for (int i = 0; i < MAX_AMBIENT_LIGHTS; i++)
     {
         AmbientLight light = ambientLights[i];
-        result += light.color * light.intensity;
+        result += light.color * light.intensity * materialAmbient;
     }
 
     for (int i = 0; i < MAX_POINT_LIGHTS; i++)
@@ -82,13 +89,13 @@ void main()
         vec3 L = normalize(light.position - fragPos);
         float diff = max(dot(N, L), 0.0);
         vec3 H = normalize(L + V);
-        float spec = pow(max(dot(N, H), 0.0), 2.0);
+        float spec = pow(max(dot(N, H), 0.0), materialShinnines);
 
         float distance = length(light.position - fragPos);
         float attenuation = 1.0 / (1.0 + light.k_l * distance + light.k_q * distance * distance);
 
-        vec3 diffuse = diff * light.color * light.intensity * attenuation;
-        vec3 specular = spec * light.color * 0.5 * attenuation;
+        vec3 diffuse = diff * light.color * light.intensity * attenuation * materialDiffuse;
+        vec3 specular = spec * light.color * 0.5 * attenuation * materialSpecular;
 
         result += diffuse + specular;
     }
@@ -101,10 +108,10 @@ void main()
 
         float diff = max(dot(N, L), 0.0);           
         vec3 H = normalize(L + V);                 
-        float spec = pow(max(dot(N, H), 0.0), 2.0);
+        float spec = pow(max(dot(N, H), 0.0), materialShinnines);
 
-        vec3 diffuse = diff * light.color * light.intensity;
-        vec3 specular = spec * light.color * 0.5;
+        vec3 diffuse = diff * light.color * light.intensity* materialDiffuse;
+        vec3 specular = spec * light.color * 0.5 * materialSpecular;
 
         result += diffuse + specular;
     }
@@ -116,7 +123,7 @@ void main()
         vec3 L = normalize(light.position - fragPos);
         float diff = max(dot(N, L), 0.0);
         vec3 H = normalize(L + V);
-        float spec = pow(max(dot(N, H), 0.0), 32.0);
+        float spec = pow(max(dot(N, H), 0.0), materialShinnines);
 
         float distance = length(light.position - fragPos);
         float attenuation = 1.0 / (1.0 + light.k_l * distance + light.k_q * distance * distance);
@@ -125,8 +132,8 @@ void main()
         float epsilon = light.cutOff - light.outerCutOff;
         float intensityFactor = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
 
-        vec3 diffuse = diff * light.color * light.intensity * attenuation * intensityFactor;
-        vec3 specular = spec * light.color * 0.5 * attenuation * intensityFactor;
+        vec3 diffuse = diff * light.color * light.intensity * attenuation * materialDiffuse * intensityFactor;
+        vec3 specular = spec * light.color * 0.5 * attenuation * materialSpecular;
 
         result += diffuse + specular;
     }
