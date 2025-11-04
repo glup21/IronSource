@@ -38,8 +38,6 @@ void Firefly::Update(float deltaTime)
     glm::vec3 newPos = currentPos + dir * this->speed * deltaTime;
 
     this->transform->SetPosition(newPos);
-    spdlog::info("Firefly moved to ({:.2f}, {:.2f}, {:.2f})", 
-                 newPos.x, newPos.y, newPos.z);
 
     this->light->Update();
 }

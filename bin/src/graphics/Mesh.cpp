@@ -2,17 +2,29 @@
 #include <iostream>
 #include "headers/pch.hpp"
 
-
-Mesh::Mesh(vector<glm::vec3> vertices, vector<glm::vec3> color, vector<glm::vec3> normals, std::shared_ptr<Material> material)
+Mesh::Mesh(vector<glm::vec3> vertices, vector<glm::vec3> normal, vector<glm::vec2> texCoord, std::shared_ptr<Material> material)
     : material(material)
 {
-    int count = std::min(vertices.size(), color.size());
+    int count = std::min(vertices.size(), normal.size());
+    count = std::min((size_t)count, texCoord.size());
+
     this->vertexCount = vertices.size();
     for (int i = 0; i < count; i++) 
     {
-        this->vertices.push_back(Vertex{vertices[i], color[i], normals[i]});
+        this->vertices.push_back(Vertex{vertices[i], normal[i], texCoord[i]});
     }
 
+    Init();
+}
+
+Mesh::Mesh(vector<Vertex> vertices, std::shared_ptr<Material> material)
+    : vertices(vertices), material(material), vertexCount(vertices.size())
+{
+    Init();
+}
+
+void Mesh::Init()
+{
     glGenBuffers(1, &this->VBO);
     glGenVertexArrays(1, &this->VAO);
 
@@ -25,18 +37,17 @@ Mesh::Mesh(vector<glm::vec3> vertices, vector<glm::vec3> color, vector<glm::vec3
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
     glEnableVertexAttribArray(0);
 
-    // Color 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+    // Normals 
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
     glEnableVertexAttribArray(1);
 
-    // Normals
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+    // TexCoords
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
     glEnableVertexAttribArray(2);
 
     glEnableVertexAttribArray(0);
 
     glBindVertexArray(0);
-
 }
 
 void Mesh::Render(glm::mat4 transformMatrix)

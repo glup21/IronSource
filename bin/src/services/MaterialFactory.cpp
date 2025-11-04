@@ -10,3 +10,8 @@ std::shared_ptr<Material> MaterialFactory::GetMaterial(std::string vertexShaderP
 
     return std::make_shared<Material>(shaderProgram);
 }
+
+std::shared_ptr<Material> MaterialFactory::GetMaterialFromMtl(const tinyobj::material_t& materials)
+{
+
+}

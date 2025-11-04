@@ -1,4 +1,4 @@
-#define TINYOBJLOADER_IMPLEMENTATION
+#define TINYOBJLOADER_USE_FLOAT
 #include "headers/services/MeshFactory.hpp"
 #include "headers/services/GlobalConfig.hpp"
 #include <tiny_obj_loader.h>
@@ -155,91 +155,95 @@ std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels()
     return meshes;
 }
 
-std::shared_ptr<Mesh> MeshFactory::LoadFromFile(std::string filePath)
+std::shared_ptr<Model> MeshFactory::LoadFromFile(std::string filePath)
 {
     spdlog::info("Loading OBJ model from path: {}", filePath);
 
-    tinyobj::attrib_t attributes;
-    std::vector<tinyobj::shape_t> shapes;
-    std::vector<tinyobj::material_t> materials;
-    std::string warningMessage, errorMessage;
+    tinyobj::ObjReaderConfig config;
+    config.mtl_search_path = "./Models/"; 
+    tinyobj::ObjReader reader;
 
-    bool success = tinyobj::LoadObj(
-        &attributes,
-        &shapes,
-        &materials,
-        &warningMessage,
-        &errorMessage,
-        filePath.c_str(),
-        nullptr, 
-        true     
-    );
-
-    if (!warningMessage.empty())
-        spdlog::warn("TinyObjLoader warning: {}", warningMessage);
-
-    if (!errorMessage.empty())
-        spdlog::error("TinyObjLoader error: {}", errorMessage);
-
-    if (!success)
-    {
-        spdlog::critical("Failed to load OBJ file: {}", filePath);
+    if (!reader.ParseFromFile(filePath, config)) {
+        spdlog::error("TinyObjReader failed: {}", reader.Error());
         return nullptr;
     }
 
-    spdlog::info("OBJ loaded successfully. Found {} vertices, {} shapes, {} materials.",
-        attributes.vertices.size() / 3,
+    if (!reader.Warning().empty())
+        spdlog::warn("TinyObjLoader warning: {}", reader.Warning());
+
+    const auto& attrib = reader.GetAttrib();
+    const auto& shapes = reader.GetShapes();
+    const auto& materials = reader.GetMaterials();
+
+    spdlog::info("OBJ loaded: {} vertices, {} shapes, {} materials",
+        attrib.vertices.size() / 3,
         shapes.size(),
         materials.size()
     );
 
-    std::vector<glm::vec3> positions;
-    std::vector<glm::vec3> normals;
+    std::shared_ptr<Model> model = std::make_shared<Model>();
 
-    for (auto shape : shapes)
+    for (const auto& shape : shapes)
     {
         spdlog::debug("Processing shape: {}", shape.name);
 
-        for (const auto& index : shape.mesh.indices)
+        // Map material to list of vertices
+        std::map<int, std::vector<Vertex>> materialToVertices;
+
+        size_t faceOffset = 0;
+        for (size_t faceIndex = 0; faceIndex < shape.mesh.num_face_vertices.size(); faceIndex++)
         {
-            glm::vec3 position(0.0f);
-            glm::vec3 normal(0.0f);
-            //glm::vec2 texCoord(0.0f);
+            int faceVertexCount = shape.mesh.num_face_vertices[faceIndex];
+            int matId = shape.mesh.material_ids[faceIndex];
 
-            if (index.vertex_index >= 0)
+            for (size_t vertexIndex = 0; vertexIndex < faceVertexCount; vertexIndex++)
             {
-                position = glm::vec3(
-                    attributes.vertices[3 * index.vertex_index + 0],
-                    attributes.vertices[3 * index.vertex_index + 1],
-                    attributes.vertices[3 * index.vertex_index + 2]
+                tinyobj::index_t idx = shape.mesh.indices[faceOffset + vertexIndex];
+                Vertex vertex;
+
+                // Position
+                vertex.vertex = glm::vec3(
+                    static_cast<float>(attrib.vertices[3 * idx.vertex_index + 0]),
+                    static_cast<float>(attrib.vertices[3 * idx.vertex_index + 1]),
+                    static_cast<float>(attrib.vertices[3 * idx.vertex_index + 2])
                 );
-                positions.push_back(position);
-            }
-            
-            if (index.normal_index >= 0)
-            {
-                normal = glm::vec3(
-                    attributes.normals[3 * index.normal_index + 0],
-                    attributes.normals[3 * index.normal_index + 1],
-                    attributes.normals[3 * index.normal_index + 2]
-                );
-                normals.push_back(normal);
+
+                // Normal
+                if (idx.normal_index >= 0)
+                    vertex.normal = glm::vec3(
+                        static_cast<float>(attrib.normals[3 * idx.normal_index + 0]),
+                        static_cast<float>(attrib.normals[3 * idx.normal_index + 1]),
+                        static_cast<float>(attrib.normals[3 * idx.normal_index + 2])
+                    );
+                else
+                    vertex.normal = glm::vec3(0.0f);
+
+                // TexCoord
+                if (idx.texcoord_index >= 0)
+                    vertex.texCoord = glm::vec2(
+                        static_cast<float>(attrib.texcoords[2 * idx.texcoord_index + 0]),
+                        static_cast<float>(attrib.texcoords[2 * idx.texcoord_index + 1])
+                    );
+                else
+                    vertex.texCoord = glm::vec2(0.0f);
+
+                materialToVertices[matId].push_back(vertex);
             }
 
-            // if (index.texcoord_index >= 0)
-            // {
-            //     texCoord = glm::vec2(
-            //         attributes.texcoords[2 * index.texcoord_index + 0],
-            //         attributes.texcoords[2 * index.texcoord_index + 1]
-            //     );
-            // }
+            faceOffset += faceVertexCount;
+        }
 
-            // Place texture coordinate here later
-            //mesh->AddVertex(position, normal, glm::vec3(1.0));
+        for (auto& pair : materialToVertices)
+        {
+            int matId = pair.first;
+            std::vector<Vertex> vertices = pair.second;
+
+            std::shared_ptr<Material> mat = MaterialFactory::GetMaterialFromMtl(materials[matId]);
+            std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>(vertices, mat);
+            model->AddMesh(mesh);
         }
     }
 
-    auto mesh = std::make_shared<Mesh>(positions, normals, normals, MaterialFactory::GetMaterial());
-    spdlog::info("Finished processing OBJ mesh: {}", filePath);
-    return mesh;
+    spdlog::info("Finished processing OBJ file: {}", filePath);
+    return model;
 }

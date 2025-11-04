@@ -13,27 +13,25 @@ using std::vector;
 struct Vertex
 {
     glm::vec3 vertex;
-    glm::vec3 color;
     glm::vec3 normal;
+    glm::vec2 texCoord;
 };
 
-// Rework so it could work not only with Material and Texture, but with raw colors as well
 class Mesh : public IRenderTarget
 {
 public:
-    Mesh(vector<glm::vec3> vertices, vector<glm::vec3> color, vector<glm::vec3> normal, std::shared_ptr<Material> material);
+    Mesh(vector<glm::vec3> vertices, vector<glm::vec3> normal, vector<glm::vec2> texCoord, std::shared_ptr<Material> material);
+    Mesh(vector<Vertex> vertices, std::shared_ptr<Material> material);
     Mesh() = default;
     ~Mesh() = default;
 
     void Render(glm::mat4 transformMatrix);
-    // Why Init using separate function?
-    // void Init(ShaderLibrary* shaderLibrary, std::string vertexShader, std::string fragmentShader);
-    // void AddVertex(glm::vec3 vertex, glm::vec3 color, glm::vec3 normal);
 
 private:
     vector<Vertex> vertices;
-    //std::shared_ptr<ShaderProgram> shaderProgram;
     std::shared_ptr<Material> material;
     GLuint VBO, VAO;
     size_t vertexCount;
+
+    void Init();
 };
