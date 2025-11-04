@@ -50,17 +50,6 @@ std::shared_ptr<Scene> SceneManager::GetSecondScene(std::shared_ptr<ShaderLibrar
     //auto sphereMesh = MeshFactory::LoadSphere();
     auto sphereMesh = MeshFactory::LoadFromFile("./Models/formula2.obj");
 
-    std::string vertexShaderPath = "./bin/shaders/vertexShader.vert";
-    std::string fragmentShaderPath = "./bin/shaders/fragmentShaderBlinn.frag";
-
-    // for(auto renderTarget : scene->renderTargets)
-    // {
-    //     renderTarget->Init(appContext->shaderLibrary.get(), vertexShaderPath, fragmentShaderPath);
-    // }
-
-    // For testing multiple shader programs and transforms (replace with text reading later)
-
-
     std::vector<IBasicTransform*> firstObjectTransforms;
     firstObjectTransforms.push_back(new Translation(glm::vec3{0.5, 0.0, 0.0}));
     firstObjectTransforms.push_back(new Scale(glm::vec3(0.25, 0.25, 0.25))); 
@@ -79,7 +68,12 @@ std::shared_ptr<Scene> SceneManager::GetSecondScene(std::shared_ptr<ShaderLibrar
 
     std::vector<std::unique_ptr<Light>> lights;
     lights.push_back(std::make_unique<PointLight>(new Transform(), glm::vec3(1.0, 1.0, 1.0), 1.0, 2.0, 1.0));
-
+    lights.push_back(std::unique_ptr<AmbientLight>(LightFactory::GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f)));
+    lights.push_back(std::unique_ptr<DirectionalLight>(LightFactory::GetDirectionalLight(
+        glm::vec3(0.6f, 0.7f, 1.0f),
+        glm::vec3(-0.3f, -1.0f, -0.5f), 
+        0.025f 
+    )));
     auto scene = std::make_shared<Scene>
     (
         std::vector<std::shared_ptr<GameObject>>{

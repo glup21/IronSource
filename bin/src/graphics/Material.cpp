@@ -1,6 +1,9 @@
 #include "headers/graphics/Material.hpp"
 
-Material::Material(std::shared_ptr<ShaderProgram> shaderProgram) : shaderProgram(shaderProgram)
+Material::Material(std::shared_ptr<ShaderProgram> shaderProgram, glm::vec3 ambient,
+    glm::vec3 diffuse, glm::vec3 specular, float shininess) 
+    : shaderProgram(shaderProgram), ambient(ambient), diffuse(diffuse), specular(specular),
+    shininess(shininess)
 {
 
 }

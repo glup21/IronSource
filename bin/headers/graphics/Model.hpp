@@ -6,7 +6,8 @@ class Model : public IRenderTarget
 {
 private:
     std::vector<std::shared_ptr<Mesh>> meshes;
-public:
+public: 
+    Model() = default;
     Model(std::vector<std::shared_ptr<Mesh>> meshes);
     ~Model() = default;
 

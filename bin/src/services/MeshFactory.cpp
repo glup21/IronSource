@@ -1,7 +1,5 @@
-#define TINYOBJLOADER_USE_FLOAT
 #include "headers/services/MeshFactory.hpp"
 #include "headers/services/GlobalConfig.hpp"
-#include <tiny_obj_loader.h>
 #include <spdlog/spdlog.h>
 #include "headers/services/MaterialFactory.hpp"
 
@@ -22,12 +20,7 @@ std::shared_ptr<SimpleMesh> MeshFactory::LoadSphere(std::string vertexShaderPath
         positions.emplace_back(sphere[i], sphere[i + 1], sphere[i + 2]);
         colors.emplace_back(sphere[i + 3], sphere[i + 4], sphere[i + 5]);
     }
-    std::string vertexShader = vertexShaderPath.empty() 
-        ? GlobalConfig::GetDefaultVertexShaderPath() 
-        : vertexShaderPath;
-    std::string fragmentShader = fragmentShaderPath.empty() 
-        ? GlobalConfig::GetDefaultFragmentShaderPath() 
-        : fragmentShaderPath;
+
     auto mesh = std::make_shared<SimpleMesh>(positions, colors, colors, MaterialFactory::GetMaterial(vertexShaderPath, fragmentShaderPath));
     return mesh;
 }

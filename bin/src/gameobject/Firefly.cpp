@@ -8,7 +8,8 @@ Firefly::Firefly(Transform* transform, float distance, glm::vec3 color, float in
     : GameObject(std::string("Firefly"), transform), distance(distance), speed(speed)
 {
     // Mesh
-    this->renderTarget = std::shared_ptr<SimpleMesh>(MeshFactory::LoadSphere(GlobalConfig::GetDefaultVertexShaderPath(), "./bin/shaders/fragmentShaderFirefly.frag"));
+    this->renderTarget = std::shared_ptr<SimpleMesh>(MeshFactory::LoadSphere(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
+        "./bin/shaders/fragmentShaderFirefly.frag"));
     // Light
     this->light = std::shared_ptr<PointLight>(LightFactory::GetPointLight(transform, color, intensity, k_l, k_q));
 
