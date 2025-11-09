@@ -148,7 +148,7 @@ std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels()
     return meshes;
 }
 
-std::shared_ptr<Model> MeshFactory::LoadFromFile(std::string filePath)
+std::shared_ptr<Model> MeshFactory::LoadFromFile(std::string filePath, std::string vertexShaderPath, std::string fragmentShaderPath)
 {
     spdlog::info("Loading OBJ model from path: {}", filePath);
 
@@ -215,7 +215,7 @@ std::shared_ptr<Model> MeshFactory::LoadFromFile(std::string filePath)
                 if (idx.texcoord_index >= 0)
                     vertex.texCoord = glm::vec2(
                         static_cast<float>(attrib.texcoords[2 * idx.texcoord_index + 0]),
-                        static_cast<float>(attrib.texcoords[2 * idx.texcoord_index + 1])
+                        1.0f - static_cast<float>(attrib.texcoords[2 * idx.texcoord_index + 1])
                     );
                 else
                     vertex.texCoord = glm::vec2(0.0f);
@@ -231,7 +231,7 @@ std::shared_ptr<Model> MeshFactory::LoadFromFile(std::string filePath)
             int matId = pair.first;
             std::vector<Vertex> vertices = pair.second;
 
-            std::shared_ptr<Material> mat = MaterialFactory::GetMaterialFromMtl(materials[matId]);
+            std::shared_ptr<Material> mat = MaterialFactory::GetMaterialFromMtl(materials[matId], vertexShaderPath, fragmentShaderPath);
             std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>(vertices, mat);
             model->AddMesh(mesh);
         }

@@ -184,7 +184,8 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
     {
         renderTargets.push_back(mesh); 
     }
-    renderTargets.push_back(MeshFactory::LoadFromFile("./Models/shrek.obj"));
+    renderTargets.push_back(MeshFactory::LoadFromFile("./Models/shrek.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
+        "./bin/shaders/fragmentShaderConstant.frag"));
 
     std::vector<std::shared_ptr<GameObject>> objects;
 
@@ -218,7 +219,7 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
     plane->transform->SetScale(glm::vec3(50.0f, 1.0f, 50.0f));
     objects.push_back(std::shared_ptr<GameObject>(plane));
 
-    auto car = new GameObject("Car", renderTargets[6]);
+    auto car = new GameObject("Shrek", renderTargets[6]);
     car->transform->SetPosition(glm::vec3(distPos(gen), 10.0f, distPos(gen)));
     car->transform->SetScale(glm::vec3(10.0));
     car->transform->SetRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));

@@ -20,5 +20,7 @@ class MeshFactory
 public:
     static std::vector<std::shared_ptr<SimpleMesh>> LoadAllPredefinedModels();
     static std::shared_ptr<SimpleMesh> LoadSphere(std::string vertexShaderPath = "", std::string fragmentShaderPath = "");
-    static std::shared_ptr<Model> LoadFromFile(std::string fileName);
+    static std::shared_ptr<Model> LoadFromFile(std::string fileName,
+        std::string vertexShaderPath = GlobalConfig::GetDefaultMeshVertexShaderPath(),
+        std::string fragmentShaderPath = GlobalConfig::GetDefaultMeshFragmentShaderPath());
 };
