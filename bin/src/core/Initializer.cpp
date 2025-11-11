@@ -63,4 +63,6 @@ void Initializer::InitWindow()
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS); 
 
+    glEnable(GL_STENCIL_TEST);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
 }
