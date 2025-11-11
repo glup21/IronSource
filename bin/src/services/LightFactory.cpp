@@ -6,6 +6,7 @@ PointLight* LightFactory::GetPointLight(Transform* transform, glm::vec3 color, f
     PointLight* pointLight = new PointLight(transform, color, intensity, k_l, k_q);
     shaderLibrary.RegisterLight(pointLight);
 
+    pointLightCount++;
     return pointLight;
 }
 
@@ -15,6 +16,7 @@ AmbientLight* LightFactory::GetAmbientLight(glm::vec3 color, float intensity)
     AmbientLight* ambientLight = new AmbientLight(color, intensity);
     shaderLibrary.RegisterLight(ambientLight);
 
+    ambientLightCount++;
     return ambientLight;
 }
 
@@ -24,6 +26,7 @@ DirectionalLight* LightFactory::GetDirectionalLight(glm::vec3 color, glm::vec3 d
     DirectionalLight* directionalLight = new DirectionalLight(color, direction, intensity);
     shaderLibrary.RegisterLight(directionalLight);
 
+    directionalLightCount++;
     return directionalLight;
 }
 
@@ -34,5 +37,6 @@ SpotLight* LightFactory::GetSpotLight(Transform* transform, glm::vec3 color, flo
     SpotLight* spotLight = new SpotLight(transform, color, intensity, k_l, k_q, direction, cutOff, outerCutOff);
     shaderLibrary.RegisterLight(spotLight);
 
+    spotLightCount++;
     return spotLight;
 }

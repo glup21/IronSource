@@ -11,13 +11,14 @@ Firefly::Firefly(Transform* transform, float distance, glm::vec3 color, float in
     this->renderTarget = std::shared_ptr<SimpleMesh>(MeshFactory::LoadSphere(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
         "./bin/shaders/fragmentShaderFirefly.frag"));
     // Light
-    this->light = std::shared_ptr<PointLight>(LightFactory::GetPointLight(transform, color, intensity, k_l, k_q));
+    this->light = std::shared_ptr<PointLight>(LightFactory::GetInstance().GetPointLight(transform, color, intensity, k_l, k_q));
 
     this->transform->SetScale(glm::vec3(0.05));
 }
 
 void Firefly::Update(float deltaTime)
 {
+    this->light->Update();
     if(!destination.has_value() || reachedDestination)
     {
         SetNewDestination();
@@ -40,7 +41,6 @@ void Firefly::Update(float deltaTime)
 
     this->transform->SetPosition(newPos);
 
-    this->light->Update();
 }
 
 void Firefly::SetNewDestination()

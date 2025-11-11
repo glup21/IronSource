@@ -17,6 +17,10 @@ void Engine::Run()
     float lastFrame = 0.0f;
 
     auto* lights = appContext->scene->GetLights();
+    for (auto& light : *lights)
+    {
+        light->Update();
+    }
 
     while (!glfwWindowShouldClose(appContext->window))
     {
@@ -33,24 +37,24 @@ void Engine::Run()
         appContext->scene->GetCamera()->RenderSkybox();
         glDepthMask(GL_TRUE);
 
-        for (auto& gameObject : *gameObjects)
-        {
-            gameObject->Render();
-        }
+        // // Temporary to fix light counting, need to introduce a better way later
+        // for (auto& light : *lights)
+        // {
+        //     light->Update();
+        // }
 
         for (auto& gameObject : *gameObjects)
         {
             gameObject->Update(deltaTime);
         }
 
-        // Temporary to fix light counting, need to introduce a better way later
-        for (auto& light : *lights)
+        for (auto& gameObject : *gameObjects)
         {
-            light->Update();
+            gameObject->Render();
         }
 
-        appContext->shaderLibrary->UpdateLightCounts();
         appContext->scene->GetCamera()->ProcessInput(appContext->window, deltaTime);
+        appContext->shaderLibrary->UpdateLightCounts();
 
         glfwSwapBuffers(appContext->window);
         glfwPollEvents();

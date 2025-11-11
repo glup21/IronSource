@@ -5,6 +5,7 @@
 #include "headers/graphics/AmbientLight.hpp"
 #include "headers/graphics/DirectionalLight.hpp"
 #include "headers/graphics/SpotLight.hpp"
+#include "headers/services/LightFactory.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
 
@@ -208,8 +209,9 @@ void ShaderProgram::Reset()
 
 void ShaderProgram::SendLightCounts() 
 {
-    SetUniform("numAmbientLights", ambientLightCount);
-    SetUniform("numPointLights", pointLightCount);
-    SetUniform("numDirectionalLights", directionalLightCount);
-    SetUniform("numSpotLights", spotLightCount);
+    auto lightFactory = LightFactory::GetInstance();
+    SetUniform("numAmbientLights", lightFactory.ambientLightCount);
+    SetUniform("numPointLights", lightFactory.pointLightCount);
+    SetUniform("numDirectionalLights", lightFactory.directionalLightCount);
+    SetUniform("numSpotLights", lightFactory.spotLightCount);
 }

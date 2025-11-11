@@ -10,7 +10,7 @@ Camera::Camera() : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 0.0f, 2.0f), up(0.0f, 1
     forward = glm::normalize(forward);
     Transform* flashlightTransform = new Transform();
     flashlightTransform->SetPosition(eye);
-    flashLight = std::shared_ptr<SpotLight>(LightFactory::GetSpotLight(
+    flashLight = std::shared_ptr<SpotLight>(LightFactory::GetInstance().GetSpotLight(
         flashlightTransform,
         glm::vec3(1.0f, 1.0f, 0.0f),
         5.0f,
@@ -116,7 +116,7 @@ void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
 void Camera::Update()
 {
     NotifyAll();
-    //this->flashLight->Update();
+    this->flashLight->Update();
 }
 
 void Camera::SetSkybox(Skybox* skybox)

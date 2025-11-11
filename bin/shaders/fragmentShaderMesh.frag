@@ -76,7 +76,7 @@ void main()
     vec3 V = normalize(viewPos - fragPos);
     vec3 result = vec3(0.0);
 
-    for (int i = 0; i < numAmbientLights; i++)
+    for (int i = 0; i < MAX_AMBIENT_LIGHTS; i++)
     {
         AmbientLight light = ambientLights[i];
         result += light.color * light.intensity * materialAmbient;
@@ -100,7 +100,7 @@ void main()
         result += diffuse + specular;
     }
 
-    for (int i = 0; i < numDirectionalLights; i++)
+    for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)
     {
         DirectionalLight light = directionalLights[i];
 
@@ -136,6 +136,10 @@ void main()
         vec3 specular = spec * light.color * 0.5 * attenuation * materialSpecular;
 
         result += diffuse + specular;
+    }
+    if (numPointLights == 13 )
+    {
+        result = vec3(1.0); // fallback to full brightness
     }
 
     vec4 texColor = texture(colorTexture, fragTexCoord);

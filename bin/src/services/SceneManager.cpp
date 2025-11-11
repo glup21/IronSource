@@ -68,8 +68,8 @@ std::shared_ptr<Scene> SceneManager::GetSecondScene(std::shared_ptr<ShaderLibrar
 
     std::vector<std::unique_ptr<Light>> lights;
     lights.push_back(std::make_unique<PointLight>(new Transform(), glm::vec3(1.0, 1.0, 1.0), 1.0, 2.0, 1.0));
-    lights.push_back(std::unique_ptr<AmbientLight>(LightFactory::GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f)));
-    lights.push_back(std::unique_ptr<DirectionalLight>(LightFactory::GetDirectionalLight(
+    lights.push_back(std::unique_ptr<AmbientLight>(LightFactory::GetInstance().GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f)));
+    lights.push_back(std::unique_ptr<DirectionalLight>(LightFactory::GetInstance().GetDirectionalLight(
         glm::vec3(0.6f, 0.7f, 1.0f),
         glm::vec3(-0.3f, -1.0f, -0.5f), 
         0.025f 
@@ -184,8 +184,7 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
     {
         renderTargets.push_back(mesh); 
     }
-    renderTargets.push_back(MeshFactory::LoadFromFile("./Models/shrek.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
-        "./bin/shaders/fragmentShaderConstant.frag"));
+    renderTargets.push_back(MeshFactory::LoadFromFile("./Models/shrek.obj"));
 
     std::vector<std::shared_ptr<GameObject>> objects;
 
@@ -232,7 +231,7 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
     std::uniform_real_distribution<float> kqDist(0.08f, 0.15f);
     std::uniform_real_distribution<float> colorShift(0.8f, 1.0f);
 
-    for (int i = 0; i < 0; ++i)
+    for (int i = 0; i < 10; i++)
     {
         auto fireflyTransform = new Transform();
         fireflyTransform->SetPosition(glm::vec3(posDist(gen), heightDist(gen), posDist(gen)));
@@ -250,25 +249,25 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
             intensity,
             k_l,
             k_q,
-            7.5f      
+            5.0f      
         );
 
         objects.push_back(std::shared_ptr<Firefly>(firefly));
     }
 
     std::vector<std::unique_ptr<Light>> lights;
-    // lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(35.0f, 15.0f, 5.0f))}), 
-    //     glm::vec3(1.0f, 0.0f, 0.0f), 1.0f, 0.09f, 0.032f)));
-    // lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(-25.0f, 10.0f, -5.0f))}), 
-    //     glm::vec3(0.0f, 1.0f, 1.0f), 2.0f, 0.09f, 0.032f)));
-    // lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), 
-    //     glm::vec3(0.0f, 0.0f, 1.0f), 3.0f, 0.09f, 0.032f)));
-     lights.push_back(std::unique_ptr<AmbientLight>(LightFactory::GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 10.1f)));
-    // lights.push_back(std::unique_ptr<DirectionalLight>(LightFactory::GetDirectionalLight(
-    //     glm::vec3(0.6f, 0.7f, 1.0f),
-    //     glm::vec3(-0.3f, -1.0f, -0.5f), 
-    //     1.025f 
-    // )));
+    lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetInstance().GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(35.0f, 15.0f, 5.0f))}), 
+        glm::vec3(1.0f, 0.0f, 0.0f), 1.0f, 0.09f, 0.032f)));
+    lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetInstance().GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(-25.0f, 10.0f, -5.0f))}), 
+        glm::vec3(0.0f, 1.0f, 1.0f), 2.0f, 0.09f, 0.032f)));
+    lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetInstance().GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), 
+        glm::vec3(0.0f, 0.0f, 1.0f), 3.0f, 0.09f, 0.032f)));
+    lights.push_back(std::unique_ptr<AmbientLight>(LightFactory::GetInstance().GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f)));
+    lights.push_back(std::unique_ptr<DirectionalLight>(LightFactory::GetInstance().GetDirectionalLight(
+        glm::vec3(0.6f, 0.7f, 1.0f),
+        glm::vec3(-0.3f, -1.0f, -0.5f), 
+        0.025f 
+    )));
     // lights.push_back(std::make_unique<SpotLight>(new Transform(
     //     std::vector<IBasicTransform*>{new Translation(glm::vec3(5.0f, 10.0f, 5.0f))}),
     //     glm::vec3(1.0f, 0.0f, 0.0f),
