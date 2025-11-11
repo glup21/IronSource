@@ -1,19 +1,20 @@
 #include "headers/gamelogic/Scene.hpp"
+#include "headers/services/MeshFactory.hpp"
 
 Scene::Scene(std::vector<std::shared_ptr<GameObject>> gameObjects)
     : gameObjects(gameObjects)
 {
     this->camera = std::make_unique<Camera>();
+    this->camera->SetSkybox(MeshFactory::GetSkybox());
 }
 
 Scene::Scene(std::vector<std::shared_ptr<GameObject>> gameObjects,
              std::vector<std::unique_ptr<Light>> lights)
     : gameObjects(std::move(gameObjects)), lights(std::move(lights))
 {
-    camera = std::make_unique<Camera>();
+    this->camera = std::make_unique<Camera>();
+    this->camera->SetSkybox(MeshFactory::GetSkybox());
 }
-
-
 
 std::vector<std::shared_ptr<GameObject>>* Scene::GetGameObjects()
 {

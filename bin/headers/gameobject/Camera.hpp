@@ -4,7 +4,7 @@
 
 #include "headers/pch.hpp"
 
-
+class Skybox;
 class Camera : public Subject
 {
 private:
@@ -26,6 +26,7 @@ private:
     float speed;
 
     std::shared_ptr<SpotLight> flashLight;
+    std::unique_ptr<Skybox> skybox;
 
     void NotifyAll() override;
 public:
@@ -38,4 +39,6 @@ public:
     void Update();
     void ProcessInput(GLFWwindow* window, float deltaTime);
     void ResizeViewport(int width, int height);
+    void SetSkybox(Skybox* skybox);
+    void RenderSkybox();
 };

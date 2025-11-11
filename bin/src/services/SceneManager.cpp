@@ -232,7 +232,7 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
     std::uniform_real_distribution<float> kqDist(0.08f, 0.15f);
     std::uniform_real_distribution<float> colorShift(0.8f, 1.0f);
 
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < 0; ++i)
     {
         auto fireflyTransform = new Transform();
         fireflyTransform->SetPosition(glm::vec3(posDist(gen), heightDist(gen), posDist(gen)));
@@ -257,18 +257,18 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
     }
 
     std::vector<std::unique_ptr<Light>> lights;
-    lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(35.0f, 15.0f, 5.0f))}), 
-        glm::vec3(1.0f, 0.0f, 0.0f), 1.0f, 0.09f, 0.032f)));
-    lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(-25.0f, 10.0f, -5.0f))}), 
-        glm::vec3(0.0f, 1.0f, 1.0f), 2.0f, 0.09f, 0.032f)));
-    lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), 
-        glm::vec3(0.0f, 0.0f, 1.0f), 3.0f, 0.09f, 0.032f)));
-    lights.push_back(std::unique_ptr<AmbientLight>(LightFactory::GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 1.1f)));
-    lights.push_back(std::unique_ptr<DirectionalLight>(LightFactory::GetDirectionalLight(
-        glm::vec3(0.6f, 0.7f, 1.0f),
-        glm::vec3(-0.3f, -1.0f, -0.5f), 
-        1.025f 
-    )));
+    // lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(35.0f, 15.0f, 5.0f))}), 
+    //     glm::vec3(1.0f, 0.0f, 0.0f), 1.0f, 0.09f, 0.032f)));
+    // lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(-25.0f, 10.0f, -5.0f))}), 
+    //     glm::vec3(0.0f, 1.0f, 1.0f), 2.0f, 0.09f, 0.032f)));
+    // lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), 
+    //     glm::vec3(0.0f, 0.0f, 1.0f), 3.0f, 0.09f, 0.032f)));
+     lights.push_back(std::unique_ptr<AmbientLight>(LightFactory::GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 10.1f)));
+    // lights.push_back(std::unique_ptr<DirectionalLight>(LightFactory::GetDirectionalLight(
+    //     glm::vec3(0.6f, 0.7f, 1.0f),
+    //     glm::vec3(-0.3f, -1.0f, -0.5f), 
+    //     1.025f 
+    // )));
     // lights.push_back(std::make_unique<SpotLight>(new Transform(
     //     std::vector<IBasicTransform*>{new Translation(glm::vec3(5.0f, 10.0f, 5.0f))}),
     //     glm::vec3(1.0f, 0.0f, 0.0f),

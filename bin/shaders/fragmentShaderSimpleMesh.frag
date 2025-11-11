@@ -68,13 +68,13 @@ void main()
     vec3 V = normalize(viewPos - fragPos);
     vec3 result = vec3(0.0);
 
-    for (int i = 0; i < MAX_AMBIENT_LIGHTS; i++)
+    for (int i = 0; i < numAmbientLights; i++)
     {
         AmbientLight light = ambientLights[i];
         result += light.color * light.intensity;
     }
 
-    for (int i = 0; i < MAX_POINT_LIGHTS; i++)
+    for (int i = 0; i < numPointLights; i++)
     {
         PointLight light = pointLights[i];
 
@@ -92,7 +92,7 @@ void main()
         result += diffuse + specular;
     }
 
-    for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)
+    for (int i = 0; i < numDirectionalLights; i++)
     {
         DirectionalLight light = directionalLights[i];
 
@@ -108,7 +108,7 @@ void main()
         result += diffuse + specular;
     }
 
-    for (int i = 0; i < MAX_SPOT_LIGHTS; i++)
+    for (int i = 0; i < numSpotLights; i++)
     {
         SpotLight light = spotLights[i];
 

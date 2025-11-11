@@ -1,14 +1,15 @@
 #pragma once
 #include "headers/graphics/Shader.hpp"
 #include "headers/interfaces/Observer.hpp"
-#include "headers/gameobject/Camera.hpp"
-#include "headers/graphics/PointLight.hpp"
-#include "headers/graphics/AmbientLight.hpp"
-#include "headers/graphics/DirectionalLight.hpp"
-#include "headers/graphics/SpotLight.hpp"
 #include <vector>
 #include <memory>
 #include <glm/mat4x4.hpp>
+
+class Camera;
+class PointLight;
+class AmbientLight;
+class DirectionalLight;
+class SpotLight;
 
 class ShaderProgram : public Observer
 {
@@ -17,7 +18,10 @@ private:
     std::shared_ptr<Shader> fragmentShader;
 
     GLuint shaderProgramId;
-    int lightCount;
+    int pointLightCount = 0;
+    int ambientLightCount = 0;
+    int directionalLightCount = 0;
+    int spotLightCount = 0;
 
     void HandlePointLight(PointLight* pointLight);
     void HandleAmbientLight(AmbientLight* ambientLight);
@@ -33,7 +37,9 @@ public:
     void SetUniform(std::string name, glm::mat4 matrix4);
     void SetUniform(std::string name, glm::vec3 vec);
     void SetUniform(std::string name, float value);
+    void SetUniform(std::string name, int value);
 
     void Update(Subject* caller) override;
     void Reset();
+    void SendLightCounts();
 };

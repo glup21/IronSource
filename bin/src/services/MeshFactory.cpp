@@ -2,11 +2,8 @@
 #include "headers/services/GlobalConfig.hpp"
 #include <spdlog/spdlog.h>
 #include "headers/services/MaterialFactory.hpp"
+#include "Models/skybox.h"
 
-
-/*    static std::vector<std::shared_ptr<SimpleMesh>> LoadAllPredefinedModels();
-    static std::shared_ptr<SimpleMesh> LoadSphere(std::string vertexShaderPath = "", std::string fragmentShaderPath = "");
-    static std::shared_ptr<Mesh> LoadFromFile(std::string fileName);*/
 std::shared_ptr<SimpleMesh> MeshFactory::LoadSphere(std::string vertexShaderPath, std::string fragmentShaderPath)
 {
     std::vector<glm::vec3> positions;
@@ -239,4 +236,21 @@ std::shared_ptr<Model> MeshFactory::LoadFromFile(std::string filePath, std::stri
 
     spdlog::info("Finished processing OBJ file: {}", filePath);
     return model;
+}
+
+Skybox* MeshFactory::GetSkybox()
+{
+    std::vector<glm::vec3> positions;
+    positions.reserve(sizeof(skybox) / sizeof(float) / 3);
+    for (size_t i = 0; i < sizeof(skybox) / sizeof(float); i += 3)
+    {
+        positions.emplace_back(skybox[i], skybox[i + 1], skybox[i + 2]);
+    }
+
+    auto skybox = new Skybox(positions, GlobalConfig::GetDefaultSkyboxFaces(), ShaderLibrary::GetInstance().GetShaderProgram(
+        GlobalConfig::GetDefaultSkyboxVertexShaderPath(),
+        GlobalConfig::GetDefaultSkyboxFragmentShaderPath()
+    ));
+
+    return skybox;
 }

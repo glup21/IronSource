@@ -1,6 +1,8 @@
 #include "headers/services/ShaderLibrary.hpp"
 #include "headers/services/FileReaderService.hpp"
 #include "spdlog/spdlog.h"
+#include "headers/gameobject/Camera.hpp"
+
 
 std::shared_ptr<ShaderProgram> ShaderLibrary::GetShaderProgram(std::string vertexShaderPath, std::string fragmentShaderPath)
 {
@@ -63,5 +65,13 @@ void ShaderLibrary::ResetShaderPrograms()
     for (auto pair : this->shaderPrograms)
     {
         pair.second->Reset();
+    }
+}
+
+void ShaderLibrary::UpdateLightCounts()
+{
+    for (auto pair : this->shaderPrograms)
+    {
+        pair.second->SendLightCounts();
     }
 }

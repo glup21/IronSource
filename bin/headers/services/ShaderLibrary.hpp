@@ -27,4 +27,5 @@ public:
     void RegisterLight(Light* light);
 
     void ResetShaderPrograms();
+    void UpdateLightCounts();
 };

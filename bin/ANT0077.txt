@@ -1,4 +1,0 @@
-Firefly is a children of GameObject, which uses LightFactory and MeshFactory to create sphere and PointLight in constructor. 
-On Update() using deltaTime it moves to random position withing given radius.
-k_l is moderately low for long fade.
-k_q is small, but enough to create soft spherical falloff.

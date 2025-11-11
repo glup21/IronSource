@@ -1,6 +1,10 @@
 #include "headers/graphics/ShaderProgram.hpp"
-#include "headers/gameobject/Camera.hpp"
 #include "spdlog/spdlog.h"
+#include "headers/gameobject/Camera.hpp"
+#include "headers/graphics/PointLight.hpp"
+#include "headers/graphics/AmbientLight.hpp"
+#include "headers/graphics/DirectionalLight.hpp"
+#include "headers/graphics/SpotLight.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
 
@@ -97,6 +101,23 @@ void ShaderProgram::SetUniform(std::string name, float value)
     // spdlog::debug("Set uniform (float): {} = {}", name, value);
 }
 
+void ShaderProgram::SetUniform(std::string name, int value)
+{
+    glUseProgram(this->shaderProgramId);
+
+    GLint uniformLoc = glGetUniformLocation(this->shaderProgramId, name.c_str());
+    if (uniformLoc < 0)
+    {
+        // DEBUG
+        // spdlog::critical("Failed to find uniform (float) in shader program: {}", name);
+        // glfwTerminate();
+        // exit(EXIT_FAILURE);
+        return;
+    }
+
+    glUniform1i(uniformLoc, value);
+    // spdlog::debug("Set uniform (float): {} = {}", name, value);
+}
 
 void ShaderProgram::Update(Subject* caller)
 {
@@ -130,58 +151,65 @@ void ShaderProgram::Update(Subject* caller)
 
 void ShaderProgram::HandlePointLight(PointLight* pointLight)
 {
-    SetUniform("pointLights[" + std::to_string(lightCount) + "].color", pointLight->GetColor());
-    SetUniform("pointLights[" + std::to_string(lightCount) + "].intensity", pointLight->GetIntensity());
+    SetUniform("pointLights[" + std::to_string(pointLightCount) + "].color", pointLight->GetColor());
+    SetUniform("pointLights[" + std::to_string(pointLightCount) + "].intensity", pointLight->GetIntensity());
 
-    SetUniform("pointLights[" + std::to_string(lightCount) + "].position", pointLight->GetPosition());
+    SetUniform("pointLights[" + std::to_string(pointLightCount) + "].position", pointLight->GetPosition());
     
-    SetUniform("pointLights[" + std::to_string(lightCount) + "].k_l", pointLight->GetLinear());
-    SetUniform("pointLights[" + std::to_string(lightCount) + "].k_q", pointLight->GetQuadratic());
-    lightCount++;  
+    SetUniform("pointLights[" + std::to_string(pointLightCount) + "].k_l", pointLight->GetLinear());
+    SetUniform("pointLights[" + std::to_string(pointLightCount) + "].k_q", pointLight->GetQuadratic());
+    pointLightCount++;  
 }
 
 void ShaderProgram::HandleAmbientLight(AmbientLight* ambientLight)
 {
-    SetUniform("ambientLights[" + std::to_string(lightCount) + "].color", ambientLight->GetColor());
-    SetUniform("ambientLights[" + std::to_string(lightCount) + "].intensity", ambientLight->GetIntensity());
-    lightCount++;  
+    SetUniform("ambientLights[" + std::to_string(ambientLightCount) + "].color", ambientLight->GetColor());
+    SetUniform("ambientLights[" + std::to_string(ambientLightCount) + "].intensity", ambientLight->GetIntensity());
+    ambientLightCount++;  
 }
 
 void ShaderProgram::HandleDirectionalLight(DirectionalLight* directionalLight)
 {
-    SetUniform("directionalLights[" + std::to_string(lightCount) + "].color", directionalLight->GetColor());
-    SetUniform("directionalLights[" + std::to_string(lightCount) + "].intensity", directionalLight->GetIntensity());
-    SetUniform("directionalLights[" + std::to_string(lightCount) + "].direction", directionalLight->GetDirection());
-    lightCount++;  
+    SetUniform("directionalLights[" + std::to_string(directionalLightCount) + "].color", directionalLight->GetColor());
+    SetUniform("directionalLights[" + std::to_string(directionalLightCount) + "].intensity", directionalLight->GetIntensity());
+    SetUniform("directionalLights[" + std::to_string(directionalLightCount) + "].direction", directionalLight->GetDirection());
+    directionalLightCount++;  
 }
 
 void ShaderProgram::HandleSpotLight(SpotLight* spotLight)
 {
-    SetUniform("spotLights[" + std::to_string(lightCount) + "].position", spotLight->transform->GetPosition());
-    SetUniform("spotLights[" + std::to_string(lightCount) + "].direction", spotLight->GetDirection());
+    SetUniform("spotLights[" + std::to_string(spotLightCount) + "].position", spotLight->transform->GetPosition());
+    SetUniform("spotLights[" + std::to_string(spotLightCount) + "].direction", spotLight->GetDirection());
 
-    SetUniform("spotLights[" + std::to_string(lightCount) + "].color", spotLight->GetColor());
+    SetUniform("spotLights[" + std::to_string(spotLightCount) + "].color", spotLight->GetColor());
     if(spotLight->IsEnabled())
     {
-        SetUniform("spotLights[" + std::to_string(lightCount) + "].intensity", spotLight->GetIntensity());
+        SetUniform("spotLights[" + std::to_string(spotLightCount) + "].intensity", spotLight->GetIntensity());
     }
     else
     {
-        SetUniform("spotLights[" + std::to_string(lightCount) + "].intensity", 0.0f);
+        SetUniform("spotLights[" + std::to_string(spotLightCount) + "].intensity", 0.0f);
     }
     
     
-    SetUniform("spotLights[" + std::to_string(lightCount) + "].k_l", spotLight->GetLinear());
-    SetUniform("spotLights[" + std::to_string(lightCount) + "].k_q", spotLight->GetQuadratic());
+    SetUniform("spotLights[" + std::to_string(spotLightCount) + "].k_l", spotLight->GetLinear());
+    SetUniform("spotLights[" + std::to_string(spotLightCount) + "].k_q", spotLight->GetQuadratic());
 
-    SetUniform("spotLights[" + std::to_string(lightCount) + "].cutOff", cos(glm::radians(spotLight->GetCutOff())));
-    SetUniform("spotLights[" + std::to_string(lightCount) + "].outerCutOff", cos(glm::radians(spotLight->GetOuterCutOff())));
+    SetUniform("spotLights[" + std::to_string(spotLightCount) + "].cutOff", (float)cos(glm::radians(spotLight->GetCutOff())));
+    SetUniform("spotLights[" + std::to_string(spotLightCount) + "].outerCutOff", (float)cos(glm::radians(spotLight->GetOuterCutOff())));
 
-    lightCount++;  
+    spotLightCount++;  
 }
-
 
 void ShaderProgram::Reset()
 {
-    lightCount = 0;
+    ambientLightCount = pointLightCount = directionalLightCount = spotLightCount = 0;
+}
+
+void ShaderProgram::SendLightCounts() 
+{
+    SetUniform("numAmbientLights", ambientLightCount);
+    SetUniform("numPointLights", pointLightCount);
+    SetUniform("numDirectionalLights", directionalLightCount);
+    SetUniform("numSpotLights", spotLightCount);
 }

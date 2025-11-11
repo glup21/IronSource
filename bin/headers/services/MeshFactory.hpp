@@ -11,6 +11,7 @@
 #include "headers/services/GlobalConfig.hpp"
 #include "headers/graphics/SimpleMesh.hpp"
 #include "headers/graphics/Model.hpp"
+#include "headers/graphics/Skybox.hpp"
 
 #include <vector>
 #include <string>
@@ -23,4 +24,6 @@ public:
     static std::shared_ptr<Model> LoadFromFile(std::string fileName,
         std::string vertexShaderPath = GlobalConfig::GetDefaultMeshVertexShaderPath(),
         std::string fragmentShaderPath = GlobalConfig::GetDefaultMeshFragmentShaderPath());
+
+    static Skybox* GetSkybox();
 };

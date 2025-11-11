@@ -3,6 +3,7 @@
 #include "headers/interfaces/Observer.hpp" 
 #include "headers/services/LightFactory.hpp"
 #include <glm/gtc/matrix_transform.hpp>
+#include "headers/graphics/Skybox.hpp"
 
 Camera::Camera() : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 0.0f, 2.0f), up(0.0f, 1.0f, 0.0f), speed(10.0f)
 {
@@ -19,16 +20,6 @@ Camera::Camera() : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 0.0f, 2.0f), up(0.0f, 1
         15.0f,
         17.0f
     ));
-
-    // new Transform(
-    //     std::vector<IBasicTransform*>{new Translation(glm::vec3(5.0f, 10.0f, 5.0f))}),
-    //     glm::vec3(1.0f, 0.0f, 0.0f),
-    //     15.0f,
-    //     0.09f,
-    //     0.032f,
-    //     glm::vec3(0.0f, -1.0f, 0.0f),
-    //     30.0f,
-    //     45.0f));
 
 }
 
@@ -125,5 +116,18 @@ void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
 void Camera::Update()
 {
     NotifyAll();
-    this->flashLight->Update();
+    //this->flashLight->Update();
+}
+
+void Camera::SetSkybox(Skybox* skybox)
+{
+    this->skybox = std::unique_ptr<Skybox>(skybox);
+}
+
+void Camera::RenderSkybox()
+{
+    this->skybox->Render(
+        GetProjectionMatrix(),
+        glm::mat4(glm::mat3(GetViewMatrix()))
+    );
 }
