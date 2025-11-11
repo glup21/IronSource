@@ -22,6 +22,7 @@ private:
     float lastY = 300.0f;
     bool firstMouse = true;
     bool rotating = false;
+    bool leftButtonPressed = false;
 
     float speed;
 

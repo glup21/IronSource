@@ -4,8 +4,11 @@
 #include "headers/services/LightFactory.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include "headers/graphics/Skybox.hpp"
+#include "headers/core/Application.hpp"
+#include "headers/services/GameObjectFactory.hpp"
+#include "headers/services/MeshFactory.hpp"
 
-Camera::Camera() : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 0.0f, 2.0f), up(0.0f, 1.0f, 0.0f), speed(10.0f)
+Camera::Camera() : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 2.0f, 2.0f), up(0.0f, 1.0f, 0.0f), speed(10.0f)
 {
     forward = glm::normalize(forward);
     Transform* flashlightTransform = new Transform();
@@ -34,7 +37,7 @@ void Camera::NotifyAll()
 glm::mat4 Camera::GetProjectionMatrix()
 {
     // Default constants, replace with variables later
-    return glm::perspective(glm::radians(this->fov), this->width / this->height, 0.1f, 100.0f);
+    return glm::perspective(glm::radians(this->fov), this->width / this->height, 0.1f, 200.0f);
 }
 
 glm::mat4 Camera::GetViewMatrix()
@@ -105,6 +108,46 @@ void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
     else
     {
         rotating = false;
+    }
+    
+    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+    {
+        if(!leftButtonPressed)
+        {
+            double xpos, ypos;
+            glfwGetCursorPos(window, &xpos, &ypos);
+
+            int id;
+            // Reads from frame buffer 
+            glReadPixels(xpos, height - static_cast<int>(ypos), 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &id);
+            spdlog::info("X: {}; Y: {}", xpos, height - static_cast<int>(ypos));
+            spdlog::info("GameObject ID: {}", id);
+
+            float depth;
+            glReadPixels(xpos, height - static_cast<int>(ypos), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+            glm::vec4 viewPort = glm::vec4(0, 0, width, height);
+            glm::vec3 point = glm::vec3( xpos, static_cast<double>(height) - ypos, depth);
+            glm::vec3 pos = glm::unProject(point, GetViewMatrix(), GetProjectionMatrix(), viewPort);
+
+            spdlog::info("Width: {}; Height: {}", width, height);
+            spdlog::info("X: {}; Y: {}; Z: {}", pos.x, pos.y, pos.z);
+
+            Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
+            AppContext* appContext = app->GetAppContext();
+
+            auto newTree = GameObjectFactory::GetInstance().GetGameObject(
+                    "newTree",
+                    MeshFactory::LoadTree(),
+                    new Transform()
+                );
+            newTree->transform->SetPosition(pos);
+            appContext->scene->AddGameObject(newTree);
+        }
+        leftButtonPressed = true;
+    }
+    else
+    {
+        leftButtonPressed = false;
     }
 
     this->flashLight->SetDirection(forward);

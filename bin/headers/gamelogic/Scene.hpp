@@ -22,4 +22,5 @@ public:
     std::vector<Light*>* GetLights();
     Camera* GetCamera();
 
+    void AddGameObject(std::shared_ptr<GameObject> gameObject);
 };

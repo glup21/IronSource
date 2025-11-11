@@ -22,6 +22,29 @@ std::shared_ptr<SimpleMesh> MeshFactory::LoadSphere(std::string vertexShaderPath
     return mesh;
 }
 
+std::shared_ptr<SimpleMesh> MeshFactory::LoadTree()
+{
+    std::vector<glm::vec3> positions;
+    std::vector<glm::vec3> colors;
+    std::vector<glm::vec3> normals;
+
+    int vertexCount = 92814 * 6;
+
+    positions.reserve(vertexCount / 6);
+    colors.reserve(vertexCount / 6);
+    normals.reserve(vertexCount / 6);
+
+    for (size_t i = 0; i < vertexCount; i += 6)
+    {
+        positions.emplace_back(tree[i], tree[i + 1], tree[i + 2]);
+        colors.emplace_back(tree[i + 3], tree[i + 4], tree[i + 5]);
+        normals.emplace_back(tree[i + 3], tree[i + 4], tree[i + 5]);
+    }
+
+    auto mesh = std::make_shared<SimpleMesh>(positions, colors, colors, MaterialFactory::GetMaterial());
+    return mesh;
+}
+
 std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels()
 {
     std::vector<std::shared_ptr<SimpleMesh>> meshes;

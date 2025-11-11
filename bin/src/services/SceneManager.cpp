@@ -194,7 +194,7 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
     std::uniform_real_distribution<float> distPos(-50.0f, 50.0f);
     std::uniform_real_distribution<float> distScale(0.5f, 1.5f);
 
-    for (int i = 0; i < 400; i++)
+    for (int i = 0; i < 10; i++)
     {
         auto tree = GameObjectFactory::GetInstance().GetGameObject("tree", renderTargets[5]);
         tree->transform->SetPosition(glm::vec3(distPos(gen), 0.0f, distPos(gen)));
@@ -204,7 +204,7 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
         objects.push_back(std::shared_ptr<GameObject>(tree));
     }
 
-    for (int i = 0; i < 2500; i++)
+    for (int i = 0; i < 25; i++)
     {
         auto bush = GameObjectFactory::GetInstance().GetGameObject("bush", renderTargets[0]);
         bush->transform->SetPosition(glm::vec3(distPos(gen), 0.0f, distPos(gen)));

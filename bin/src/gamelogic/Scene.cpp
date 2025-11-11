@@ -38,3 +38,8 @@ Camera* Scene::GetCamera()
 {
     return camera.get();
 }
+
+void Scene::AddGameObject(std::shared_ptr<GameObject> gameObject)
+{
+    this->gameObjects.push_back(gameObject);
+}

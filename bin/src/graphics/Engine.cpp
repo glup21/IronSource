@@ -31,7 +31,7 @@ void Engine::Run()
         auto* gameObjects = appContext->scene->GetGameObjects();
 
         //glClearColor(0.12f, 0.09f, 0.18f, 1.0f); 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
 
         glDepthFunc(GL_LEQUAL);
         glDepthMask(GL_FALSE);
