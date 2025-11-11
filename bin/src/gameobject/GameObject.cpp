@@ -1,21 +1,21 @@
 #include "headers/gameobject/GameObject.hpp"
 #include <utility> 
 
-GameObject::GameObject(std::string name, std::shared_ptr<IRenderTarget> renderTarget, Transform* transform) : 
-    name(name), renderTarget(renderTarget), transform(transform)
+GameObject::GameObject(std::string name, std::shared_ptr<IRenderTarget> renderTarget, Transform* transform, int id) : 
+    name(name), renderTarget(renderTarget), transform(transform), id(id)
 {
 
 }
 
-GameObject::GameObject(std::string name, std::shared_ptr<IRenderTarget> renderTarget) : 
-    name(name), renderTarget(renderTarget), transform(std::make_unique<Transform>())
+GameObject::GameObject(std::string name, std::shared_ptr<IRenderTarget> renderTarget, int id) : 
+    name(name), renderTarget(renderTarget), transform(std::make_unique<Transform>()), id(id)
 {
 
 }
 
 
-GameObject::GameObject(std::string name, Transform* transform) : 
-    name(name), transform(transform)
+GameObject::GameObject(std::string name, Transform* transform, int id) : 
+    name(name), transform(transform), id(id)
 {
 
 }

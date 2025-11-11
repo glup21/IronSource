@@ -9,6 +9,7 @@
 #include "headers/services/LightFactory.hpp"
 #include "headers/services/MeshFactory.hpp"
 #include "headers/services/MaterialFactory.hpp"
+#include "headers/services/GameObjectFactory.hpp"
 #include <spdlog/spdlog.h>
 
 std::shared_ptr<Scene> SceneManager::GetFirstScene(std::shared_ptr<ShaderLibrary> shaderLibrary)
@@ -36,7 +37,7 @@ std::shared_ptr<Scene> SceneManager::GetFirstScene(std::shared_ptr<ShaderLibrary
     auto scene = std::make_shared<Scene>
     (
         std::vector<std::shared_ptr<GameObject>>{
-            std::make_shared<GameObject>("firstMesh", firstMesh, new Transform( firstObjectTransforms ))
+            // std::make_shared<GameObject>("firstMesh", firstMesh, new Transform( firstObjectTransforms ))
         }
     );
 
@@ -77,10 +78,10 @@ std::shared_ptr<Scene> SceneManager::GetSecondScene(std::shared_ptr<ShaderLibrar
     auto scene = std::make_shared<Scene>
     (
         std::vector<std::shared_ptr<GameObject>>{
-            std::make_shared<GameObject>("firstSphere", sphereMesh, new Transform( firstObjectTransforms )),
-            std::make_shared<GameObject>("secondSphere", sphereMesh, new Transform( secondObjectTransforms )),
-            std::make_shared<GameObject>("thirdSphere", sphereMesh, new Transform( thirdObjectTransforms )),
-            std::make_shared<GameObject>("forthSphere", sphereMesh, new Transform( forthObjectTransforms )),
+            // std::make_shared<GameObject>("firstSphere", sphereMesh, new Transform( firstObjectTransforms )),
+            // std::make_shared<GameObject>("secondSphere", sphereMesh, new Transform( secondObjectTransforms )),
+            // std::make_shared<GameObject>("thirdSphere", sphereMesh, new Transform( thirdObjectTransforms )),
+            // std::make_shared<GameObject>("forthSphere", sphereMesh, new Transform( forthObjectTransforms )),
         },
         std::move(lights)
     );
@@ -159,13 +160,13 @@ std::shared_ptr<Scene> SceneManager::GetThirdScene(std::shared_ptr<ShaderLibrary
     ));
     auto scene = std::make_shared<Scene>(
         std::vector<std::shared_ptr<GameObject>>{
-            std::make_shared<GameObject>("firstSphere", renderTargets[0], new Transform(firstObjectTransforms)),
-            std::make_shared<GameObject>("secondSphere", renderTargets[1], new Transform(secondObjectTransforms)),
-            std::make_shared<GameObject>("thirdSphere", renderTargets[2], new Transform(thirdObjectTransforms)),
-            std::make_shared<GameObject>("forthSphere", renderTargets[3], new Transform(forthObjectTransforms)),
-            std::make_shared<GameObject>("fifthSphere", renderTargets[4], new Transform(fifthObjectTransforms)),
-            std::make_shared<GameObject>("sixthSphere", renderTargets[5], new Transform(sixthObjectTransforms)),
-            std::make_shared<GameObject>("Car", renderTargets[6], new Transform(sixthObjectTransforms))
+            // std::make_shared<GameObject>("firstSphere", renderTargets[0], new Transform(firstObjectTransforms)),
+            // std::make_shared<GameObject>("secondSphere", renderTargets[1], new Transform(secondObjectTransforms)),
+            // std::make_shared<GameObject>("thirdSphere", renderTargets[2], new Transform(thirdObjectTransforms)),
+            // std::make_shared<GameObject>("forthSphere", renderTargets[3], new Transform(forthObjectTransforms)),
+            // std::make_shared<GameObject>("fifthSphere", renderTargets[4], new Transform(fifthObjectTransforms)),
+            // std::make_shared<GameObject>("sixthSphere", renderTargets[5], new Transform(sixthObjectTransforms)),
+            // std::make_shared<GameObject>("Car", renderTargets[6], new Transform(sixthObjectTransforms))
         },
         std::move(lights)
     );
@@ -195,7 +196,7 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
 
     for (int i = 0; i < 400; i++)
     {
-        auto tree = new GameObject("tree", renderTargets[5]);
+        auto tree = GameObjectFactory::GetInstance().GetGameObject("tree", renderTargets[5]);
         tree->transform->SetPosition(glm::vec3(distPos(gen), 0.0f, distPos(gen)));
         tree->transform->SetScale(glm::vec3(distScale(gen)));
         tree->transform->SetRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
@@ -205,7 +206,7 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
 
     for (int i = 0; i < 2500; i++)
     {
-        auto bush = new GameObject("bush", renderTargets[0]);
+        auto bush = GameObjectFactory::GetInstance().GetGameObject("bush", renderTargets[0]);
         bush->transform->SetPosition(glm::vec3(distPos(gen), 0.0f, distPos(gen)));
         bush->transform->SetScale(glm::vec3(distScale(gen) * 2.0f));
         bush->transform->SetRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
@@ -213,12 +214,12 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
         objects.push_back(std::shared_ptr<GameObject>(bush));
     }
 
-    auto plane = new GameObject("plain", renderTargets[2]);
+    auto plane = GameObjectFactory::GetInstance().GetGameObject("plain", renderTargets[2]);
     plane->transform->SetPosition(glm::vec3(0.0f, -0.01f, 0.0f));
     plane->transform->SetScale(glm::vec3(50.0f, 1.0f, 50.0f));
     objects.push_back(std::shared_ptr<GameObject>(plane));
 
-    auto car = new GameObject("Shrek", renderTargets[6]);
+    auto car = GameObjectFactory::GetInstance().GetGameObject("Shrek", renderTargets[6]);
     car->transform->SetPosition(glm::vec3(distPos(gen), 10.0f, distPos(gen)));
     car->transform->SetScale(glm::vec3(10.0));
     car->transform->SetRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
@@ -242,14 +243,14 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
         float k_l = klDist(gen);
         float k_q = kqDist(gen);
 
-        auto firefly = new Firefly(
+        auto firefly = GameObjectFactory::GetInstance().GetFireFly(
             fireflyTransform,
             10.0f,     
             color,
             intensity,
             k_l,
             k_q,
-            5.0f      
+            5.0f  
         );
 
         objects.push_back(std::shared_ptr<Firefly>(firefly));

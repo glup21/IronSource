@@ -4,8 +4,8 @@
 #include <spdlog/spdlog.h>
 #include "headers/services/GlobalConfig.hpp"
 
-Firefly::Firefly(Transform* transform, float distance, glm::vec3 color, float intensity, float k_l, float k_q, float speed) 
-    : GameObject(std::string("Firefly"), transform), distance(distance), speed(speed)
+Firefly::Firefly(Transform* transform, float distance, glm::vec3 color, float intensity, float k_l, float k_q, float speed, int id) 
+    : GameObject(std::string("Firefly"), transform, id), distance(distance), speed(speed)
 {
     // Mesh
     this->renderTarget = std::shared_ptr<SimpleMesh>(MeshFactory::LoadSphere(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
