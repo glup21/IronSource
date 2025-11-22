@@ -48,7 +48,7 @@ void Scene::DeleteGameObject(int id)
 {
     for(int i = 0; i < gameObjects.size(); i++)
     {
-        if(gameObjects[i]->GetId() == id)
+        if(gameObjects[i]->GetId() == id && gameObjects[i]->GetIsDestructable())
         {
             gameObjects.erase(gameObjects.begin() + i);
         }

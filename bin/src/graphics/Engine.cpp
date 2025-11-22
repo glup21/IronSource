@@ -41,7 +41,8 @@ void Engine::Run()
 
         for (auto& gameObject : *gameObjects)
         {
-            gameObject->Update(deltaTime);
+            if(gameObject)
+                gameObject->Update(deltaTime);
         }
 
         for (auto& gameObject : *gameObjects)

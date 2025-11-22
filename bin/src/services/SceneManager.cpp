@@ -12,6 +12,7 @@
 #include "headers/services/GameObjectFactory.hpp"
 #include "headers/services/TextureFactory.hpp"
 #include "headers/transform/DynamicTranslation.hpp"
+#include "headers/gameobject/WhacAMole.hpp"
 #include <spdlog/spdlog.h>
 
 std::shared_ptr<Scene> SceneManager::GetFirstScene()
@@ -343,22 +344,30 @@ std::shared_ptr<Scene> SceneManager::GetSixthScene()
 
     std::vector<std::shared_ptr<GameObject>> objects;
 
-    auto machine = GameObjectFactory::GetInstance().GetGameObject("Machine", renderTargets[0]);
-    machine->transform->SetLocalPosition({0.0f, -2.0f, -3.0f});
-    machine->transform->SetLocalRotation(glm::radians(glm::vec3({15.0f, 0.0f, 0.0f})));
-    objects.push_back(std::shared_ptr<GameObject>(machine));
+    // auto machine = GameObjectFactory::GetInstance().GetGameObject("Machine", renderTargets[0]);
+    // machine->transform->SetLocalPosition({0.0f, -2.0f, -3.0f});
+    // machine->transform->SetLocalRotation(glm::radians(glm::vec3({15.0f, 0.0f, 0.0f})));
+    // objects.push_back(std::shared_ptr<GameObject>(machine));
 
-    auto headcrab = GameObjectFactory::GetInstance().GetGameObject("Headcrab", renderTargets[1]);
-    headcrab->transform->SetLocalRotation(glm::radians(glm::vec3({15.0f, 0.0f, 0.0f})));
-    headcrab->transform->SetLocalScale(glm::vec3{2.0f});
-    headcrab->transform->AddBasicTransform(std::make_shared<DynamicTranslation>(glm::vec3(0.0f, 2.0f, -3.0f), glm::vec3(0.0f), 0.1f));
-    objects.push_back(std::shared_ptr<GameObject>(machine));
-    objects.push_back(std::shared_ptr<GameObject>(headcrab));
+    // auto headcrab = GameObjectFactory::GetInstance().GetGameObject("Headcrab", renderTargets[1]);
+    // headcrab->transform->SetLocalRotation(glm::radians(glm::vec3({15.0f, 0.0f, 0.0f})));
+    // headcrab->transform->SetLocalScale(glm::vec3{2.0f});
+    // headcrab->transform->AddBasicTransform(std::make_shared<DynamicTranslation>(glm::vec3(0.0f, 2.0f, -3.0f), glm::vec3(0.0f), 0.1f));
+    // objects.push_back(std::shared_ptr<GameObject>(machine));
+    // objects.push_back(std::shared_ptr<GameObject>(headcrab));
+
+    auto whacAMole = GameObjectFactory::GetInstance().GetMachine("Machine");
+    whacAMole->transform->SetLocalPosition({0.0f, -2.0f, -3.0f});
+    whacAMole->transform->SetLocalRotation(glm::radians(glm::vec3({15.0f, 0.0f, 0.0f})));
+    objects.push_back(whacAMole);
 
     std::vector<std::unique_ptr<Light>> lights;
     lights.push_back(std::unique_ptr<AmbientLight>(LightFactory::GetInstance().GetAmbientLight(glm::vec3(1.0f), 1.0f)));
 
     auto scene = std::make_shared<Scene>(objects, std::move(lights));
+    // Need to resolve this issue, because right now for an object to delete any other object it requires pointer to a Scene,
+    // which is bad design
+    whacAMole->SetScene(scene.get());
 
     return scene;
 }

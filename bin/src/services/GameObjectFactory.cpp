@@ -1,10 +1,6 @@
 #include "headers/services/GameObjectFactory.hpp"
-
-/*
-    GameObject(std::string name, std::shared_ptr<IRenderTarget> renderTarget, Transform* transform, int id);
-    GameObject(std::string name, std::shared_ptr<IRenderTarget> renderTarget, int id);
-    GameObject(std::string name, Transform* transform, int id);
-*/
+#include "headers/services/MeshFactory.hpp"
+#include "headers/gameobject/WhacAMole.hpp"
 
 std::shared_ptr<GameObject> GameObjectFactory::GetGameObject(std::string name, std::shared_ptr<IRenderTarget> renderTarget, Transform* transform)
 {
@@ -36,6 +32,27 @@ std::shared_ptr<GameObject> GameObjectFactory::GetGameObject(std::string name, T
 std::shared_ptr<Firefly> GameObjectFactory::GetFireFly(Transform* transform, float distance, glm::vec3 color, float intensity, float k_l, float k_q, float speed)
 {
     std::shared_ptr<Firefly> gameObject = std::make_shared<Firefly>(transform, distance, color, intensity, k_l, k_q, speed, nextId);
+    nextId++;
+
+    gameObjects.push_back(gameObject);
+    return gameObject;
+}
+
+std::shared_ptr<GameObject> GameObjectFactory::GetMole()
+{
+    auto moleMesh = MeshFactory::GetInstance().LoadFromFile("./Models/Headcrab.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
+        "./bin/shaders/fragmentShaderMeshConstant.frag");
+    std::shared_ptr<GameObject> gameObject = std::make_shared<GameObject>("Mole", moleMesh, nextId);
+    nextId++;
+
+    gameObjects.push_back(gameObject);
+    return gameObject;
+}
+
+std::shared_ptr<WhacAMole> GameObjectFactory::GetMachine(std::string name)
+{
+    auto model = MeshFactory::GetInstance().LoadFromFile("./Models/WhacAMole.obj");
+    std::shared_ptr<WhacAMole> gameObject = std::make_shared<WhacAMole>(name, model, nextId);
     nextId++;
 
     gameObjects.push_back(gameObject);

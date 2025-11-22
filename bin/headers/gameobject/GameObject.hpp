@@ -12,6 +12,8 @@ protected:
     std::shared_ptr<IRenderTarget> renderTarget;
     std::string name;
     int id;
+
+    bool isDestructable = false;
 public:
     std::unique_ptr<Transform> transform;
 
@@ -26,4 +28,6 @@ public:
     IRenderTarget* GetRenderTarget();
 
     int GetId() { return id; }
+    void SetIsDestructable(bool value) { isDestructable = value; } 
+    bool GetIsDestructable() { return isDestructable; }
 };
