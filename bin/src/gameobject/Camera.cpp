@@ -135,13 +135,15 @@ void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
             Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
             AppContext* appContext = app->GetAppContext();
 
-            auto newTree = GameObjectFactory::GetInstance().GetGameObject(
-                    "newTree",
-                    MeshFactory::GetInstance().LoadTree(),
-                    new Transform()
-                );
-            newTree->transform->SetLocalPosition(pos);
-            appContext->scene->AddGameObject(newTree);
+            // auto newTree = GameObjectFactory::GetInstance().GetGameObject(
+            //         "newTree",
+            //         MeshFactory::GetInstance().LoadTree(),
+            //         new Transform()
+            //     );
+            // newTree->transform->SetLocalPosition(pos);
+            // appContext->scene->AddGameObject(newTree);
+
+            appContext->scene->DeleteGameObject(id);
         }
         leftButtonPressed = true;
     }

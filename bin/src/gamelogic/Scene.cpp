@@ -43,3 +43,14 @@ void Scene::AddGameObject(std::shared_ptr<GameObject> gameObject)
 {
     this->gameObjects.push_back(gameObject);
 }
+
+void Scene::DeleteGameObject(int id)
+{
+    for(int i = 0; i < gameObjects.size(); i++)
+    {
+        if(gameObjects[i]->GetId() == id)
+        {
+            gameObjects.erase(gameObjects.begin() + i);
+        }
+    }
+}

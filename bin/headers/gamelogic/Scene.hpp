@@ -23,4 +23,5 @@ public:
     Camera* GetCamera();
 
     void AddGameObject(std::shared_ptr<GameObject> gameObject);
+    void DeleteGameObject(int id);
 };

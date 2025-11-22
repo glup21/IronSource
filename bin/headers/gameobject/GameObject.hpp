@@ -24,4 +24,6 @@ public:
     void Render();
 
     IRenderTarget* GetRenderTarget();
+
+    int GetId() { return id; }
 };
