@@ -11,6 +11,7 @@
 #include "headers/services/MaterialFactory.hpp"
 #include "headers/services/GameObjectFactory.hpp"
 #include "headers/services/TextureFactory.hpp"
+#include "headers/transform/DynamicTranslation.hpp"
 #include <spdlog/spdlog.h>
 
 std::shared_ptr<Scene> SceneManager::GetFirstScene()
@@ -348,9 +349,9 @@ std::shared_ptr<Scene> SceneManager::GetSixthScene()
     objects.push_back(std::shared_ptr<GameObject>(machine));
 
     auto headcrab = GameObjectFactory::GetInstance().GetGameObject("Headcrab", renderTargets[1]);
-    headcrab->transform->SetLocalPosition({0.0f, 2.0f, -3.0f});
     headcrab->transform->SetLocalRotation(glm::radians(glm::vec3({15.0f, 0.0f, 0.0f})));
     headcrab->transform->SetLocalScale(glm::vec3{2.0f});
+    headcrab->transform->AddBasicTransform(std::make_shared<DynamicTranslation>(glm::vec3(0.0f, 2.0f, -3.0f), glm::vec3(0.0f), 0.1f));
     objects.push_back(std::shared_ptr<GameObject>(machine));
     objects.push_back(std::shared_ptr<GameObject>(headcrab));
 
