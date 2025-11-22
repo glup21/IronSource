@@ -16,7 +16,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             case GLFW_KEY_1:
             {
                 spdlog::info("Switching scenes: {}", 1);
-                std::shared_ptr<Scene> scene = SceneManager::GetFirstScene(app->GetAppContext()->shaderLibrary);
+                std::shared_ptr<Scene> scene = SceneManager::GetFirstScene();
                 app->SwitchScene(scene);
                 appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
                 break;
@@ -24,7 +24,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             case GLFW_KEY_2:
             {
                 spdlog::info("Switching scenes: {}", 2);
-                std::shared_ptr<Scene> scene = SceneManager::GetSecondScene(app->GetAppContext()->shaderLibrary);
+                std::shared_ptr<Scene> scene = SceneManager::GetSecondScene();
                 app->SwitchScene(scene);
                 appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
                 break;
@@ -32,7 +32,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             case GLFW_KEY_3:
             {
                 spdlog::info("Switching scenes: {}", 3);
-                std::shared_ptr<Scene> scene = SceneManager::GetThirdScene(app->GetAppContext()->shaderLibrary);
+                std::shared_ptr<Scene> scene = SceneManager::GetThirdScene();
                 app->SwitchScene(scene);
                 appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
                 auto lights = appContext->scene->GetLights();
@@ -67,7 +67,7 @@ void Application::Run()
     glfwSetFramebufferSizeCallback(appContext.window, framebuffer_size_callback);
 
     spdlog::info("Loading scene 4");
-    appContext.scene = SceneManager::GetFifthScene(appContext.shaderLibrary);
+    appContext.scene = SceneManager::GetForthScene();
     appContext.shaderLibrary->RegisterCamera(appContext.scene->GetCamera());
 
     spdlog::info("Constructing engine");

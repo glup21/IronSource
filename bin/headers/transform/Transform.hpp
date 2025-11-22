@@ -26,11 +26,8 @@ public:
     ~Transform() = default;
 
     glm::mat4 GetLocalMatrix();
-    glm::mat4 GetWorldMatrix();
 
     void AddBasicTransform(std::shared_ptr<IBasicTransform> basicTransform);
-    void AddChild(Transform* child);
-    void SetParent(Transform* parent);
 
     void SetLocalPosition(const glm::vec3& pos);
     void SetLocalRotation(const glm::quat& rot);
@@ -38,6 +35,4 @@ public:
     glm::vec3 GetLocalPosition() const;
     glm::quat GetLocalRotation() const;
     glm::vec3 GetLocalScale() const;
-
-    glm::vec3 GetForward() const { return localRotation * glm::vec3(0, 0, -1); }
 };

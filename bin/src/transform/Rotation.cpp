@@ -1,21 +1,28 @@
 #include "headers/transform/Rotation.hpp"
 
-Rotation::Rotation(glm::vec3 angles) : angles(angles) {}
+Rotation::Rotation(float angle, glm::vec3 axis) : angle(angle), axis(axis) {}
 
-void Rotation::SetAngles(glm::vec3 angles) 
+void Rotation::SetAngle(float angle)
 {
-    angles = angles;
+    this->angle = angle;
 }
 
-glm::vec3 Rotation::GetAngles() const 
-{ 
-    return angles;
+float Rotation::GetAngle() 
+{
+    return angle;
 }
 
-glm::mat4 Rotation::GetTransformMatrix() 
+void Rotation::SetAxis(glm::vec3 axis)
 {
-    glm::mat4 rotX = glm::rotate(glm::mat4(1.0f), angles.x, glm::vec3(1,0,0));
-    glm::mat4 rotY = glm::rotate(glm::mat4(1.0f), angles.y, glm::vec3(0,1,0));
-    glm::mat4 rotZ = glm::rotate(glm::mat4(1.0f), angles.z, glm::vec3(0,0,1));
-    return rotZ * rotY * rotX;
+    this->axis = axis;
+}
+
+glm::vec3 Rotation::GetAxis() 
+{
+    return axis;
+}
+
+glm::mat4 Rotation::GetTransformMatrix()
+{
+    return glm::rotate(glm::mat4(1.0f), angle, axis);
 }

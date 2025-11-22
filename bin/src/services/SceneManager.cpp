@@ -13,7 +13,7 @@
 #include "headers/services/TextureFactory.hpp"
 #include <spdlog/spdlog.h>
 
-std::shared_ptr<Scene> SceneManager::GetFirstScene(std::shared_ptr<ShaderLibrary> shaderLibrary)
+std::shared_ptr<Scene> SceneManager::GetFirstScene()
 {
     // Replace later with initialization from text files
     auto firstMesh = std::make_shared<SimpleMesh>(
@@ -31,7 +31,7 @@ std::shared_ptr<Scene> SceneManager::GetFirstScene(std::shared_ptr<ShaderLibrary
 
     std::vector<IBasicTransform*> firstObjectTransforms;
     firstObjectTransforms.push_back(new Translation(glm::vec3{0.0, 0.0, 0.0}));
-    firstObjectTransforms.push_back(new DynamicRotation(glm::vec3(0.0f, 0.0, 0.0), glm::radians(90.0f))); 
+    firstObjectTransforms.push_back(new DynamicRotation(0, glm::vec3(0.0, 0.0, 1.0), 10.0f)); 
     firstObjectTransforms.push_back(new Scale(glm::vec3(1.0, 1.0, 1.0))); 
 
 
@@ -45,7 +45,7 @@ std::shared_ptr<Scene> SceneManager::GetFirstScene(std::shared_ptr<ShaderLibrary
     return scene;
 }
 
-std::shared_ptr<Scene> SceneManager::GetSecondScene(std::shared_ptr<ShaderLibrary> shaderLibrary)
+std::shared_ptr<Scene> SceneManager::GetSecondScene()
 {
     // Replace later with initialization from text files
 
@@ -90,7 +90,7 @@ std::shared_ptr<Scene> SceneManager::GetSecondScene(std::shared_ptr<ShaderLibrar
     return scene;
 }
 
-std::shared_ptr<Scene> SceneManager::GetThirdScene(std::shared_ptr<ShaderLibrary> shaderLibrary)
+std::shared_ptr<Scene> SceneManager::GetThirdScene()
 {
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
@@ -114,31 +114,31 @@ std::shared_ptr<Scene> SceneManager::GetThirdScene(std::shared_ptr<ShaderLibrary
     std::vector<IBasicTransform*> firstObjectTransforms{
         new Translation(glm::vec3{0.5, -0.25, 0.0}),
         new Scale(glm::vec3(1, 1, 1)),
-        new Rotation(glm::vec3(0, 15, 0))
+        new Rotation(15, Y_AXIS)
     };
 
     std::vector<IBasicTransform*> secondObjectTransforms{
         new Translation(glm::vec3{-0.4, -0.35, -0.25}),
         new Scale(glm::vec3(0.5, 0.5, 0.5)),
-        new Rotation(glm::vec3(0, 15, 0))
+        new Rotation(15, Y_AXIS)
     };
 
     std::vector<IBasicTransform*> thirdObjectTransforms{
         new Translation(glm::vec3{0, -0.75, -0.5}),
         new Scale(glm::vec3(1, 1, 1)),
-        new Rotation(glm::vec3(15, 0, 0))
+        new Rotation(15, Y_AXIS)
     };
 
     std::vector<IBasicTransform*> forthObjectTransforms{
         new Translation(glm::vec3{0.3, 0.3, 0.6}),
         new Scale(glm::vec3(0.3, 0.3, 0.5)),
-        new Rotation(glm::vec3(0, 90, 0))
+        new Rotation(90, Y_AXIS)
     };
 
     std::vector<IBasicTransform*> fifthObjectTransforms{
         new Translation(glm::vec3{-0.3, 0.3, -0.6}),
         new Scale(glm::vec3(0.3, 0.3, 0.5)),
-        new Rotation(glm::vec3(0, -90, 0))
+        new Rotation(-90, Y_AXIS)
     };
 
     std::vector<IBasicTransform*> sixthObjectTransforms{
@@ -176,7 +176,7 @@ std::shared_ptr<Scene> SceneManager::GetThirdScene(std::shared_ptr<ShaderLibrary
 }
 
 
-std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary> shaderLibrary)
+std::shared_ptr<Scene> SceneManager::GetForthScene()
 {
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
@@ -276,7 +276,7 @@ std::shared_ptr<Scene> SceneManager::GetForthScene(std::shared_ptr<ShaderLibrary
     return scene;
 }
 
-std::shared_ptr<Scene> SceneManager::GetFifthScene(std::shared_ptr<ShaderLibrary> shaderLibrary)
+std::shared_ptr<Scene> SceneManager::GetFifthScene()
 {
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
@@ -298,7 +298,7 @@ std::shared_ptr<Scene> SceneManager::GetFifthScene(std::shared_ptr<ShaderLibrary
     auto sun = GameObjectFactory::GetInstance().GetGameObject("Sun", renderTargets[0]);
     //sun->transform->SetLocalPosition(glm::vec3(0.0f, 2.0f, -30.0f));
     auto sun_position = std::make_shared<Translation>(glm::vec3(0.0f, 2.0f, -10.0f));
-    auto sun_rotation = std::make_shared<DynamicRotation>(glm::vec3(0.0), 0.5f);
+    auto sun_rotation = std::make_shared<DynamicRotation>(0, glm::vec3(0.0, 0.0, 1.0), 0.5f);
     sun->transform->AddBasicTransform(sun_position);
     sun->transform->AddBasicTransform(sun_rotation);
     
@@ -307,14 +307,14 @@ std::shared_ptr<Scene> SceneManager::GetFifthScene(std::shared_ptr<ShaderLibrary
     earth->transform->AddBasicTransform(sun_position);
     earth->transform->AddBasicTransform(sun_rotation);
     earth->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(4.0f, 0.0f, 0.0f)));
-    earth->transform->AddBasicTransform(std::make_shared<DynamicRotation>(glm::vec3(0.0), 2.0f));
+    earth->transform->AddBasicTransform(std::make_shared<DynamicRotation>(0, glm::vec3(0.0, 0.0, 1.0), 2.0f));
     earth->transform->AddBasicTransform(std::make_shared<Scale>(glm::vec3(0.5f)));
 
     auto moon = GameObjectFactory::GetInstance().GetGameObject("Moon", renderTargets[2]);
     moon->transform->AddBasicTransform(sun_position);
     moon->transform->AddBasicTransform(sun_rotation);
     moon->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(4.0f, 0.0f, 0.0f)));
-    moon->transform->AddBasicTransform(std::make_shared<DynamicRotation>(glm::vec3(0.0), 2.0f));
+    moon->transform->AddBasicTransform(std::make_shared<DynamicRotation>(0, glm::vec3(0.0, 0.0, 1.0), 2.0f));
     moon->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(2.0f, 0.0f, 0.0f)));
     moon->transform->AddBasicTransform(std::make_shared<Scale>(glm::vec3(0.125f)));
 

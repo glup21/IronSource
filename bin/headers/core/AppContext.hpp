@@ -11,6 +11,6 @@ struct AppContext
 {
     GLFWwindow* window;
     std::shared_ptr<Scene> scene;
-    std::shared_ptr<ShaderLibrary> shaderLibrary;
+    ShaderLibrary* shaderLibrary;
 };
 

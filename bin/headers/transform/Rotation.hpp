@@ -1,16 +1,25 @@
 #pragma once
 #include "headers/transform/IBasicTransform.hpp"
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/quaternion.hpp>
+
+static const glm::vec3 X_AXIS(1.0f, 0.0f, 0.0f);
+static const glm::vec3 Y_AXIS(0.0f, 1.0f, 0.0f);
+static const glm::vec3 Z_AXIS(0.0f, 0.0f, 1.0f);
 
 class Rotation : public IBasicTransform
 {
 protected:
-    glm::vec3 angles;
+    float angle;
+    glm::vec3 axis;
 
 public:
-    Rotation(glm::vec3 angles);
-    void SetAngles(glm::vec3 angles);
-    glm::vec3 GetAngles() const;
+    Rotation(float angle, glm::vec3 axis);
+    void SetAngle(float angle);
+    float GetAngle();
+
+    void SetAxis(glm::vec3 axis);
+    glm::vec3 GetAxis();
 
     glm::mat4 GetTransformMatrix() override;
 };

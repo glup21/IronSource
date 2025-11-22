@@ -13,17 +13,6 @@ void Transform::AddBasicTransform(std::shared_ptr<IBasicTransform> basicTransfor
     basicTransforms.push_back(std::move(basicTransform));
 }
 
-void Transform::AddChild(Transform* child)
-{
-    child->SetParent(this);
-    children.push_back(std::move(child));
-}
-
-void Transform::SetParent(Transform* parent)
-{
-    this->parent = parent;
-}
-
 void Transform::SetLocalPosition(const glm::vec3& pos)
 {
     localPosition = pos;
@@ -65,13 +54,4 @@ glm::mat4 Transform::GetLocalMatrix()
         result *= basicTransform->GetTransformMatrix();
     }
     return result;
-}
-
-glm::mat4 Transform::GetWorldMatrix()
-{
-    if(!parent) 
-        return GetLocalMatrix();
-
-    return parent->GetWorldMatrix() * GetLocalMatrix(); 
-
 }

@@ -10,7 +10,7 @@ private:
     mutable double lastTime; 
 
 public:
-    DynamicRotation(glm::vec3 startAngles, float rotationSpeed);
+    DynamicRotation(float angle, glm::vec3 axis, float rotationSpeed);
 
     glm::mat4 GetTransformMatrix() override;
 };
