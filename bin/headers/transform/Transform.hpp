@@ -5,7 +5,6 @@
 #include <vector>
 #include <glm/mat4x4.hpp>
 #include <glm/vec3.hpp>
-#include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <memory>
 
@@ -13,7 +12,7 @@ class Transform
 {
 private:
     glm::vec3 localPosition{0.0f};
-    glm::quat localRotation{1.0f, 0.0f, 0.0f, 0.0f};
+    glm::vec3 localRotation{0.0f}; // Euler angles: pitch, yaw, roll
     glm::vec3 localScale{1.0f};
 
     Transform* parent = nullptr;
@@ -29,10 +28,11 @@ public:
 
     void AddBasicTransform(std::shared_ptr<IBasicTransform> basicTransform);
 
-    void SetLocalPosition(const glm::vec3& pos);
-    void SetLocalRotation(const glm::quat& rot);
-    void SetLocalScale(const glm::vec3& s);
-    glm::vec3 GetLocalPosition() const;
-    glm::quat GetLocalRotation() const;
-    glm::vec3 GetLocalScale() const;
+    void SetLocalPosition(glm::vec3 pos);
+    void SetLocalRotation(glm::vec3 angle);
+    void SetLocalScale(glm::vec3 s);
+
+    glm::vec3 GetLocalPosition();
+    glm::vec3 GetLocalRotation();
+    glm::vec3 GetLocalScale();
 };

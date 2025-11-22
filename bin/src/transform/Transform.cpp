@@ -13,32 +13,32 @@ void Transform::AddBasicTransform(std::shared_ptr<IBasicTransform> basicTransfor
     basicTransforms.push_back(std::move(basicTransform));
 }
 
-void Transform::SetLocalPosition(const glm::vec3& pos)
+void Transform::SetLocalPosition(glm::vec3 pos)
 {
     localPosition = pos;
 }
 
-void Transform::SetLocalRotation(const glm::quat& rot)
+void Transform::SetLocalRotation(glm::vec3 angle)
 {
-    localRotation = rot;
+    localRotation = angle;
 }
 
-void Transform::SetLocalScale(const glm::vec3& s)
+void Transform::SetLocalScale(glm::vec3 s)
 {
     localScale = s;
 }
 
-glm::vec3 Transform::GetLocalPosition() const
+glm::vec3 Transform::GetLocalPosition() 
 {
     return localPosition;
 }
 
-glm::quat Transform::GetLocalRotation() const
+glm::vec3 Transform::GetLocalRotation()
 {
     return localRotation;
 }
 
-glm::vec3 Transform::GetLocalScale() const
+glm::vec3 Transform::GetLocalScale() 
 {
     return localScale;
 }
@@ -47,7 +47,14 @@ glm::mat4 Transform::GetLocalMatrix()
 {
     glm::mat4 result(1.0f);
     result = glm::translate(result, localPosition);
-    result *= glm::mat4_cast(localRotation);
+
+    glm::mat4 rotX = glm::rotate(glm::mat4(1.0f), localRotation.x, X_AXIS);
+    glm::mat4 rotY = glm::rotate(glm::mat4(1.0f), localRotation.y, Y_AXIS);
+    glm::mat4 rotZ = glm::rotate(glm::mat4(1.0f), localRotation.z, Z_AXIS);
+    glm::mat4 rotationMatrix = rotZ * rotY * rotX;
+
+    result *= rotationMatrix;
+
     result = glm::scale(result, localScale);
     for (auto& basicTransform : basicTransforms)
     {

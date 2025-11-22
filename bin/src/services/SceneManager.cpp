@@ -49,8 +49,8 @@ std::shared_ptr<Scene> SceneManager::GetSecondScene()
 {
     // Replace later with initialization from text files
 
-    //auto sphereMesh = MeshFactory::LoadSphere();
-    auto sphereMesh = MeshFactory::LoadFromFile("./Models/formula2.obj");
+    //auto sphereMesh = MeshFactory::GetInstance().LoadSphere();
+    auto sphereMesh = MeshFactory::GetInstance().LoadFromFile("./Models/formula2.obj");
 
     std::vector<IBasicTransform*> firstObjectTransforms;
     firstObjectTransforms.push_back(new Translation(glm::vec3{0.5, 0.0, 0.0}));
@@ -94,9 +94,9 @@ std::shared_ptr<Scene> SceneManager::GetThirdScene()
 {
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
-    std::vector<std::shared_ptr<SimpleMesh>> meshes = MeshFactory::LoadAllPredefinedModels();
+    std::vector<std::shared_ptr<SimpleMesh>> meshes = MeshFactory::GetInstance().LoadAllPredefinedModels();
     renderTargets.reserve(meshes.size() + 1);
-    renderTargets.push_back(MeshFactory::LoadFromFile("./Models/formula2.obj"));
+    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/formula2.obj"));
     for (auto& mesh : meshes)
     {
         renderTargets.push_back(mesh); 
@@ -180,13 +180,13 @@ std::shared_ptr<Scene> SceneManager::GetForthScene()
 {
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
-    std::vector<std::shared_ptr<SimpleMesh>> meshes = MeshFactory::LoadAllPredefinedModels();
+    std::vector<std::shared_ptr<SimpleMesh>> meshes = MeshFactory::GetInstance().LoadAllPredefinedModels();
     renderTargets.reserve(meshes.size() + 1);  
     for (auto& mesh : meshes)
     {
         renderTargets.push_back(mesh); 
     }
-    renderTargets.push_back(MeshFactory::LoadFromFile("./Models/Sun.obj"));
+    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/Sun.obj"));
 
     std::vector<std::shared_ptr<GameObject>> objects;
 
@@ -280,17 +280,17 @@ std::shared_ptr<Scene> SceneManager::GetFifthScene()
 {
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
-    auto earthModel = MeshFactory::LoadFromFile("./Models/Earth.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
+    auto earthModel = MeshFactory::GetInstance().LoadFromFile("./Models/Earth.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
         "./bin/shaders/fragmentShaderEarth.frag");
     
     earthModel->GetMesh(0)->GetMaterial()->AddColorTexture(TextureFactory::GetInstance().GetTexture("./Models/2k_earth_nightmap.jpg"));
 
-    renderTargets.push_back(MeshFactory::LoadFromFile("./Models/Sun.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
+    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/Sun.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
         "./bin/shaders/fragmentShaderMeshConstant.frag"));
 
     renderTargets.push_back(earthModel);    
 
-    renderTargets.push_back(MeshFactory::LoadFromFile("./Models/Moon.obj"));  
+    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/Moon.obj"));  
 
     std::vector<std::shared_ptr<GameObject>> objects;
 
@@ -326,6 +326,36 @@ std::shared_ptr<Scene> SceneManager::GetFifthScene()
     auto pointLightPosition = new Transform(std::vector<IBasicTransform*>{sun_position.get()});
     lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetInstance().GetPointLight(pointLightPosition, glm::vec3(1.0f, 1.0f, 1.0f), 5.0f, 0.00001f, 0.00001f)));
     lights.push_back(std::unique_ptr<AmbientLight>(LightFactory::GetInstance().GetAmbientLight(glm::vec3(1.0f), 0.1f)));
+
+    auto scene = std::make_shared<Scene>(objects, std::move(lights));
+
+    return scene;
+}
+
+std::shared_ptr<Scene> SceneManager::GetSixthScene()
+{
+    std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
+
+    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/WhacAMole.obj"));
+    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/Headcrab.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
+        "./bin/shaders/fragmentShaderMeshConstant.frag"));
+
+    std::vector<std::shared_ptr<GameObject>> objects;
+
+    auto machine = GameObjectFactory::GetInstance().GetGameObject("Machine", renderTargets[0]);
+    machine->transform->SetLocalPosition({0.0f, -2.0f, -3.0f});
+    machine->transform->SetLocalRotation(glm::radians(glm::vec3({15.0f, 0.0f, 0.0f})));
+    objects.push_back(std::shared_ptr<GameObject>(machine));
+
+    auto headcrab = GameObjectFactory::GetInstance().GetGameObject("Headcrab", renderTargets[1]);
+    headcrab->transform->SetLocalPosition({0.0f, 2.0f, -3.0f});
+    headcrab->transform->SetLocalRotation(glm::radians(glm::vec3({15.0f, 0.0f, 0.0f})));
+    headcrab->transform->SetLocalScale(glm::vec3{2.0f});
+    objects.push_back(std::shared_ptr<GameObject>(machine));
+    objects.push_back(std::shared_ptr<GameObject>(headcrab));
+
+    std::vector<std::unique_ptr<Light>> lights;
+    lights.push_back(std::unique_ptr<AmbientLight>(LightFactory::GetInstance().GetAmbientLight(glm::vec3(1.0f), 1.0f)));
 
     auto scene = std::make_shared<Scene>(objects, std::move(lights));
 

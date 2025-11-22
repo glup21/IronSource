@@ -18,13 +18,23 @@
 
 class MeshFactory
 {
+private:
+    std::map<std::string, std::shared_ptr<Model>> models;
+
+    MeshFactory() = default;
 public:
-    static std::vector<std::shared_ptr<SimpleMesh>> LoadAllPredefinedModels();
-    static std::shared_ptr<SimpleMesh> LoadSphere(std::string vertexShaderPath = "", std::string fragmentShaderPath = "");
-    static std::shared_ptr<SimpleMesh> LoadTree();
-    static std::shared_ptr<Model> LoadFromFile(std::string fileName,
+    static MeshFactory& GetInstance()
+    {
+        static MeshFactory instance;
+        return instance;
+    }
+
+    std::vector<std::shared_ptr<SimpleMesh>> LoadAllPredefinedModels();
+    std::shared_ptr<SimpleMesh> LoadSphere(std::string vertexShaderPath = "", std::string fragmentShaderPath = "");
+    std::shared_ptr<SimpleMesh> LoadTree();
+    std::shared_ptr<Model> LoadFromFile(std::string fileName,
         std::string vertexShaderPath = GlobalConfig::GetDefaultMeshVertexShaderPath(),
         std::string fragmentShaderPath = GlobalConfig::GetDefaultMeshFragmentShaderPath());
 
-    static Skybox* GetSkybox();
+    Skybox* GetSkybox();
 };

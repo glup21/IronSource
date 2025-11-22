@@ -170,6 +170,17 @@ std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels()
 
 std::shared_ptr<Model> MeshFactory::LoadFromFile(std::string filePath, std::string vertexShaderPath, std::string fragmentShaderPath)
 {
+    
+    spdlog::info("Trying to find a model in cache");
+
+    auto iterator = models.find(filePath);
+    if(iterator != models.end())
+    {
+        spdlog::info("Found cached mesh!");
+        return iterator->second;
+    }
+
+    spdlog::info("Failed to find mesh in cache");
     spdlog::info("Loading OBJ model from path: {}", filePath);
 
     tinyobj::ObjReaderConfig config;
@@ -258,6 +269,8 @@ std::shared_ptr<Model> MeshFactory::LoadFromFile(std::string filePath, std::stri
     }
 
     spdlog::info("Finished processing OBJ file: {}", filePath);
+    models[filePath] = model;
+    
     return model;
 }
 

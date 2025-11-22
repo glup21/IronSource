@@ -5,7 +5,7 @@ Scene::Scene(std::vector<std::shared_ptr<GameObject>> gameObjects)
     : gameObjects(gameObjects)
 {
     this->camera = std::make_unique<Camera>();
-    this->camera->SetSkybox(MeshFactory::GetSkybox());
+    this->camera->SetSkybox(MeshFactory::GetInstance().GetSkybox());
 }
 
 Scene::Scene(std::vector<std::shared_ptr<GameObject>> gameObjects,
@@ -13,7 +13,7 @@ Scene::Scene(std::vector<std::shared_ptr<GameObject>> gameObjects,
     : gameObjects(std::move(gameObjects)), lights(std::move(lights))
 {
     this->camera = std::make_unique<Camera>();
-    this->camera->SetSkybox(MeshFactory::GetSkybox());
+    this->camera->SetSkybox(MeshFactory::GetInstance().GetSkybox());
 }
 
 std::vector<std::shared_ptr<GameObject>>* Scene::GetGameObjects()
