@@ -12,9 +12,19 @@ void Material::Use()
 {
     this->shaderProgram->Use();
 
-    if(colorTexture)
+    if(colorTexture.size() > 1)
     {
-        this->colorTexture->Use(GL_TEXTURE0);
+        // Its only used on Earth for blend essentially
+        for(int i = 0; i < colorTexture.size(); i++)
+        {
+            this->colorTexture[i]->Use(GL_TEXTURE0 + i);
+            this->shaderProgram->SetUniform("colorTextures[" + std::to_string(i) + "]", i);
+        }
+
+    }
+    else if (colorTexture.size() == 1)
+    {
+        this->colorTexture[0]->Use(GL_TEXTURE0);
         this->shaderProgram->SetUniform("colorTexture", 0);
     }
     this->shaderProgram->SetUniform("materialAmbient", this->ambient);
@@ -28,7 +38,7 @@ void Material::SetTransformMatrix(glm::mat4 transformMatrix)
     this->shaderProgram->SetUniform("transformMatrix", transformMatrix);
 }
 
-void Material::SetColorTexture(std::shared_ptr<Texture> texture)
+void Material::AddColorTexture(std::shared_ptr<Texture> texture)
 {
-    this->colorTexture = texture;
+    this->colorTexture.push_back(texture);
 }

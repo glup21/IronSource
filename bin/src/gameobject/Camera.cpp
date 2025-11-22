@@ -12,7 +12,7 @@ Camera::Camera() : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 2.0f, 2.0f), up(0.0f, 1
 {
     forward = glm::normalize(forward);
     Transform* flashlightTransform = new Transform();
-    flashlightTransform->SetPosition(eye);
+    flashlightTransform->SetLocalPosition(eye);
     flashLight = std::shared_ptr<SpotLight>(LightFactory::GetInstance().GetSpotLight(
         flashlightTransform,
         glm::vec3(1.0f, 1.0f, 0.0f),
@@ -140,7 +140,7 @@ void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
                     MeshFactory::LoadTree(),
                     new Transform()
                 );
-            newTree->transform->SetPosition(pos);
+            newTree->transform->SetLocalPosition(pos);
             appContext->scene->AddGameObject(newTree);
         }
         leftButtonPressed = true;
@@ -151,7 +151,7 @@ void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
     }
 
     this->flashLight->SetDirection(forward);
-    this->flashLight->transform->SetPosition(eye);
+    this->flashLight->transform->SetLocalPosition(eye);
     Update();
 }
 

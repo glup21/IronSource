@@ -13,7 +13,7 @@ Firefly::Firefly(Transform* transform, float distance, glm::vec3 color, float in
     // Light
     this->light = std::shared_ptr<PointLight>(LightFactory::GetInstance().GetPointLight(transform, color, intensity, k_l, k_q));
 
-    this->transform->SetScale(glm::vec3(0.05));
+    this->transform->SetLocalScale(glm::vec3(0.05));
 }
 
 void Firefly::Update(float deltaTime)
@@ -24,7 +24,7 @@ void Firefly::Update(float deltaTime)
         SetNewDestination();
     }
 
-    glm::vec3 currentPos = this->transform->GetPosition();
+    glm::vec3 currentPos = this->transform->GetLocalPosition();
 
     glm::vec3 dir = *destination - currentPos;
 
@@ -39,7 +39,7 @@ void Firefly::Update(float deltaTime)
     dir = glm::normalize(dir);
     glm::vec3 newPos = currentPos + dir * this->speed * deltaTime;
 
-    this->transform->SetPosition(newPos);
+    this->transform->SetLocalPosition(newPos);
 
 }
 

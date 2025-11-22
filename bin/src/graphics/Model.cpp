@@ -12,3 +12,11 @@ void Model::AddMesh(const std::shared_ptr<Mesh>& mesh)
 {
     this->meshes.push_back(mesh);
 }
+
+Mesh* Model::GetMesh(int index)
+{
+    if(index < 0 || index >= meshes.size() || meshes.size() == 0)
+        return nullptr;
+
+    return meshes.at(index).get();
+}

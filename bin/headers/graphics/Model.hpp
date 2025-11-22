@@ -13,4 +13,5 @@ public:
 
     void Render(glm::mat4 transformMatrix);
     void AddMesh(const std::shared_ptr<Mesh>& mesh);
+    Mesh* GetMesh(int index);
 };

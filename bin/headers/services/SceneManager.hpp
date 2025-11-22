@@ -14,4 +14,5 @@ public:
     static std::shared_ptr<Scene> GetSecondScene(std::shared_ptr<ShaderLibrary> shaderLibrary);
     static std::shared_ptr<Scene> GetThirdScene(std::shared_ptr<ShaderLibrary> shaderLibrary);
     static std::shared_ptr<Scene> GetForthScene(std::shared_ptr<ShaderLibrary> shaderLibrary);
+    static std::shared_ptr<Scene> GetFifthScene(std::shared_ptr<ShaderLibrary> shaderLibrary);
 };

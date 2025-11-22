@@ -61,3 +61,8 @@ void Mesh::Render(glm::mat4 transformMatrix)
     
     glBindVertexArray(0);
 }
+
+Material* Mesh::GetMaterial()
+{
+    return material.get();
+}

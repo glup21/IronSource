@@ -26,6 +26,7 @@ public:
     ~Mesh() = default;
 
     void Render(glm::mat4 transformMatrix);
+    Material* GetMaterial();
 
 private:
     vector<Vertex> vertices;
@@ -34,4 +35,5 @@ private:
     size_t vertexCount;
 
     void Init();
+    
 };

@@ -8,12 +8,12 @@ Transform::Transform(std::vector<IBasicTransform*> basicTransforms)
     }
 }
 
-void Transform::AddBasicTransform(std::unique_ptr<IBasicTransform> basicTransform)
+void Transform::AddBasicTransform(std::shared_ptr<IBasicTransform> basicTransform)
 {
     basicTransforms.push_back(std::move(basicTransform));
 }
 
-void Transform::AddChild(std::unique_ptr<Transform> child)
+void Transform::AddChild(Transform* child)
 {
     child->SetParent(this);
     children.push_back(std::move(child));
@@ -24,42 +24,42 @@ void Transform::SetParent(Transform* parent)
     this->parent = parent;
 }
 
-void Transform::SetPosition(const glm::vec3& pos)
+void Transform::SetLocalPosition(const glm::vec3& pos)
 {
-    position = pos;
+    localPosition = pos;
 }
 
-void Transform::SetRotation(const glm::quat& rot)
+void Transform::SetLocalRotation(const glm::quat& rot)
 {
-    rotation = rot;
+    localRotation = rot;
 }
 
-void Transform::SetScale(const glm::vec3& s)
+void Transform::SetLocalScale(const glm::vec3& s)
 {
-    scale = s;
+    localScale = s;
 }
 
-glm::vec3 Transform::GetPosition() const
+glm::vec3 Transform::GetLocalPosition() const
 {
-    return position;
+    return localPosition;
 }
 
-glm::quat Transform::GetRotation() const
+glm::quat Transform::GetLocalRotation() const
 {
-    return rotation;
+    return localRotation;
 }
 
-glm::vec3 Transform::GetScale() const
+glm::vec3 Transform::GetLocalScale() const
 {
-    return scale;
+    return localScale;
 }
 
 glm::mat4 Transform::GetLocalMatrix()
 {
     glm::mat4 result(1.0f);
-    result = glm::translate(result, position);
-    result *= glm::mat4_cast(rotation);
-    result = glm::scale(result, scale);
+    result = glm::translate(result, localPosition);
+    result *= glm::mat4_cast(localRotation);
+    result = glm::scale(result, localScale);
     for (auto& basicTransform : basicTransforms)
     {
         result *= basicTransform->GetTransformMatrix();
@@ -69,7 +69,9 @@ glm::mat4 Transform::GetLocalMatrix()
 
 glm::mat4 Transform::GetWorldMatrix()
 {
-    if (parent)
-        return parent->GetWorldMatrix() * GetLocalMatrix();
-    return GetLocalMatrix();
+    if(!parent) 
+        return GetLocalMatrix();
+
+    return parent->GetWorldMatrix() * GetLocalMatrix(); 
+
 }

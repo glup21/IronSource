@@ -12,13 +12,13 @@
 class Transform
 {
 private:
-    glm::vec3 position{0.0f};
-    glm::quat rotation{1.0f, 0.0f, 0.0f, 0.0f};
-    glm::vec3 scale{1.0f};
+    glm::vec3 localPosition{0.0f};
+    glm::quat localRotation{1.0f, 0.0f, 0.0f, 0.0f};
+    glm::vec3 localScale{1.0f};
 
     Transform* parent = nullptr;
-    std::vector<std::unique_ptr<Transform>> children;
-    std::vector<std::unique_ptr<IBasicTransform>> basicTransforms;
+    std::vector<Transform*> children;
+    std::vector<std::shared_ptr<IBasicTransform>> basicTransforms;
 
 public:
     Transform() = default;
@@ -28,15 +28,16 @@ public:
     glm::mat4 GetLocalMatrix();
     glm::mat4 GetWorldMatrix();
 
-    void AddBasicTransform(std::unique_ptr<IBasicTransform> basicTransform);
-    void AddChild(std::unique_ptr<Transform> child);
+    void AddBasicTransform(std::shared_ptr<IBasicTransform> basicTransform);
+    void AddChild(Transform* child);
     void SetParent(Transform* parent);
 
-    void SetPosition(const glm::vec3& pos);
-    void SetRotation(const glm::quat& rot);
-    void SetScale(const glm::vec3& s);
-    glm::vec3 GetPosition() const;
-    glm::quat GetRotation() const;
-    glm::vec3 GetScale() const;
-    glm::vec3 GetForward() const { return rotation * glm::vec3(0, 0, -1); }
+    void SetLocalPosition(const glm::vec3& pos);
+    void SetLocalRotation(const glm::quat& rot);
+    void SetLocalScale(const glm::vec3& s);
+    glm::vec3 GetLocalPosition() const;
+    glm::quat GetLocalRotation() const;
+    glm::vec3 GetLocalScale() const;
+
+    glm::vec3 GetForward() const { return localRotation * glm::vec3(0, 0, -1); }
 };

@@ -34,7 +34,7 @@ std::shared_ptr<Material> MaterialFactory::GetMaterialFromMtl(const tinyobj::mat
     {
         texturePath = GlobalConfig::GetDefaultTexturePath();
     }
-    res->SetColorTexture(TextureFactory::GetInstance().GetTexture(texturePath));
+    res->AddColorTexture(TextureFactory::GetInstance().GetTexture(texturePath));
 
     return res;
 }

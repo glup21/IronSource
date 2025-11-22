@@ -179,7 +179,7 @@ void ShaderProgram::HandleDirectionalLight(DirectionalLight* directionalLight)
 
 void ShaderProgram::HandleSpotLight(SpotLight* spotLight)
 {
-    SetUniform("spotLights[" + std::to_string(spotLightCount) + "].position", spotLight->transform->GetPosition());
+    SetUniform("spotLights[" + std::to_string(spotLightCount) + "].position", spotLight->transform->GetLocalPosition());
     SetUniform("spotLights[" + std::to_string(spotLightCount) + "].direction", spotLight->GetDirection());
 
     SetUniform("spotLights[" + std::to_string(spotLightCount) + "].color", spotLight->GetColor());

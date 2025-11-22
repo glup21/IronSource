@@ -137,11 +137,8 @@ void main()
 
         result += diffuse + specular;
     }
-    if (numPointLights == 13 )
-    {
-        result = vec3(1.0); // fallback to full brightness
-    }
 
+    //result = vec3(1.0);
     vec4 texColor = texture(colorTexture, fragTexCoord);
     fragColor = vec4(result * texColor.rgb, 1.0);
 }
