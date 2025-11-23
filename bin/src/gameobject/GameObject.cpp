@@ -32,7 +32,7 @@ void GameObject::Render()
     {   
         // IDs are clamped to 255 though
         glStencilFunc(GL_ALWAYS, id, 0xFF);
-        glm::mat4 modelMatrix = transform->GetLocalMatrix();
+        glm::mat4 modelMatrix = transform->GetTransformMatrix();
         renderTarget->Render(modelMatrix); 
     }
 }

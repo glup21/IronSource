@@ -43,7 +43,7 @@ glm::vec3 Transform::GetLocalScale()
     return localScale;
 }
 
-glm::mat4 Transform::GetLocalMatrix()
+glm::mat4 Transform::GetTransformMatrix()
 {
     glm::mat4 result(1.0f);
     result = glm::translate(result, localPosition);

@@ -8,15 +8,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <memory>
 
-class Transform
+class Transform : public IBasicTransform
 {
 private:
     glm::vec3 localPosition{0.0f};
-    glm::vec3 localRotation{0.0f}; // Euler angles: pitch, yaw, roll
+    glm::vec3 localRotation{0.0f}; 
     glm::vec3 localScale{1.0f};
 
-    Transform* parent = nullptr;
-    std::vector<Transform*> children;
     std::vector<std::shared_ptr<IBasicTransform>> basicTransforms;
 
 public:
@@ -24,7 +22,7 @@ public:
     Transform(std::vector<IBasicTransform*> basicTransforms);
     ~Transform() = default;
 
-    glm::mat4 GetLocalMatrix();
+    glm::mat4 GetTransformMatrix() override;
 
     void AddBasicTransform(std::shared_ptr<IBasicTransform> basicTransform);
 

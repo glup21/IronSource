@@ -294,25 +294,24 @@ std::shared_ptr<Scene> SceneManager::GetFifthScene()
 
 
     auto sun = GameObjectFactory::GetInstance().GetGameObject("Sun", renderTargets[0]);
-    //sun->transform->SetLocalPosition(glm::vec3(0.0f, 2.0f, -30.0f));
-    auto sun_position = std::make_shared<Translation>(glm::vec3(0.0f, 2.0f, -10.0f));
-    auto sun_rotation = std::make_shared<DynamicRotation>(0, glm::vec3(0.0, 0.0, 1.0), 0.5f);
-    sun->transform->AddBasicTransform(sun_position);
-    sun->transform->AddBasicTransform(sun_rotation);
+
+    std::shared_ptr<Transform> sunTransform = std::make_shared<Transform>();
+    auto sunPosition = std::make_shared<Translation>(glm::vec3(0.0f, 2.0f, -10.0f));
+    sunTransform->AddBasicTransform(sunPosition);
+    sunTransform->AddBasicTransform(std::make_shared<DynamicRotation>(0, glm::vec3(0.0, 0.0, 1.0), 0.5f));
+    sun->transform->AddBasicTransform(sunTransform);
     
     auto earth = GameObjectFactory::GetInstance().GetGameObject("Earth", renderTargets[1]);
-    
-    earth->transform->AddBasicTransform(sun_position);
-    earth->transform->AddBasicTransform(sun_rotation);
-    earth->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(4.0f, 0.0f, 0.0f)));
-    earth->transform->AddBasicTransform(std::make_shared<DynamicRotation>(0, glm::vec3(0.0, 0.0, 1.0), 2.0f));
+    std::shared_ptr<Transform> earthTransform = std::make_shared<Transform>();
+
+    earthTransform->AddBasicTransform(sunTransform);
+    earthTransform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(4.0f, 0.0f, 0.0f)));
+    earthTransform->AddBasicTransform(std::make_shared<DynamicRotation>(0, glm::vec3(0.0, 0.0, 1.0), 2.0f));
+    earth->transform->AddBasicTransform(earthTransform);
     earth->transform->AddBasicTransform(std::make_shared<Scale>(glm::vec3(0.5f)));
 
     auto moon = GameObjectFactory::GetInstance().GetGameObject("Moon", renderTargets[2]);
-    moon->transform->AddBasicTransform(sun_position);
-    moon->transform->AddBasicTransform(sun_rotation);
-    moon->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(4.0f, 0.0f, 0.0f)));
-    moon->transform->AddBasicTransform(std::make_shared<DynamicRotation>(0, glm::vec3(0.0, 0.0, 1.0), 2.0f));
+    moon->transform->AddBasicTransform(earthTransform);
     moon->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(2.0f, 0.0f, 0.0f)));
     moon->transform->AddBasicTransform(std::make_shared<Scale>(glm::vec3(0.125f)));
 
@@ -321,7 +320,7 @@ std::shared_ptr<Scene> SceneManager::GetFifthScene()
     objects.push_back(std::shared_ptr<GameObject>(moon));
 
     std::vector<std::unique_ptr<Light>> lights;
-    auto pointLightPosition = new Transform(std::vector<IBasicTransform*>{sun_position.get()});
+    auto pointLightPosition = new Transform(std::vector<IBasicTransform*>{sunPosition.get()});
     lights.push_back(std::unique_ptr<PointLight>(LightFactory::GetInstance().GetPointLight(pointLightPosition, glm::vec3(1.0f, 1.0f, 1.0f), 5.0f, 0.00001f, 0.00001f)));
     lights.push_back(std::unique_ptr<AmbientLight>(LightFactory::GetInstance().GetAmbientLight(glm::vec3(1.0f), 0.1f)));
 

@@ -1,0 +1,1 @@
+3. Popište detailněji pohyb a rotaci planet, minimálně na příkladu Slunce, Země a Měsíce ve vaší implementaci.
