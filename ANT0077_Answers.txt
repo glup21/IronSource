@@ -1,1 +1,79 @@
+1. Popište v několika větách princip, základní teorii a zdůvodněte, proč a jak to ve vaší aplikaci funguje, a jak poznáte, že je vše správně.
+
+1.1
+W - parameter used in the process of transfer from Affine space to Homogeneous.
+This parameter, in the process of transfer, multiplies coordinates of a vector, so:
+[x, y, z] = [x * w, y * w, z * w, w]
+This transfer allows to combine Translation transform with Scale and Rotation into one transformation matrix, which allows
+faster computation on GPU.
+Later, when transferring a point from Clip Space to Normalized Device Space, this homogeneous vector is translated
+back into Affine space:
+[x, y, z, w] = [x/w, y/w, z/w]
+
+In vertex shader we transfer point into homogeneous space manually: vec4(aPos * w, w);
+Sign that everything is correct: objects DONT change their size, because it shows correct pipeline of affine -> homogeneous -> affine
+point transfer.
+
+1.2 
+When added identity matrix with [3][3] being 20 it changed transformMatrix (modelMatrix) in vertex shader of an object:
+    vec4 worldPos = transformMatrix * vec4(aPos * w, w);
+This means that point in homogeneous space had all main parameters (x, y, z) unchanged due to it being identity matrix,
+but W parameter got multiplied by 20. That means that when GPU transferred point from Clip Space to Normalized Device Space, each point got
+divided not by W, but by 20*W, which lead to shrinking of the object.
+
+2.Popište důležité části a funkce ve vaší aplikaci z pohledu programování.
+
+DynamicTranslation
+It receives start and end points, as well as speed.
+For calculating position it uses parametric expression of a line: P = PS + t (PE - PS), t E [0,1]
+This parametric expression is useful because we use (time * speed)/ ||(PE - PS)|| to calculate position of a vector
+along the defined line from PS to PE at certain point in time, for smooth movement
+
+    double currentTime = glfwGetTime();
+    double deltaTime = currentTime - lastTime;
+    lastTime = currentTime;
+
+    t += (speed * static_cast<float>(deltaTime)) / totalDistance;
+    t = glm::clamp(t, 0.0f, 1.0f);
+
+    glm::vec3 currentPos = startPoint + t * (endPoint - startPoint);
+
+    return glm::translate(glm::mat4(1.0f), currentPos);
+
+CurvedTranslation
+It uses parametric expression of a circle:
+    x = cos(currentAngle)
+    y = sin(currentAngle)
+(or other axis)
+
+So essentially it accumulates changes to currentAngle by time: currentAngle += speed * static_cast<float>(deltaTime);
+then calculates an offset to startPosition based on accumulated currentAngle and returns it
+
+    currentAngle += speed * static_cast<float>(deltaTime);
+
+    if (currentAngle > glm::two_pi<float>())
+        currentAngle -= glm::two_pi<float>();
+
+    currentPos.x = startPoint.x + cos(currentAngle);
+    currentPos.y = startPoint.y + sin(currentAngle);
+    
+    currentPos.x *= direction;
+
+    return glm::translate(glm::mat4(1.0f), currentPos);
+
+Mole destruction
+For this glReadPixels() is used, which reads from Stencil Buffer, which contains ids of moles.
+After reading this id DeleteGameObject(int id) is called on current Scene, which removes Mole from Scene.
+
+
 3. Popište detailněji pohyb a rotaci planet, minimálně na příkladu Slunce, Země a Měsíce ve vaší implementaci.
+Transform class follows Composite pattern, which means it can have children and be a children of other Transform.
+It is implemented by Transform, Translation, Rotation, Scale and others being an implementation of IBasicTransform
+
+Sun transform has within itself Translation and DynamicRotation.
+Earth transform has within itself Sun transform, which translates Earth to the position of a Sun, then rotates it by the same value.
+After that to Earth transform is added position (for orbit), DynamicRotation and Scale.
+
+Earth transform is then transferred to Moon transform, effectively putting it at the same position and rotation as Earth.
+Then by adding Position orbit around Earth is created, which simultaneously contains orbit around Sun, by using Composite pattern.
+

@@ -9,7 +9,6 @@ out vec3 texCoords;
 
 void main()
 {
-    float w = 100.0f;
     texCoords = aPos;
 
     vec4 pos = projectionMatrix * viewMatrix * vec4(aPos * w, w);

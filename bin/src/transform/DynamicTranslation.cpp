@@ -15,16 +15,8 @@ glm::mat4 DynamicTranslation::GetTransformMatrix()
     double deltaTime = currentTime - lastTime;
     lastTime = currentTime;
 
-    if (totalDistance <= 0.0f)
-    {
-        t = 1.0f;
-    }
-    else
-    {
-        t += (speed * static_cast<float>(deltaTime)) / totalDistance;
-        if (t > 1.0f) t = 1.0f;
-        if (t < 0.0f) t = 0.0f;
-    }
+    t += (speed * static_cast<float>(deltaTime)) / totalDistance;
+    t = glm::clamp(t, 0.0f, 1.0f);
 
     glm::vec3 currentPos = startPoint + t * (endPoint - startPoint);
 

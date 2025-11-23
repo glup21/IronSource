@@ -306,7 +306,7 @@ std::shared_ptr<Scene> SceneManager::GetFifthScene()
 
     earthTransform->AddBasicTransform(sunTransform);
     earthTransform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(4.0f, 0.0f, 0.0f)));
-    earthTransform->AddBasicTransform(std::make_shared<DynamicRotation>(0, glm::vec3(0.0, 0.0, 1.0), 2.0f));
+    earthTransform->AddBasicTransform(std::make_shared<DynamicRotation>(0, glm::vec3(0.0, 1.0, 0.0), 2.0f));
     earth->transform->AddBasicTransform(earthTransform);
     earth->transform->AddBasicTransform(std::make_shared<Scale>(glm::vec3(0.5f)));
 

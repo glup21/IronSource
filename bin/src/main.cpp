@@ -5,16 +5,9 @@
 int main()
 {
     spdlog::set_level(spdlog::level::debug); 
-    try
-    {
-        Application app;
-        app.Run();
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-        return -1;
-    }
+
+    Application app;
+    app.Run();
 
     return 0;
 }
