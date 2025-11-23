@@ -16,10 +16,24 @@
 #include <vector>
 #include <string>
 
+struct MeshKey
+{
+    std::string filePath;
+    std::string vertexShaderPath;
+    std::string fragmentShaderPath;
+
+    bool operator<(const MeshKey& other) const
+    {
+        return 
+            std::tie(filePath, vertexShaderPath, fragmentShaderPath) <
+            std::tie(other.filePath, other.vertexShaderPath, other.fragmentShaderPath);
+    }
+};
+
 class MeshFactory
 {
 private:
-    std::map<std::string, std::shared_ptr<Model>> models;
+    std::map<MeshKey, std::shared_ptr<Model>> models;
 
     MeshFactory() = default;
 public:

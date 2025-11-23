@@ -15,7 +15,7 @@ Camera::Camera() : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 2.0f, 2.0f), up(0.0f, 1
     flashlightTransform->SetLocalPosition(eye);
     flashLight = std::shared_ptr<SpotLight>(LightFactory::GetInstance().GetSpotLight(
         flashlightTransform,
-        glm::vec3(1.0f, 1.0f, 0.0f),
+        glm::vec3(1.0f, 1.0f, 1.0f),
         5.0f,
         0.09f,
         0.032f,
@@ -23,7 +23,7 @@ Camera::Camera() : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 2.0f, 2.0f), up(0.0f, 1
         15.0f,
         17.0f
     ));
-
+    flashLight->SetEnabled(false);
 }
 
 void Camera::NotifyAll() 

@@ -13,6 +13,7 @@
 #include "headers/services/TextureFactory.hpp"
 #include "headers/transform/DynamicTranslation.hpp"
 #include "headers/gameobject/WhacAMole.hpp"
+#include "headers/transform/CurvedTranslation.hpp"
 #include <spdlog/spdlog.h>
 
 std::shared_ptr<Scene> SceneManager::GetFirstScene()
@@ -188,7 +189,6 @@ std::shared_ptr<Scene> SceneManager::GetForthScene()
     {
         renderTargets.push_back(mesh); 
     }
-    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/Sun.obj"));
 
     std::vector<std::shared_ptr<GameObject>> objects;
 
@@ -221,12 +221,6 @@ std::shared_ptr<Scene> SceneManager::GetForthScene()
     plane->transform->SetLocalPosition(glm::vec3(0.0f, -0.01f, 0.0f));
     plane->transform->SetLocalScale(glm::vec3(50.0f, 1.0f, 50.0f));
     objects.push_back(std::shared_ptr<GameObject>(plane));
-
-    auto car = GameObjectFactory::GetInstance().GetGameObject("Shrek", renderTargets[6]);
-    car->transform->SetLocalPosition(glm::vec3(distPos(gen), 10.0f, distPos(gen)));
-    car->transform->SetLocalScale(glm::vec3(10.0));
-    car->transform->SetLocalRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
-    objects.push_back(std::shared_ptr<GameObject>(car));
 
     std::uniform_real_distribution<float> posDist(-10.0f, 10.0f);
     std::uniform_real_distribution<float> heightDist(9.0f, 12.0f);
@@ -342,29 +336,25 @@ std::shared_ptr<Scene> SceneManager::GetSixthScene()
     renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/Headcrab.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
         "./bin/shaders/fragmentShaderMeshConstant.frag"));
 
+    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/crowbar.obj"));
     std::vector<std::shared_ptr<GameObject>> objects;
-
-    // auto machine = GameObjectFactory::GetInstance().GetGameObject("Machine", renderTargets[0]);
-    // machine->transform->SetLocalPosition({0.0f, -2.0f, -3.0f});
-    // machine->transform->SetLocalRotation(glm::radians(glm::vec3({15.0f, 0.0f, 0.0f})));
-    // objects.push_back(std::shared_ptr<GameObject>(machine));
-
-    // auto headcrab = GameObjectFactory::GetInstance().GetGameObject("Headcrab", renderTargets[1]);
-    // headcrab->transform->SetLocalRotation(glm::radians(glm::vec3({15.0f, 0.0f, 0.0f})));
-    // headcrab->transform->SetLocalScale(glm::vec3{2.0f});
-    // headcrab->transform->AddBasicTransform(std::make_shared<DynamicTranslation>(glm::vec3(0.0f, 2.0f, -3.0f), glm::vec3(0.0f), 0.1f));
-    // objects.push_back(std::shared_ptr<GameObject>(machine));
-    // objects.push_back(std::shared_ptr<GameObject>(headcrab));
 
     auto whacAMole = GameObjectFactory::GetInstance().GetMachine("Machine");
     whacAMole->transform->SetLocalPosition({0.0f, -2.0f, -3.0f});
     whacAMole->transform->SetLocalRotation(glm::radians(glm::vec3({15.0f, 0.0f, 0.0f})));
     objects.push_back(whacAMole);
 
+    auto crowbar = GameObjectFactory::GetInstance().GetGameObject("Crowbar", renderTargets[2]);
+    crowbar->transform->SetLocalPosition({0.0f, 3.0f, -5.0f});
+    crowbar->transform->SetLocalScale(glm::vec3(2.0f));
+    crowbar->transform->AddBasicTransform(std::make_shared<CurvedTranslation>(glm::vec3(0.0f), 1, 1.0f));
+    objects.push_back(crowbar);
+
     std::vector<std::unique_ptr<Light>> lights;
     lights.push_back(std::unique_ptr<AmbientLight>(LightFactory::GetInstance().GetAmbientLight(glm::vec3(1.0f), 1.0f)));
 
     auto scene = std::make_shared<Scene>(objects, std::move(lights));
+
     // Need to resolve this issue, because right now for an object to delete any other object it requires pointer to a Scene,
     // which is bad design
     whacAMole->SetScene(scene.get());

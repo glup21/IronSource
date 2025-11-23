@@ -1,6 +1,7 @@
 #include "headers/services/GameObjectFactory.hpp"
 #include "headers/services/MeshFactory.hpp"
 #include "headers/gameobject/WhacAMole.hpp"
+#include "spdlog/spdlog.h"
 
 std::shared_ptr<GameObject> GameObjectFactory::GetGameObject(std::string name, std::shared_ptr<IRenderTarget> renderTarget, Transform* transform)
 {
@@ -40,8 +41,7 @@ std::shared_ptr<Firefly> GameObjectFactory::GetFireFly(Transform* transform, flo
 
 std::shared_ptr<GameObject> GameObjectFactory::GetMole()
 {
-    auto moleMesh = MeshFactory::GetInstance().LoadFromFile("./Models/Headcrab.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
-        "./bin/shaders/fragmentShaderMeshConstant.frag");
+    std::shared_ptr<Model> moleMesh = MeshFactory::GetInstance().LoadFromFile("./Models/Headcrab.obj");
     std::shared_ptr<GameObject> gameObject = std::make_shared<GameObject>("Mole", moleMesh, nextId);
     nextId++;
 

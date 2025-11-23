@@ -28,10 +28,10 @@ void Skybox::InitCubemap(std::vector<std::string> faces)
     {
         int width, height, channels;
         unsigned char* data = stbi_load(faces[i].c_str(), &width, &height, &channels, 0);
-
+        int format = channels == 3 ? GL_RGB : GL_RGBA;
         if (data) 
         {
-            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
             stbi_image_free(data);
         }
     }

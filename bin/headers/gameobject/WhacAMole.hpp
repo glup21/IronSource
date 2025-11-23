@@ -13,7 +13,7 @@ private:
     Scene* scene;
     bool moleVisible;
 
-    void SpawnMole(glm::vec3 position);
+    void SpawnMole(glm::vec3 position, float height, float speed);
     void RemoveMole();
 public:
     WhacAMole(std::string name, std::shared_ptr<IRenderTarget> renderTarget, int id);

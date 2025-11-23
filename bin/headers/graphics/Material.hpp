@@ -12,8 +12,7 @@ private:
     glm::vec3 ambient;
     glm::vec3 diffuse;
     glm::vec3 specular;
-    float shininess; 
-
+    float shininess;
 public:
     Material(std::shared_ptr<ShaderProgram> shaderProgram, glm::vec3 ambient = glm::vec3(0.1),
         glm::vec3 diffuse = glm::vec3(1.0), glm::vec3 specular = glm::vec3(0.3), float shininess = 32.0);

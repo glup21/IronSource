@@ -31,6 +31,7 @@ void Material::Use()
     this->shaderProgram->SetUniform("materialDiffuse", this->diffuse);
     this->shaderProgram->SetUniform("materialSpecular", this->specular);
     this->shaderProgram->SetUniform("materialShinnines", this->shininess);
+    this->shaderProgram->SetUniform("time", static_cast<float>(glfwGetTime()));
 }
 
 void Material::SetTransformMatrix(glm::mat4 transformMatrix)
