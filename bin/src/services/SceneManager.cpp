@@ -15,6 +15,7 @@
 #include "headers/gameobject/WhacAMole.hpp"
 #include "headers/transform/CurvedTranslation.hpp"
 #include "headers/transform/DynamicPolylineTranslation.hpp"
+#include "headers/transform/DummyTransform.hpp"
 #include <spdlog/spdlog.h>
 
 std::shared_ptr<Scene> SceneManager::GetFirstScene()
@@ -344,6 +345,7 @@ std::shared_ptr<Scene> SceneManager::GetSixthScene()
     auto whacAMole = GameObjectFactory::GetInstance().GetMachine("Machine");
     whacAMole->transform->SetLocalPosition({0.0f, -2.0f, -3.0f});
     whacAMole->transform->SetLocalRotation(glm::radians(glm::vec3({15.0f, 0.0f, 0.0f})));
+    //whacAMole->transform->AddBasicTransform(std::make_shared<DummyTransform>());
     objects.push_back(whacAMole);
 
     auto crowbar = GameObjectFactory::GetInstance().GetGameObject("Crowbar", renderTargets[2]);
