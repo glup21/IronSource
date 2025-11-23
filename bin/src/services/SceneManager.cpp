@@ -14,6 +14,7 @@
 #include "headers/transform/DynamicTranslation.hpp"
 #include "headers/gameobject/WhacAMole.hpp"
 #include "headers/transform/CurvedTranslation.hpp"
+#include "headers/transform/DynamicPolylineTranslation.hpp"
 #include <spdlog/spdlog.h>
 
 std::shared_ptr<Scene> SceneManager::GetFirstScene()
@@ -338,6 +339,7 @@ std::shared_ptr<Scene> SceneManager::GetSixthScene()
 
     renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/crowbar.obj"));
     std::vector<std::shared_ptr<GameObject>> objects;
+    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/shrek.obj"));
 
     auto whacAMole = GameObjectFactory::GetInstance().GetMachine("Machine");
     whacAMole->transform->SetLocalPosition({0.0f, -2.0f, -3.0f});
@@ -349,6 +351,25 @@ std::shared_ptr<Scene> SceneManager::GetSixthScene()
     crowbar->transform->SetLocalScale(glm::vec3(2.0f));
     crowbar->transform->AddBasicTransform(std::make_shared<CurvedTranslation>(glm::vec3(0.0f), 1, 1.0f));
     objects.push_back(crowbar);
+
+    auto shrek = GameObjectFactory::GetInstance().GetGameObject("Shrek", renderTargets[3]);
+    shrek->transform->SetLocalPosition({0.0f, 3.0f, -5.0f});
+    shrek->transform->SetLocalScale(glm::vec3(2.0f));
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<float> dist(-10.0f, 10.0f);
+    std::vector<glm::vec3> path;
+
+    for (int i = 0; i < 100; i++)
+    {
+        path.push_back(glm::vec3(dist(gen), dist(gen), dist(gen)));
+    }
+    shrek->transform->AddBasicTransform(
+        std::make_shared<DynamicPolylineTranslation>(path, 4.0f)
+    );
+
+    objects.push_back(shrek);
 
     std::vector<std::unique_ptr<Light>> lights;
     lights.push_back(std::unique_ptr<AmbientLight>(LightFactory::GetInstance().GetAmbientLight(glm::vec3(1.0f), 1.0f)));
