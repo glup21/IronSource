@@ -18,7 +18,6 @@ ShaderProgram::ShaderProgram(std::shared_ptr<Shader> vertexShader, std::shared_p
 
 void ShaderProgram::Link()
 {
-    
     spdlog::info("Linking shader program");
     // We assume shaders are precompiled
     this->shaderProgramId = glCreateProgram();
@@ -44,6 +43,8 @@ void ShaderProgram::Link()
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
+    SetUniform("w", 500.0f);
+    
 }
 
 void ShaderProgram::Use()

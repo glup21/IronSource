@@ -11,11 +11,12 @@ out vec2 fragTexCoord;
 uniform mat4 transformMatrix;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
+uniform float w;
 
 void main()
 {
-    float w = 1.0;
-    vec4 worldPos = transformMatrix * vec4(aPos, w);
+
+    vec4 worldPos = transformMatrix * vec4(aPos * w, w);
     fragPos = worldPos.xyz / w;
     fragNormal = normalize(mat3(transpose(inverse(transformMatrix))) * aNormal);
     fragTexCoord = aTexCoord;
