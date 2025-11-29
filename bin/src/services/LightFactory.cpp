@@ -31,10 +31,10 @@ DirectionalLight* LightFactory::GetDirectionalLight(glm::vec3 color, glm::vec3 d
 }
 
 SpotLight* LightFactory::GetSpotLight(Transform* transform, glm::vec3 color, float intensity, float k_l, float k_q,
-    glm::vec3 direction, float cutOff, float outerCutOff)
+    glm::vec3 direction, float cutOff, float outerCutOff, std::shared_ptr<Texture> lightTexture)
 {
     ShaderLibrary& shaderLibrary = ShaderLibrary::GetInstance();
-    SpotLight* spotLight = new SpotLight(transform, color, intensity, k_l, k_q, direction, cutOff, outerCutOff);
+    SpotLight* spotLight = new SpotLight(transform, color, intensity, k_l, k_q, direction, cutOff, outerCutOff, lightTexture);
     shaderLibrary.RegisterLight(spotLight);
 
     spotLightCount++;

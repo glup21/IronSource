@@ -58,6 +58,7 @@ uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
 
 uniform vec3 viewPos;
 uniform sampler2D colorTexture;
+uniform sampler2D normalTexture;
 
 uniform vec3 materialAmbient;
 uniform vec3 materialDiffuse;
@@ -72,6 +73,10 @@ out vec4 fragColor;
 
 void main()
 {
+    // vec3 normal = texture(normalTexture, fragTexCoord).rgb;
+    // normal = normalize(normal * 2.0 - 1.0);
+    // vec3 N = normal;
+
     vec3 N = normalize(fragNormal);
     vec3 V = normalize(viewPos - fragPos);
     vec3 result = vec3(0.0);
@@ -140,5 +145,5 @@ void main()
 
     //result = vec3(1.0);
     vec4 texColor = texture(colorTexture, fragTexCoord);
-    fragColor = vec4(result * texColor.rgb, 1.0);
+    fragColor = vec4(result * texColor.rgb, texColor.a);
 }

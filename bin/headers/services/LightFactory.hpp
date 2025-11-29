@@ -16,7 +16,8 @@ public:
     PointLight* GetPointLight(Transform* transform, glm::vec3 color, float intensity, float k_l, float k_q);
     AmbientLight* GetAmbientLight(glm::vec3 color, float intensity);
     DirectionalLight* GetDirectionalLight(glm::vec3 color, glm::vec3 direction, float intensity);
-    SpotLight* GetSpotLight(Transform* transform, glm::vec3 color, float intensity, float k_l, float k_q, glm::vec3 direction, float cutOff, float outerCutOff);
+    SpotLight* GetSpotLight(Transform* transform, glm::vec3 color, float intensity, float k_l, float k_q,
+        glm::vec3 direction, float cutOff, float outerCutOff, std::shared_ptr<Texture> lightTexture = nullptr);
 
     int pointLightCount = 0;
     int ambientLightCount = 0;

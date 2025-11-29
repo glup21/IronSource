@@ -27,6 +27,7 @@ float PointLight::GetQuadratic() { return k_q; }
 
 void PointLight::Update() { NotifyAll(); }
 
+
 void PointLight::NotifyAll()
 {
     for (auto* observer : observers)

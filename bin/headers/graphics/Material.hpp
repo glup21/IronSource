@@ -8,6 +8,7 @@ class Material
 private:
     std::shared_ptr<ShaderProgram> shaderProgram;
     std::vector<std::shared_ptr<Texture>> colorTexture;
+    std::shared_ptr<Texture> normalTexture;
 
     glm::vec3 ambient;
     glm::vec3 diffuse;
@@ -22,4 +23,5 @@ public:
     void SetTransformMatrix(glm::mat4 transformMatrix);
 
     void AddColorTexture(std::shared_ptr<Texture> texture);
+    void SetNormalTexture(std::shared_ptr<Texture> texture);
 };

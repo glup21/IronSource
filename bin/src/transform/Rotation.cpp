@@ -22,6 +22,11 @@ glm::vec3 Rotation::GetAxis()
     return axis;
 }
 
+void Rotation::AddRotation(float angle, glm::vec3 axis)
+{
+
+}
+
 glm::mat4 Rotation::GetTransformMatrix()
 {
     return glm::rotate(glm::mat4(1.0f), angle, axis);

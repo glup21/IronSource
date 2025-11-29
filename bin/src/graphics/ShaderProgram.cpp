@@ -160,6 +160,7 @@ void ShaderProgram::HandlePointLight(PointLight* pointLight)
     
     SetUniform("pointLights[" + std::to_string(pointLightCount) + "].k_l", pointLight->GetLinear());
     SetUniform("pointLights[" + std::to_string(pointLightCount) + "].k_q", pointLight->GetQuadratic());
+
     pointLightCount++;  
 }
 
@@ -199,6 +200,13 @@ void ShaderProgram::HandleSpotLight(SpotLight* spotLight)
 
     SetUniform("spotLights[" + std::to_string(spotLightCount) + "].cutOff", (float)cos(glm::radians(spotLight->GetCutOff())));
     SetUniform("spotLights[" + std::to_string(spotLightCount) + "].outerCutOff", (float)cos(glm::radians(spotLight->GetOuterCutOff())));
+
+    Texture* lightTexture = spotLight->GetLightTexture();
+    if(lightTexture)
+    {
+        lightTexture->Use(GL_TEXTURE0 + 9); // Lets put max count of color+normal textures at 8
+        SetUniform("pointLights[" + std::to_string(spotLightCount) + "].lightTexture", 9);
+    }
 
     spotLightCount++;  
 }

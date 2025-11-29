@@ -1,6 +1,7 @@
 #pragma once
 #include "headers/graphics/Light.hpp"
 #include "headers/transform/Transform.hpp"
+#include "headers/graphics/Texture.hpp"
 
 class PointLight : public Light
 {
@@ -8,6 +9,7 @@ private:
     Transform* transform;
     float k_l;
     float k_q;
+
 
     void NotifyAll() override;
 

@@ -16,6 +16,7 @@
 #include "headers/transform/CurvedTranslation.hpp"
 #include "headers/transform/DynamicPolylineTranslation.hpp"
 #include "headers/transform/DummyTransform.hpp"
+#include "headers/transform/BezierSplineTransform.hpp"
 #include <spdlog/spdlog.h>
 
 std::shared_ptr<Scene> SceneManager::GetFirstScene()
@@ -289,6 +290,8 @@ std::shared_ptr<Scene> SceneManager::GetFifthScene()
     renderTargets.push_back(earthModel);    
 
     renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/Moon.obj"));  
+    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/Login.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
+        "./bin/shaders/fragmentShaderMeshConstant.frag" ));  
 
     std::vector<std::shared_ptr<GameObject>> objects;
 
@@ -315,9 +318,15 @@ std::shared_ptr<Scene> SceneManager::GetFifthScene()
     moon->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(2.0f, 0.0f, 0.0f)));
     moon->transform->AddBasicTransform(std::make_shared<Scale>(glm::vec3(0.125f)));
 
+    auto login = GameObjectFactory::GetInstance().GetGameObject("Login", renderTargets[3]);
+    login->transform->AddBasicTransform(earthTransform);
+    login->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(4.0f, 0.0f, 0.0f)));
+    login->transform->AddBasicTransform(std::make_shared<Scale>(glm::vec3(0.25f)));
+
     objects.push_back(std::shared_ptr<GameObject>(sun));
     objects.push_back(std::shared_ptr<GameObject>(earth));
     objects.push_back(std::shared_ptr<GameObject>(moon));
+    objects.push_back(std::shared_ptr<GameObject>(login));
 
     std::vector<std::unique_ptr<Light>> lights;
     auto pointLightPosition = new Transform(std::vector<IBasicTransform*>{sunPosition.get()});
@@ -362,13 +371,12 @@ std::shared_ptr<Scene> SceneManager::GetSixthScene()
     std::uniform_real_distribution<float> dist(-10.0f, 10.0f);
     std::vector<glm::vec3> path;
 
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 12; i += 3) 
     {
         path.push_back(glm::vec3(dist(gen), dist(gen), dist(gen)));
     }
     shrek->transform->AddBasicTransform(
-        std::make_shared<DynamicPolylineTranslation>(path, 4.0f)
-    );
+        std::make_shared<BezierSplineTransform>(path, 0.1f));
 
     objects.push_back(shrek);
 
@@ -383,3 +391,23 @@ std::shared_ptr<Scene> SceneManager::GetSixthScene()
 
     return scene;
 }
+
+std::shared_ptr<Scene> SceneManager::GetSeventhScene()
+{
+    std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
+
+    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/Racing.obj"));
+
+    std::vector<std::shared_ptr<GameObject>> objects;
+    auto racingRoad = GameObjectFactory::GetInstance().GetGameObject("Racing", renderTargets[0]);
+    objects.push_back(racingRoad);
+
+
+    std::vector<std::unique_ptr<Light>> lights;
+    lights.push_back(std::unique_ptr<AmbientLight>(LightFactory::GetInstance().GetAmbientLight(glm::vec3(1.0f), 2.0f)));
+
+    auto scene = std::make_shared<Scene>(objects, std::move(lights));
+
+    return scene;
+}
+

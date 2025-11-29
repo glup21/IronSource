@@ -17,5 +17,7 @@ public:
     void SetAxis(glm::vec3 axis);
     glm::vec3 GetAxis();
 
+    void AddRotation(float angle, glm::vec3 axis);
+
     glm::mat4 GetTransformMatrix() override;
 };

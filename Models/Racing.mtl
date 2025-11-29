@@ -1,0 +1,1315 @@
+# Blender 5.0.0 MTL File: 'None'
+# www.blender.org
+
+newmtl 02_-_Default
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 02_-_Default.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+illum 2
+map_Kd Racing/lep_500_steel_arm.png
+map_d lep_500_steel_arm.png
+
+newmtl 03_-_Default_Slot_#10
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#10.001
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#10.002
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#10.003
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#3
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#3.001
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#3.002
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#3.003
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#4
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#4.001
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#4.002
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#4.003
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#5
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#5.001
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#5.002
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#5.003
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#6
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#6.001
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#6.002
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#6.003
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#7
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#7.001
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#7.002
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#7.003
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#8
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#8.001
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#8.002
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#8.003
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#9
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#9.001
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#9.002
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl 03_-_Default_Slot_#9.003
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl BilbordZelezo
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/16.png
+map_Bump -bm 1.000000 18.png
+
+newmtl Body
+Ns 250.000061
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/LiderEarly22_82.png
+
+newmtl Concrete
+Ns 250.000061
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/0.png
+
+newmtl Cracks1
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+illum 1
+map_Kd Racing/cracks4.png
+map_d cracks4.png
+
+newmtl DW_glass
+Ka 1.000000 1.000000 1.000000
+Kd 0.026596 0.026596 0.026596
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Ns Scratched_Painted_Metal_teeaccoc_1K_Roughness.jpg
+
+newmtl DW_plastic
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Ns Scratched_Painted_Metal_teeaccoc_1K_Roughness.jpg
+
+newmtl GROOVE_3
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+illum 2
+map_Kd Racing/groove_gradient.png
+map_d groove_gradient.png
+
+newmtl Iron_cable_top
+Ns 250.000061
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/4.png
+
+newmtl Ladder_Metallic
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/LiderEarly22_25.png
+map_Bump -bm 1.000000 11.png
+
+newmtl Lamp
+Ns 250.000061
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/2.png
+map_Bump -bm 1.000000 3.png
+
+newmtl Lamp.001
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/6.png
+map_Ke 9.png
+map_Bump -bm 1.000000 8.png
+
+newmtl Lamp_transparent
+Ns 250.000061
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/2.png
+map_Bump -bm 1.000000 3.png
+
+newmtl MB_Sprinter_2014
+Ns 993.168457
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/29.png
+map_Ks 30.png
+
+newmtl Material_#12663
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/drainage.png
+
+newmtl Material_#12932
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+illum 2
+map_Kd Racing/finish_line.png
+map_d finish_line.png
+
+newmtl Material_#3906
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/BlackPlastic.tga
+
+newmtl Material_#3925
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/Rubber4.tga
+
+newmtl Material_#4867
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/BlackPlastic.tga
+
+newmtl Material_#4879
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/WhitePlastic.tga
+
+newmtl Material_#5034
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/CrackedAsph.tga
+
+newmtl Material_#5073
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/PAINTGREY.tga
+
+newmtl Metal_Support_Metallic
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/LiderEarly22_23.png
+map_Bump -bm 1.000000 14.png
+
+newmtl None
+Ns 79.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 1
+map_Kd Racing/provoda.png
+map_d provoda.png
+
+newmtl None_Industrial_betonHQ_png
+Ns 79.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 1
+map_Kd Racing/Industrial_betonHQ.png
+map_d Industrial_betonHQ.png
+
+newmtl None_lep_500_isolator_png
+Ns 79.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 1
+map_Kd Racing/lep_500_isolator.png
+map_d lep_500_isolator.png
+
+newmtl None_lep_500_steel_static_png
+Ns 79.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 1
+map_Kd Racing/lep_500_steel_static.png
+map_d lep_500_steel_static.png
+
+newmtl Open_Valve_Metallic
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/LiderEarly22_21.png
+map_Bump -bm 1.000000 5.png
+
+newmtl Outlet_Pipe_Metallic
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/LiderEarly22_19.png
+map_Bump -bm 1.000000 8.png
+
+newmtl Pillar
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/0.png
+map_Bump -bm 1.000000 2.png
+
+newmtl Poster
+Ns 250.000061
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/qj9pk2_12x0.jpg
+
+newmtl Semi_trailer.tga
+Ns 123.757759
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/LiderEarly22_2.png
+
+newmtl TT_checker_512x512_UV_GRID
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/0.png
+map_Bump -bm 1.000000 2.png
+
+newmtl Tires
+Ns 250.000061
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/LiderEarly22_83.png
+
+newmtl Trees_Sheet
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+illum 1
+map_Kd Racing/Trees_Sheet_Diffuse.png
+map_d Trees_Sheet_Diffuse.png
+
+newmtl Vertical_Tank_Metallic
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/LiderEarly22_17.png
+map_Bump -bm 1.000000 2.png
+
+newmtl armco_orange
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/profiled sheet orange.png
+
+newmtl backside
+Ns 250.000061
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/LiderEarly22_84.png
+
+newmtl bitumen_line
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+illum 2
+map_Kd Racing/bitumen.png
+map_d bitumen.png
+
+newmtl black_armco
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/profiled sheet black.tga
+
+newmtl black_armco.001
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/profiled sheet black.tga
+
+newmtl black_tyre
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/TireNew1BLACK.tga
+map_Bump -bm 1.000000 TireNew1BLUE_NRM.png
+
+newmtl blue_armco
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/profiled sheet blue.tga
+
+newmtl blue_tyre
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/TireNew1BLUE.tga
+map_Bump -bm 1.000000 TireNew1BLUE_NRM.png
+
+newmtl conc
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/cracked_concrete.png
+map_Bump -bm 1.000000 cracked_concrete_NRM.png
+
+newmtl conc2
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/PAINTGREY.tga
+
+newmtl conc_plates_clever
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/SuperConc.tga
+
+newmtl conc_plates_darkgrey
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/PAINTbitDarkerGREY.tga
+
+newmtl conc_plates_grey
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/SuperConc.tga
+
+newmtl conc_plates_lightgrey
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/PAINTGREY.tga
+
+newmtl conc_t3
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/concrete-first-chicane test4 1k.jpg
+map_Bump -bm 1.000000 concrete-first-chicane test3 1k_NRM.png
+
+newmtl conc_t4
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Racing/concrete t4 tst.png
+map_Bump -bm 1.000000 concrete t4 tst_NRMfinal.jpg
+
+newmtl conc_t89_1
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Racing/concrete t89 2 F_COLOR J.jpg
+map_Bump -bm 1.000000 concrete t89 2 F_NRM J.jpg
+
+newmtl conc_t89_2
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Racing/concrete t89 1 F_COLOR J.jpg
+map_Bump -bm 1.000000 concrete t89 1 F_NRM J.jpg
+
+newmtl conc_t9
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/concrete-prelast-turn 2 1k.png
+
+newmtl darkgrey_armc
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/f4e2da32267ab160cf306e901640d9c8.jpg
+
+newmtl decal_concrete_patch_1
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 2
+map_Kd Racing/Concrete_Patch_tlgmehog_1K_BaseColor2.png
+map_Ns Concrete_Patch_tlgmehog_1K_Roughness.jpg
+map_d Concrete_Patch_tlgmehog_1K_Opacity.jpg
+map_Bump -bm 1.000000 Concrete_Patch_tlgmehog_1K_Normal.jpg
+
+newmtl decal_concrete_patch_2
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 2
+map_Kd Racing/Concrete_Patch_vgzjdjbg_1K_BaseColor.jpg
+map_Ns Concrete_Patch_vgzjdjbg_1K_Roughness.jpg
+map_d Concrete_Patch_vgzjdjbg_1K_Opacity.jpg
+map_Bump -bm 1.000000 Concrete_Patch_vgzjdjbg_1K_Normal.jpg
+
+newmtl dust
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 2
+map_Kd Racing/Tileable_Road_Dust_shcl0jn_2K_BaseColor_alpha.png
+map_d Tileable_Road_Dust_shcl0jn_2K_BaseColor_alpha.png
+map_Bump -bm 1.000000 Tileable_Road_Dust_shcl0jn_2K_Normal.jpg
+
+newmtl fence
+Ns 90.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+illum 1
+map_Kd Racing/Metal-Fence-PNG-Transparent.png
+map_d Metal-Fence-PNG-Transparent.png
+
+newmtl fence_pillar
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/RustyMetal.tga
+
+newmtl glass_lights
+Ns 360.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 3
+map_Kd Racing/rusty_twin_spot_emergency_light_COLOR.png
+map_d rusty_twin_spot_emergency_light_COLOR.png
+map_Bump -bm 1.000000 rusty_twin_spot_emergency_light_NRM.png
+
+newmtl grass_terrain
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/SuperGrass2.png
+map_Bump -bm 1.000000 SuperGrass2_NRM.png
+
+newmtl green
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+illum 2
+map_Kd Racing/gr.png
+map_d gr.png
+
+newmtl grey_armc
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/profiled sheet light gray.tga
+
+newmtl interior
+Ns 250.000061
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/LiderEarly22_85.png
+
+newmtl kerb_with_rubber
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+illum 2
+map_Kd Racing/monaco_curb12b.png
+map_d monaco_curb12b.png
+map_Bump -bm 1.000000 monaco_curb12b_NRM.png
+
+newmtl lamp_1
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.010021 0.010021 0.010021
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+
+newmtl lamp_2
+Ns 250.000061
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+
+newmtl lider_logo
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 2
+map_Kd Racing/lider_logoWhite.png
+map_d lider_logoWhite.png
+
+newmtl marble_tiles
+Ns 39.999996
+Ka 0.100000 0.100000 0.100000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Kd Racing/Black_Marble_Tiles_tkogehsi_1K_BaseColor.jpg
+map_Bump -bm 1.000000 Black_Marble_Tiles_tkogehsi_1K_Normal.jpg
+
+newmtl matBaked_Drzac
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/8.png
+map_Bump -bm 1.000000 10.png
+
+newmtl matBaked_DrzacGrid
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/11.png
+map_Bump -bm 1.000000 13.png
+
+newmtl matBaked_Stub
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/0.png
+map_Bump -bm 1.000000 2.png
+
+newmtl mat_0
+Ns 215.654007
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/LiderEarly51additionals_20.png
+
+newmtl mat_1
+Ns 215.654007
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/LiderEarly51additionals_21.png
+
+newmtl mat_2
+Ns 215.654007
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/LiderEarly51additionals_22.png
+
+newmtl material
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/3.png
+map_Bump -bm 1.000000 5.png
+
+newmtl metal
+Ka 0.900000 0.900000 0.900000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Ns Scratched_Painted_Metal_teeaccoc_1K_Roughness.jpg
+
+newmtl model_97.192__0
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl racetrack
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/Concrete_Pavement_wjwjcis_2K_BaseColor.jpg
+map_Ns Concrete_Pavement_wjwjcis_2K_Roughness.jpg
+map_Bump -bm 1.000000 Concrete_Pavement_wjwjcis_2K_Normal.jpg
+
+newmtl red_metal_barrier
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/RedPlastic.tga
+
+newmtl red_tyre
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/TireNew1RED.tga
+map_Bump -bm 1.000000 TireNew1BLUE_NRM.png
+
+newmtl road_marking_lined
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+illum 2
+map_Kd Racing/Road_Marking_Line_vh2neie_2K_BaseColor.jpg
+map_d Road_Marking_Line_vh2neie_2K_Opacity.jpg
+map_Bump -bm 1.000000 Road_Marking_Line_vh2neie_2K_Normal.jpg
+
+newmtl road_marking_plane
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/road_marking_plane.png
+
+newmtl sign_lider
+Ns 90.000000
+Ka 0.100000 0.100000 0.100000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Kd Racing/Lider Sign 2K.jpg
+
+newmtl skids
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+illum 2
+map_Kd Racing/skidsnew.png
+map_d skidsnew.png
+
+newmtl trailer_base
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/flatbedtrailer_TrailerFlatBed_BaseColor.jpeg
+
+newmtl trailer_big
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+illum 1
+map_Kd Racing/Semi_trailer.tga
+map_d Semi_trailer.tga
+
+newmtl truck_blue
+Ns 90.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+illum 2
+map_Kd Racing/LiderEarly22_81.png
+map_d LiderEarly22_81.png
+
+newmtl wheel
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 2
+map_Kd Racing/2.png
+
+newmtl white_metal_barrier
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/WhitePlastic.tga
+
+newmtl white_tyre
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.520000
+d 1.000000
+illum 1
+map_Kd Racing/TireNew6WHITE.tga
+map_Bump -bm 1.000000 TireNew6WHITE_NRM.png
+
+newmtl wire
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2

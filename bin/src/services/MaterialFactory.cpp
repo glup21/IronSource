@@ -29,12 +29,19 @@ std::shared_ptr<Material> MaterialFactory::GetMaterialFromMtl(const tinyobj::mat
         material.shininess
     );
 
-    std::string texturePath = GlobalConfig::GetModelsPath() + material.diffuse_texname;
-    if (!std::filesystem::exists(texturePath)) 
+    std::string colorTexturePath = GlobalConfig::GetModelsPath() + material.diffuse_texname;
+    if (!std::filesystem::exists(colorTexturePath)) 
     {
-        texturePath = GlobalConfig::GetDefaultTexturePath();
+        colorTexturePath = GlobalConfig::GetDefaultTexturePath();
     }
-    res->AddColorTexture(TextureFactory::GetInstance().GetTexture(texturePath));
+    res->AddColorTexture(TextureFactory::GetInstance().GetTexture(colorTexturePath));
+
+    std::string normalTexturePath = GlobalConfig::GetModelsPath() + material.normal_texname;
+    if (std::filesystem::exists(normalTexturePath)) 
+    {
+        res->SetNormalTexture(TextureFactory::GetInstance().GetTexture(normalTexturePath));
+    }
+    
 
     return res;
 }

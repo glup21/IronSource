@@ -16,4 +16,5 @@ public:
     static std::shared_ptr<Scene> GetForthScene();
     static std::shared_ptr<Scene> GetFifthScene();
     static std::shared_ptr<Scene> GetSixthScene();
+    static std::shared_ptr<Scene> GetSeventhScene();
 };

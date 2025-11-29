@@ -7,12 +7,16 @@
 #include "headers/core/Application.hpp"
 #include "headers/services/GameObjectFactory.hpp"
 #include "headers/services/MeshFactory.hpp"
+#include "headers/services/TextureFactory.hpp"
 
 Camera::Camera() : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 2.0f, 2.0f), up(0.0f, 1.0f, 0.0f), speed(10.0f)
 {
     forward = glm::normalize(forward);
     Transform* flashlightTransform = new Transform();
     flashlightTransform->SetLocalPosition(eye);
+
+    auto flashLightTexture = TextureFactory::GetInstance().GetTexture("./Models/lightcookie.jpg");
+
     flashLight = std::shared_ptr<SpotLight>(LightFactory::GetInstance().GetSpotLight(
         flashlightTransform,
         glm::vec3(1.0f, 1.0f, 1.0f),
@@ -21,7 +25,8 @@ Camera::Camera() : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 2.0f, 2.0f), up(0.0f, 1
         0.032f,
         -forward,
         15.0f,
-        17.0f
+        17.0f,
+        flashLightTexture
     ));
     flashLight->SetEnabled(false);
 }

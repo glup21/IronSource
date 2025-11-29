@@ -27,6 +27,13 @@ void Material::Use()
         this->colorTexture[0]->Use(GL_TEXTURE0);
         this->shaderProgram->SetUniform("colorTexture", 0);
     }
+
+    if(normalTexture)
+    {
+        this->normalTexture->Use(GL_TEXTURE0 + colorTexture.size());
+        this->shaderProgram->SetUniform("normalTexture", 0);
+    }
+
     this->shaderProgram->SetUniform("materialAmbient", this->ambient);
     this->shaderProgram->SetUniform("materialDiffuse", this->diffuse);
     this->shaderProgram->SetUniform("materialSpecular", this->specular);
@@ -42,4 +49,9 @@ void Material::SetTransformMatrix(glm::mat4 transformMatrix)
 void Material::AddColorTexture(std::shared_ptr<Texture> texture)
 {
     this->colorTexture.push_back(texture);
+}
+
+void Material::SetNormalTexture(std::shared_ptr<Texture> texture)
+{
+    this->normalTexture = texture;
 }
