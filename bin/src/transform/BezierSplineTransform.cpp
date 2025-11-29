@@ -7,22 +7,23 @@ BezierSplineTransform::BezierSplineTransform(std::vector<glm::vec3> points, floa
     lastTime = glfwGetTime();
     t = 0.0f;
 
-    for(int i = 0; i < points.size(); i += 3)
+    for(int i = 0; i + 4 < points.size(); i += 3)
     {
-        int freePoints = points.size() - i;
-
-        if(freePoints < 4)
-            break; // Ignore points that cant form a new segment
-
-        std::vector<glm::vec3> segmentPoints = std::vector<glm::vec3>{
-            points[i],
-            points[i+1],
-            points[i+2],
-            points[i+3]
+        std::vector<glm::vec3> segmentPoints = {
+            points[i + 1], 
+            points[i + 2], 
+            points[i + 3],
+            points[i + 4]  
         };
 
         segments.push_back({segmentPoints});
     }
+}
+
+glm::vec3 GetBezierTangentVector(std::vector<glm::vec3> points, float t)
+{
+    return 3.0f * ( (float)glm::pow((1 - t), 2) * (points[1] - points[0]) + 2 * (1 - t)*t*(points[2] - points[1])
+        + t*t*(points[3]-points[2]));
 }
 
 glm::mat4 BezierSplineTransform::GetTransformMatrix()
@@ -31,7 +32,7 @@ glm::mat4 BezierSplineTransform::GetTransformMatrix()
     double deltaTime = currentTime - lastTime;
     lastTime = currentTime;
 
-
+    auto points = segments[currentSegment].points;
     if(!hasEndedPath)
     {
         t += speed * static_cast<float>(deltaTime);
@@ -48,7 +49,7 @@ glm::mat4 BezierSplineTransform::GetTransformMatrix()
             }
         }
 
-        auto points = segments[currentSegment].points;
+        
 
         currentPos = (float)glm::pow((1 - t), 3) * points[0] +
             3*(float)glm::pow((1 - t), 2) * t * points[1] +
@@ -56,5 +57,17 @@ glm::mat4 BezierSplineTransform::GetTransformMatrix()
             t*t*t * points[3];
     }
 
-    return glm::translate(glm::mat4(1.0f), currentPos);
+    glm::vec3 tangent = glm::normalize(GetBezierTangentVector(points, t)); 
+    glm::vec3 up = glm::vec3(0, 1, 0); 
+
+    glm::vec3 right = glm::normalize(glm::cross(up, tangent)); 
+    up = glm::cross(tangent, right);
+
+    glm::mat4 rotation(1.0f);
+    rotation[0] = glm::vec4(right, 0.0f);  
+    rotation[1] = glm::vec4(up, 0.0f);      
+    rotation[2] = glm::vec4(tangent, 0.0f); 
+    rotation[3] = glm::vec4(0, 0, 0, 1);   
+
+    return glm::translate(glm::mat4(1.0f), currentPos) * rotation;
 }

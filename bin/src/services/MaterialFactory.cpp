@@ -15,7 +15,9 @@ std::shared_ptr<Material> MaterialFactory::GetMaterial(std::string vertexShaderP
 }
 
 std::shared_ptr<Material> MaterialFactory::GetMaterialFromMtl(const tinyobj::material_t& material,
-     std::string vertexShaderPath, std::string fragmentShaderPath)
+    std::string parentFolder,
+    std::string vertexShaderPath,
+    std::string fragmentShaderPath)
 {
     auto shaderProgram = ShaderLibrary::GetInstance().GetShaderProgram(
         vertexShaderPath,
@@ -29,14 +31,14 @@ std::shared_ptr<Material> MaterialFactory::GetMaterialFromMtl(const tinyobj::mat
         material.shininess
     );
 
-    std::string colorTexturePath = GlobalConfig::GetModelsPath() + material.diffuse_texname;
+    std::string colorTexturePath = parentFolder + "/" + material.diffuse_texname;
     if (!std::filesystem::exists(colorTexturePath)) 
     {
         colorTexturePath = GlobalConfig::GetDefaultTexturePath();
     }
     res->AddColorTexture(TextureFactory::GetInstance().GetTexture(colorTexturePath));
 
-    std::string normalTexturePath = GlobalConfig::GetModelsPath() + material.normal_texname;
+    std::string normalTexturePath = parentFolder + material.normal_texname;
     if (std::filesystem::exists(normalTexturePath)) 
     {
         res->SetNormalTexture(TextureFactory::GetInstance().GetTexture(normalTexturePath));

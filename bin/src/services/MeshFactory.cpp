@@ -3,6 +3,7 @@
 #include <spdlog/spdlog.h>
 #include "headers/services/MaterialFactory.hpp"
 #include "Models/skybox.h"
+#include <filesystem>
 
 std::shared_ptr<SimpleMesh> MeshFactory::LoadSphere(std::string vertexShaderPath, std::string fragmentShaderPath)
 {
@@ -185,7 +186,8 @@ std::shared_ptr<Model> MeshFactory::LoadFromFile(std::string filePath, std::stri
     spdlog::info("Loading OBJ model from path: {}", filePath);
 
     tinyobj::ObjReaderConfig config;
-    config.mtl_search_path = "./Models/"; 
+    std::filesystem::path path(filePath);
+    config.mtl_search_path = path.parent_path(); 
     tinyobj::ObjReader reader;
 
     if (!reader.ParseFromFile(filePath, config)) {
@@ -263,7 +265,7 @@ std::shared_ptr<Model> MeshFactory::LoadFromFile(std::string filePath, std::stri
             int matId = pair.first;
             std::vector<Vertex> vertices = pair.second;
 
-            std::shared_ptr<Material> mat = MaterialFactory::GetMaterialFromMtl(materials[matId], vertexShaderPath, fragmentShaderPath);
+            std::shared_ptr<Material> mat = MaterialFactory::GetMaterialFromMtl(materials[matId], path.parent_path(), vertexShaderPath, fragmentShaderPath);
             std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>(vertices, mat);
             model->AddMesh(mesh);
         }

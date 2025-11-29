@@ -9,7 +9,7 @@
 #include "headers/services/MeshFactory.hpp"
 #include "headers/services/TextureFactory.hpp"
 
-Camera::Camera() : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 2.0f, 2.0f), up(0.0f, 1.0f, 0.0f), speed(10.0f)
+Camera::Camera() : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 2.0f, 2.0f), up(0.0f, 1.0f, 0.0f), speed(25.0f)
 {
     forward = glm::normalize(forward);
     Transform* flashlightTransform = new Transform();
@@ -42,7 +42,7 @@ void Camera::NotifyAll()
 glm::mat4 Camera::GetProjectionMatrix()
 {
     // Default constants, replace with variables later
-    return glm::perspective(glm::radians(this->fov), this->width / this->height, 0.1f, 200.0f);
+    return glm::perspective(glm::radians(this->fov), this->width / this->height, 0.1f, 10000.0f);
 }
 
 glm::mat4 Camera::GetViewMatrix()
