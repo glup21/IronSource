@@ -13,6 +13,7 @@ private:
     float speed;
     float lastTime;
     float t;
+    glm::vec3 currentPos;
 
     int currentSegment = 0;
     bool hasEndedPath = false;

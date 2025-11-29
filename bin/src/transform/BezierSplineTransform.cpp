@@ -31,39 +31,30 @@ glm::mat4 BezierSplineTransform::GetTransformMatrix()
     double deltaTime = currentTime - lastTime;
     lastTime = currentTime;
 
-    float time = 1.0f;
-    glm::vec3 currentPos;
+
     if(!hasEndedPath)
     {
-        t += (speed * static_cast<float>(deltaTime)) / time;
-        if(t >= 1.0f)
+        t += speed * static_cast<float>(deltaTime);
+
+        while(t >= 1.0f && !hasEndedPath)
         {
-            t = 0.0f;
+            t -= 1.0f;
             currentSegment++;
             if(currentSegment >= segments.size())
             {
-                hasEndedPath = true;
                 currentSegment = segments.size() - 1;
+                hasEndedPath = true;
+                t = 1.0f;
             }
-            
         }
-        //t = glm::clamp(t, 0.0f, 1.0f);
 
-        glm::mat4x3 P;
         auto points = segments[currentSegment].points;
-        P[0] = points[0];
-        P[1] = points[1];
-        P[2] = points[2];
-        P[3] = points[3];
-        currentPos = glm::vec4(glm::pow(t, 3), glm::pow(t, 2), t, 1) *
-            glm::mat4(
-                {-1, 3, -3, 1},
-                {3, -6, 3, 0},
-                {-3, 3, 0, 0},
-                {1, 0, 0 , 0}
-            ) * P;
-    }
 
+        currentPos = (float)glm::pow((1 - t), 3) * points[0] +
+            3*(float)glm::pow((1 - t), 2) * t * points[1] +
+            3*(1 - t) * (t*t) * points[2] + 
+            t*t*t * points[3];
+    }
 
     return glm::translate(glm::mat4(1.0f), currentPos);
 }

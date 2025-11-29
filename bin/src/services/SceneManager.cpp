@@ -366,15 +366,33 @@ std::shared_ptr<Scene> SceneManager::GetSixthScene()
     shrek->transform->SetLocalPosition({0.0f, 3.0f, -5.0f});
     shrek->transform->SetLocalScale(glm::vec3(2.0f));
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<float> dist(-10.0f, 10.0f);
-    std::vector<glm::vec3> path;
+    //std::vector<glm::vec3> path;
+    // std::random_device rd;
+    // std::mt19937 gen(rd());
+    // std::uniform_real_distribution<float> dist(-10.0f, 10.0f);
 
-    for (int i = 0; i < 12; i += 3) 
-    {
-        path.push_back(glm::vec3(dist(gen), dist(gen), dist(gen)));
-    }
+    // for (int i = 0; i < 12; i++) 
+    // {
+    //     path.push_back(glm::vec3(dist(gen), 3.0f, dist(gen)));
+    // }
+
+    std::vector<glm::vec3> path = {
+        // === Point 1 ===
+        {-1.0000f,  0.0000f, 0.0000f},   // Control
+        {-1.5000f, -0.5000f, 0.0000f},   // Handle Left
+        {-0.5000f,  0.5000f, 0.0000f},   // Handle Right
+
+        // === Point 2 ===
+        { 1.0000f,  0.0000f, 0.0000f},   // Control
+        { 0.0000f,  0.0000f, 0.0000f},   // Handle Left
+        { 2.0000f,  0.0000f, 0.0000f},   // Handle Right
+
+        // === Point 3 ===
+        { 2.0343f,  1.4371f, 0.0072f},   // Control
+        { 1.6895f,  0.9580f, 0.0048f},   // Handle Left
+        { 2.3790f,  1.9161f, 0.0095f}    // Handle Right
+    };
+
     shrek->transform->AddBasicTransform(
         std::make_shared<BezierSplineTransform>(path, 0.1f));
 
