@@ -375,23 +375,43 @@ std::shared_ptr<Scene> SceneManager::GetSixthScene()
     //     path.push_back(glm::vec3(dist(gen), 3.0f, dist(gen)));
     // }
 
-    std::vector<glm::vec3> path = 
+    // std::vector<glm::vec3> path = 
+    // {
+    //     {-1.0000f,  0.0000f, 0.0000f },
+    //     {-1.0315, -0.7293, -0.0399 },
+    //     {-0.9695, 0.7054, 0.0386 },   
+
+    //     { 1.0000f,  0.0000f, 0.0000f },
+    //     { 1.1835, -0.8823, -0.4334 },
+    //     { 0.8109, 0.9096, 0.4467}, 
+    // };
+
+    std::vector<glm::vec3> path =
     {
-        {-1.0000f,  0.0000f, 0.0000f},
-        {-1.5000f, -0.5000f, 0.0000f},
-        {-0.5000f,  0.5000f, 0.0000f},   
+        // Block 1
+        { -1.0000f,  0.0000f, -0.0000f }, // Control point
+        { -1.0315f, -0.7293f, -0.0000f }, // Handle LEFT
+        { -0.9695f,  0.7054f, -0.0000f }, // Handle RIGHT
 
-        { 1.0000f,  0.0000f, 0.0000f},
-        { 0.0000f,  0.0000f, 0.0000f},
-        { 2.0000f,  0.0000f, 0.0000f}, 
+        // Block 2
+        {  1.0000f,  0.0000f, -0.0000f },
+        {  1.1835f, -0.8823f, -0.0000f },
+        {  0.8109f,  0.9096f, -0.0000f },
 
-        { 2.0343f,  1.4371f, 0.0072f},
-        { 1.6895f,  0.9580f, 0.0048f},
-        { 2.3790f,  1.9161f, 0.0095f}    
+        // Block 3
+        { 0.9712f, 1.2836f, 0.0000f },
+        { 0.0622f, 1.2817f, 0.0000f },
+        { 1.9461f, 1.2856f, 0.0000f },
+
+        // Block 4
+        { 1.7982f, -0.3968f, -0.4020f },
+        { 1.5226f,  0.1633f, -0.2680f },
+        { 2.0739f, -0.9569f, -0.5361f },
     };
 
+
     shrek->transform->AddBasicTransform(
-        std::make_shared<BezierSplineTransform>(path, 0.45f));
+        std::make_shared<BezierSplineTransform>(path, 0.2f));
 
     objects.push_back(shrek);
 
@@ -579,23 +599,23 @@ std::shared_ptr<Scene> SceneManager::GetEighthScene()
     auto car = GameObjectFactory::GetInstance().GetGameObject("Car", renderTargets[meshes.size() ]);
     car->transform->SetLocalScale(glm::vec3(2.0f));
 
-    std::vector<glm::vec3> path = {
-        {-1.0000f, 0.0000f, 0.0000f},  
-        {-1.5000f, 0.0000f, -0.5000f}, 
-        {-0.5000f, 0.0000f, 0.5000f},  
+    // std::vector<glm::vec3> path = {
+    //     {-1.0000f, 0.0000f, 0.0000f},  
+    //     {-1.5000f, 0.0000f, -0.5000f}, 
+    //     {-0.5000f, 0.0000f, 0.5000f},  
 
-        { 1.0000f, 0.0000f, 0.0000f},  
-        { 0.0000f, 0.0000f, 0.0000f},  
-        { 2.0000f, 0.0000f, 0.0000f},  
+    //     { 1.0000f, 0.0000f, 0.0000f},  
+    //     { 0.0000f, 0.0000f, 0.0000f},  
+    //     { 2.0000f, 0.0000f, 0.0000f},  
 
-        { 2.0343f, 0.0000f, 1.4371f}, 
-        { 1.6895f, 0.0000f, 0.9580f}, 
-        { 2.3790f, 0.0000f, 1.9161f}  
-    };
+    //     { 2.0343f, 0.0000f, 1.4371f}, 
+    //     { 1.6895f, 0.0000f, 0.9580f}, 
+    //     { 2.3790f, 0.0000f, 1.9161f}  
+    // };
 
 
-    car->transform->AddBasicTransform(
-        std::make_shared<BezierSplineTransform>(path, 0.45f));
+    // car->transform->AddBasicTransform(
+    //     std::make_shared<BezierSplineTransform>(path, 0.45f));
 
     objects.push_back(car);
 
@@ -604,7 +624,7 @@ std::shared_ptr<Scene> SceneManager::GetEighthScene()
     lights.push_back(std::unique_ptr<DirectionalLight>(LightFactory::GetInstance().GetDirectionalLight(
         glm::vec3(0.6f, 0.7f, 1.0f),
         glm::vec3(-0.3f, -1.0f, -0.5f), 
-        0.4f 
+        1.0f 
     )));
 
     auto scene = std::make_shared<Scene>(objects, std::move(lights));

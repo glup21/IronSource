@@ -24,4 +24,5 @@ public:
 
     void AddGameObject(std::shared_ptr<GameObject> gameObject);
     void DeleteGameObject(int id);
+    GameObject* FindGameObjectByName(std::string name);
 };

@@ -10,10 +10,10 @@ BezierSplineTransform::BezierSplineTransform(std::vector<glm::vec3> points, floa
     for(int i = 0; i + 4 < points.size(); i += 3)
     {
         std::vector<glm::vec3> segmentPoints = {
-            points[i + 1], 
+            points[i + 0], 
             points[i + 2], 
-            points[i + 3],
-            points[i + 4]  
+            points[i + 4],
+            points[i + 3]  
         };
 
         segments.push_back({segmentPoints});
@@ -48,9 +48,6 @@ glm::mat4 BezierSplineTransform::GetTransformMatrix()
                 t = 1.0f;
             }
         }
-
-        
-
         currentPos = (float)glm::pow((1 - t), 3) * points[0] +
             3*(float)glm::pow((1 - t), 2) * t * points[1] +
             3*(1 - t) * (t*t) * points[2] + 

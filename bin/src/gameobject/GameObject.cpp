@@ -41,3 +41,8 @@ IRenderTarget* GameObject::GetRenderTarget()
 {
     return renderTarget.get();
 }
+
+std::string GameObject::GetName()
+{
+    return name;
+}

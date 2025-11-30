@@ -54,3 +54,15 @@ void Scene::DeleteGameObject(int id)
         }
     }
 }
+
+GameObject* Scene::FindGameObjectByName(std::string name)
+{
+    for( auto gameObject : gameObjects )
+    {
+        if(gameObject->GetName() == name)
+        {
+            return gameObject.get();
+        }
+    }
+    return nullptr;
+}

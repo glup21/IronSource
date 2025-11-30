@@ -148,13 +148,42 @@ void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
             // newTree->transform->SetLocalPosition(pos);
             // appContext->scene->AddGameObject(newTree);
 
-            appContext->scene->DeleteGameObject(id);
+            //appContext->scene->DeleteGameObject(id);
+
+            auto newTree = GameObjectFactory::GetInstance().GetGameObject(
+                    "newTree",
+                    MeshFactory::GetInstance().LoadTree(),
+                    new Transform()
+                );
+            newTree->transform->SetLocalPosition(pos);
+            newTree->transform->SetLocalScale(glm::vec3(0.1f));
+            appContext->scene->AddGameObject(newTree);
+
+            points.push_back(pos);
+
         }
         leftButtonPressed = true;
     }
     else
     {
         leftButtonPressed = false;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
+    {
+        bezier = std::make_shared<BezierSplineTransform>(points, 0.2f);
+        points.clear();
+
+        Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
+        AppContext* appContext = app->GetAppContext();
+
+        auto car = appContext->scene->FindGameObjectByName("Car");
+        if(car)
+        {
+            car->transform->AddBasicTransform(bezier);
+        }
+        
+        bezier = nullptr;
     }
 
     this->flashLight->SetDirection(forward);

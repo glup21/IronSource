@@ -30,4 +30,5 @@ public:
     int GetId() { return id; }
     void SetIsDestructable(bool value) { isDestructable = value; } 
     bool GetIsDestructable() { return isDestructable; }
+    std::string GetName();
 };

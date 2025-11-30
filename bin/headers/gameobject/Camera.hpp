@@ -1,7 +1,7 @@
 #pragma once
 #include "headers/graphics/SpotLight.hpp"
 #include "headers/interfaces/Subject.hpp"
-
+#include "headers/transform/BezierSplineTransform.hpp"
 #include "headers/pch.hpp"
 
 class Skybox;
@@ -28,6 +28,9 @@ private:
 
     std::shared_ptr<SpotLight> flashLight;
     std::unique_ptr<Skybox> skybox;
+
+    std::vector<glm::vec3> points;
+    std::shared_ptr<BezierSplineTransform> bezier;
 
     void NotifyAll() override;
 public:
