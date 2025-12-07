@@ -1,6 +1,23 @@
 #include "headers/gamelogic/Scene.hpp"
 #include "headers/services/MeshFactory.hpp"
 
+Scene::~Scene()
+{
+
+    for (auto& light : lights)
+    {
+        if (light)
+        {
+            light.reset(); 
+        }
+    }
+    lights.clear();
+
+    gameObjects.clear();
+
+}
+
+
 Scene::Scene(std::vector<std::shared_ptr<GameObject>> gameObjects)
     : gameObjects(gameObjects)
 {
@@ -10,7 +27,7 @@ Scene::Scene(std::vector<std::shared_ptr<GameObject>> gameObjects)
 
 Scene::Scene(std::vector<std::shared_ptr<GameObject>> gameObjects,
              std::vector<std::unique_ptr<Light>> lights)
-    : gameObjects(std::move(gameObjects)), lights(std::move(lights))
+    : gameObjects(gameObjects), lights(std::move(lights))
 {
     this->camera = std::make_unique<Camera>();
     this->camera->SetSkybox(MeshFactory::GetInstance().GetSkybox());

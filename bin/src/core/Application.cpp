@@ -15,27 +15,66 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
         {
             case GLFW_KEY_1:
             {
-                spdlog::info("Switching scenes: {}", 1);
+                spdlog::info("Switching scenes: One Polygon Scene");
                 std::shared_ptr<Scene> scene = SceneManager::GetOnePolygonScene();
+                app->SwitchScene(nullptr);
                 app->SwitchScene(scene);
                 appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
+                scene->GetCamera()->ResizeViewport(window);
                 break;
             }
             case GLFW_KEY_2:
             {
-                spdlog::info("Switching scenes: {}", 2);
+                spdlog::info("Switching scenes: Four Spheres Scene");
                 std::shared_ptr<Scene> scene = SceneManager::GetFourSpheresScene();
                 app->SwitchScene(scene);
                 appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
+                scene->GetCamera()->ResizeViewport(window);
                 break;
             }
             case GLFW_KEY_3:
             {
-                spdlog::info("Switching scenes: {}", 3);
-                std::shared_ptr<Scene> scene = SceneManager::GetThirdScene();
+                spdlog::info("Switching scenes: Forest Scene");
+                std::shared_ptr<Scene> scene = SceneManager::GetForestScene();
                 app->SwitchScene(scene);
                 appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
-                auto lights = appContext->scene->GetLights();
+                scene->GetCamera()->ResizeViewport(window);
+                break;
+            }
+            case GLFW_KEY_4:
+            {
+                spdlog::info("Switching scenes: Solar System Scene");
+                std::shared_ptr<Scene> scene = SceneManager::GetSolarSystemScene();
+                app->SwitchScene(scene);
+                appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
+                scene->GetCamera()->ResizeViewport(window);
+                break;
+            }
+            case GLFW_KEY_5:
+            {
+                spdlog::info("Switching scenes: Whac A Mole Scene");
+                std::shared_ptr<Scene> scene = SceneManager::GetWhacAMoleScene();
+                app->SwitchScene(scene);
+                appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
+                scene->GetCamera()->ResizeViewport(window);
+                break;
+            }
+            case GLFW_KEY_6:
+            {
+                spdlog::info("Switching scenes: Racing Scene");
+                std::shared_ptr<Scene> scene = SceneManager::GetRacingScene();
+                app->SwitchScene(scene);
+                appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
+                scene->GetCamera()->ResizeViewport(window);
+                break;
+            }
+            case GLFW_KEY_7:
+            {
+                spdlog::info("Switching scenes: Bezier");
+                std::shared_ptr<Scene> scene = SceneManager::GetBezierScene();
+                app->SwitchScene(scene);
+                appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
+                scene->GetCamera()->ResizeViewport(window);
                 break;
             }
             default:
@@ -46,12 +85,10 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    glViewport(0, 0, width, height);
-
     Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
     AppContext* appContext = app->GetAppContext();
 
-    appContext->scene->GetCamera()->ResizeViewport(width, height);
+    appContext->scene->GetCamera()->ResizeViewport(window);
 }
 
 
@@ -67,7 +104,7 @@ void Application::Run()
     glfwSetFramebufferSizeCallback(appContext.window, framebuffer_size_callback);
 
     spdlog::info("Loading scene 4");
-    appContext.scene = SceneManager::GetFourSpheresScene();
+    appContext.scene = SceneManager::GetForestScene();
     appContext.shaderLibrary->RegisterCamera(appContext.scene->GetCamera());
 
     spdlog::info("Constructing engine");
@@ -79,6 +116,7 @@ void Application::Run()
 
 void Application::SwitchScene(std::shared_ptr<Scene> newScene)
 {
+    //appContext.scene->~Scene();
     appContext.scene = newScene;
 }
 

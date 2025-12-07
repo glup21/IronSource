@@ -7,7 +7,7 @@ class Firefly : public GameObject
 {
 private:
     float distance;
-    std::shared_ptr<PointLight> light;
+    std::unique_ptr<PointLight> light;
     float speed;
 
     bool reachedDestination = false;

@@ -26,7 +26,7 @@ private:
 
     float speed;
 
-    std::shared_ptr<SpotLight> flashLight;
+    std::unique_ptr<SpotLight> flashLight;
     std::unique_ptr<Skybox> skybox;
 
     std::vector<glm::vec3> points;
@@ -42,7 +42,7 @@ public:
     
     void Update();
     void ProcessInput(GLFWwindow* window, float deltaTime);
-    void ResizeViewport(int width, int height);
+    void ResizeViewport(GLFWwindow* window);
     void SetSkybox(Skybox* skybox);
     void RenderSkybox();
 };

@@ -13,10 +13,10 @@ public:
         static LightFactory instance;
         return instance;
     }
-    PointLight* GetPointLight(Transform* transform, glm::vec3 color, float intensity, float k_l, float k_q);
-    AmbientLight* GetAmbientLight(glm::vec3 color, float intensity);
-    DirectionalLight* GetDirectionalLight(glm::vec3 color, glm::vec3 direction, float intensity);
-    SpotLight* GetSpotLight(Transform* transform, glm::vec3 color, float intensity, float k_l, float k_q,
+    std::unique_ptr<PointLight> GetPointLight(Transform* transform, glm::vec3 color, float intensity, float k_l, float k_q);
+    std::unique_ptr<AmbientLight> GetAmbientLight(glm::vec3 color, float intensity);
+    std::unique_ptr<DirectionalLight> GetDirectionalLight(glm::vec3 color, glm::vec3 direction, float intensity);
+    std::unique_ptr<SpotLight> GetSpotLight(Transform* transform, glm::vec3 color, float intensity, float k_l, float k_q,
         glm::vec3 direction, float cutOff, float outerCutOff, std::shared_ptr<Texture> lightTexture = nullptr);
 
     int pointLightCount = 0;

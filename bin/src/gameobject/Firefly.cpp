@@ -11,7 +11,7 @@ Firefly::Firefly(Transform* transform, float distance, glm::vec3 color, float in
     this->renderTarget = std::shared_ptr<SimpleMesh>(MeshFactory::GetInstance().LoadSphere(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
         "./bin/shaders/fragmentShaderFirefly.frag"));
     // Light
-    this->light = std::shared_ptr<PointLight>(LightFactory::GetInstance().GetPointLight(transform, color, intensity, k_l, k_q));
+    this->light = LightFactory::GetInstance().GetPointLight(transform, color, intensity, k_l, k_q);
 
     this->transform->SetLocalScale(glm::vec3(0.05));
 }

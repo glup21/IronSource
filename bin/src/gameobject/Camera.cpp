@@ -17,7 +17,7 @@ Camera::Camera() : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 2.0f, 2.0f), up(0.0f, 1
 
     auto flashLightTexture = TextureFactory::GetInstance().GetTexture("./Models/lightcookie.jpg");
 
-    flashLight = std::shared_ptr<SpotLight>(LightFactory::GetInstance().GetSpotLight(
+    flashLight = LightFactory::GetInstance().GetSpotLight(
         flashlightTransform,
         glm::vec3(1.0f, 1.0f, 1.0f),
         5.0f,
@@ -27,7 +27,7 @@ Camera::Camera() : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 2.0f, 2.0f), up(0.0f, 1
         15.0f,
         17.0f,
         flashLightTexture
-    ));
+    );
     flashLight->SetEnabled(false);
 }
 
@@ -41,7 +41,6 @@ void Camera::NotifyAll()
 
 glm::mat4 Camera::GetProjectionMatrix()
 {
-    // Default constants, replace with variables later
     return glm::perspective(glm::radians(this->fov), this->width / this->height, 0.1f, 10000.0f);
 }
 
@@ -50,14 +49,21 @@ glm::mat4 Camera::GetViewMatrix()
     return glm::lookAt(eye, eye + forward, up);
 }
 
-void Camera::ResizeViewport(int width, int height)
+void Camera::ResizeViewport(GLFWwindow* window)
 {
+    int width;
+    int height;
+
+    glfwGetWindowSize(window, &width, &height);
+    glViewport(0, 0, width, height);
+
     this->width = (float)width;
     this->height = (float)height;
 }
 
 void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
 {
+
     static bool fPressedLastFrame = false;
 
     glm::vec3 right = glm::normalize(glm::cross(forward, up));
@@ -210,3 +216,5 @@ void Camera::RenderSkybox()
         glm::mat4(glm::mat3(GetViewMatrix()))
     );
 }
+
+
