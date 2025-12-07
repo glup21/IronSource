@@ -12,6 +12,9 @@
 Camera::Camera() : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 2.0f, 2.0f), up(0.0f, 1.0f, 0.0f), speed(25.0f)
 {
     forward = glm::normalize(forward);
+    pitch = 90.0f;
+    yaw = -90.0f;
+
     Transform* flashlightTransform = new Transform();
     flashlightTransform->SetLocalPosition(eye);
 
@@ -102,18 +105,18 @@ void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
 
         float sensitivity = 0.1f;
         xoffset *= sensitivity;
-        yoffset *= sensitivity;
+        yoffset *= -sensitivity;
 
         yaw += xoffset;
         pitch += yoffset;
 
-        if(pitch > 89.0f) pitch = 89.0f;
-        if(pitch < -89.0f) pitch = -89.0f;
+        if(pitch > 179.0f) pitch = 179.0f;
+        if(pitch < 1.0f) pitch = 1.0f;
 
         glm::vec3 dir;
-        dir.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-        dir.y = sin(glm::radians(pitch));
-        dir.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+        dir.x = sin(glm::radians(pitch)) * cos(glm::radians(yaw));
+        dir.y = cos(glm::radians(pitch));
+        dir.z = sin(glm::radians(pitch)) * sin(glm::radians(yaw));
         forward = glm::normalize(dir);
     }
     else
