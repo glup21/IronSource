@@ -19,9 +19,8 @@
 #include "headers/transform/BezierSplineTransform.hpp"
 #include <spdlog/spdlog.h>
 
-std::shared_ptr<Scene> SceneManager::GetFirstScene()
+std::shared_ptr<Scene> SceneManager::GetOnePolygonScene()
 {
-    // Replace later with initialization from text files
     auto firstMesh = std::make_shared<SimpleMesh>(
         std::vector<glm::vec3>{ 
             {0.0f, 0.5f, 0.0f},
@@ -31,65 +30,51 @@ std::shared_ptr<Scene> SceneManager::GetFirstScene()
         std::vector<glm::vec3>{ {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} },
         MaterialFactory::GetMaterial()
     );
+    
+    auto object = GameObjectFactory::GetInstance().GetGameObject("firstMesh", firstMesh);
 
-    std::string vertexShaderPath = "./bin/shaders/vertexShader.vert";
-    std::string fragmentShaderPath = "./bin/shaders/firstFragmentShader.frag";
-
-    std::vector<IBasicTransform*> firstObjectTransforms;
-    firstObjectTransforms.push_back(new Translation(glm::vec3{0.0, 0.0, 0.0}));
-    firstObjectTransforms.push_back(new DynamicRotation(0, glm::vec3(0.0, 0.0, 1.0), 10.0f)); 
-    firstObjectTransforms.push_back(new Scale(glm::vec3(1.0, 1.0, 1.0))); 
-
-
+    object->transform->SetLocalPosition({0, 0, -3.0f});
+    object->transform->AddBasicTransform(std::make_shared<DynamicRotation>(0, glm::vec3(0.0, 0.0, 1.0), 10.0f));
+    object->transform->SetLocalScale(glm::vec3(10.0f));
     auto scene = std::make_shared<Scene>
     (
-        std::vector<std::shared_ptr<GameObject>>{
-            // std::make_shared<GameObject>("firstMesh", firstMesh, new Transform( firstObjectTransforms ))
-        }
+        std::vector<std::shared_ptr<GameObject>>{object}
     );
 
     return scene;
 }
 
-std::shared_ptr<Scene> SceneManager::GetSecondScene()
+std::shared_ptr<Scene> SceneManager::GetFourSpheresScene()
 {
-    // Replace later with initialization from text files
+    auto sphereMesh = MeshFactory::GetInstance().LoadSphere();
 
-    //auto sphereMesh = MeshFactory::GetInstance().LoadSphere();
-    auto sphereMesh = MeshFactory::GetInstance().LoadFromFile("./Models/formula2.obj");
+    auto gameObjects = std::vector<std::shared_ptr<GameObject>>{
+            GameObjectFactory::GetInstance().GetGameObject("firstSphere", sphereMesh),
+            GameObjectFactory::GetInstance().GetGameObject("secondSphere", sphereMesh),
+            GameObjectFactory::GetInstance().GetGameObject("thirdSphere", sphereMesh),
+            GameObjectFactory::GetInstance().GetGameObject("forthSphere", sphereMesh),
+    };
 
-    std::vector<IBasicTransform*> firstObjectTransforms;
-    firstObjectTransforms.push_back(new Translation(glm::vec3{0.5, 0.0, 0.0}));
-    firstObjectTransforms.push_back(new Scale(glm::vec3(0.25, 0.25, 0.25))); 
-
-    std::vector<IBasicTransform*> secondObjectTransforms;
-    secondObjectTransforms.push_back(new Translation(glm::vec3{0.0, 0.5, 0.0}));
-    secondObjectTransforms.push_back(new Scale(glm::vec3(0.25, 0.25, 0.25))); 
-
-    std::vector<IBasicTransform*> thirdObjectTransforms;
-    thirdObjectTransforms.push_back(new Translation(glm::vec3{-0.5, 0.0, 0.0}));
-    thirdObjectTransforms.push_back(new Scale(glm::vec3(0.25, 0.25, 0.25))); 
-
-    std::vector<IBasicTransform*> forthObjectTransforms;
-    forthObjectTransforms.push_back(new Translation(glm::vec3{0.0, -0.5, 0.0}));
-    forthObjectTransforms.push_back(new Scale(glm::vec3(0.25, 0.25, 0.25))); 
+    for(auto gameObject : gameObjects)
+    {
+        gameObject->transform->SetLocalScale(glm::vec3(0.25f));
+    }
+    gameObjects[0]->transform->SetLocalPosition({0.5, 0.0, 0.0});
+    gameObjects[1]->transform->SetLocalPosition({0.0, 0.5, 0.0});
+    gameObjects[2]->transform->SetLocalPosition({-0.5, 0.0, 0.0});
+    gameObjects[3]->transform->SetLocalPosition({0.0, -0.5, 0.0});
 
     std::vector<std::unique_ptr<Light>> lights;
     lights.push_back(std::make_unique<PointLight>(new Transform(), glm::vec3(1.0, 1.0, 1.0), 1.0, 2.0, 1.0));
     lights.push_back(std::unique_ptr<AmbientLight>(LightFactory::GetInstance().GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f)));
-    lights.push_back(std::unique_ptr<DirectionalLight>(LightFactory::GetInstance().GetDirectionalLight(
-        glm::vec3(0.6f, 0.7f, 1.0f),
-        glm::vec3(-0.3f, -1.0f, -0.5f), 
-        0.025f 
-    )));
+    // lights.push_back(std::unique_ptr<DirectionalLight>(LightFactory::GetInstance().GetDirectionalLight(
+    //     glm::vec3(0.6f, 0.7f, 1.0f),
+    //     glm::vec3(-0.3f, -1.0f, -0.5f), 
+    //     0.025f 
+    // )));
     auto scene = std::make_shared<Scene>
     (
-        std::vector<std::shared_ptr<GameObject>>{
-            // std::make_shared<GameObject>("firstSphere", sphereMesh, new Transform( firstObjectTransforms )),
-            // std::make_shared<GameObject>("secondSphere", sphereMesh, new Transform( secondObjectTransforms )),
-            // std::make_shared<GameObject>("thirdSphere", sphereMesh, new Transform( thirdObjectTransforms )),
-            // std::make_shared<GameObject>("forthSphere", sphereMesh, new Transform( forthObjectTransforms )),
-        },
+        gameObjects,
         std::move(lights)
     );
 

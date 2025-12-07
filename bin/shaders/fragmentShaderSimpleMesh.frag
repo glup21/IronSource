@@ -31,6 +31,7 @@ struct DirectionalLight
 
 struct SpotLight
 {
+    bool enabled;
     vec3 position;
     vec3 direction;
 
@@ -111,23 +112,25 @@ void main()
     for (int i = 0; i < numSpotLights; i++)
     {
         SpotLight light = spotLights[i];
+        if(light.enabled)
+        {
+            vec3 L = normalize(light.position - fragPos);
+            float diff = max(dot(N, L), 0.0);
+            vec3 H = normalize(L + V);
+            float spec = pow(max(dot(N, H), 0.0), 32.0);
 
-        vec3 L = normalize(light.position - fragPos);
-        float diff = max(dot(N, L), 0.0);
-        vec3 H = normalize(L + V);
-        float spec = pow(max(dot(N, H), 0.0), 32.0);
+            float distance = length(light.position - fragPos);
+            float attenuation = 1.0 / (1.0 + light.k_l * distance + light.k_q * distance * distance);
 
-        float distance = length(light.position - fragPos);
-        float attenuation = 1.0 / (1.0 + light.k_l * distance + light.k_q * distance * distance);
+            float theta = dot(normalize(-light.direction), L);
+            float epsilon = light.cutOff - light.outerCutOff;
+            float intensityFactor = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
 
-        float theta = dot(normalize(-light.direction), L);
-        float epsilon = light.cutOff - light.outerCutOff;
-        float intensityFactor = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
+            vec3 diffuse = diff * light.color * light.intensity * attenuation * intensityFactor;
+            vec3 specular = spec * light.color * 0.5 * attenuation * intensityFactor;
 
-        vec3 diffuse = diff * light.color * light.intensity * attenuation * intensityFactor;
-        vec3 specular = spec * light.color * 0.5 * attenuation * intensityFactor;
-
-        result += diffuse + specular;
+            result += diffuse + specular;
+        }
     }
 
     fragColor = vec4(result * vertexColor, 1.0);

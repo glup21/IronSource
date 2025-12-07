@@ -16,7 +16,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             case GLFW_KEY_1:
             {
                 spdlog::info("Switching scenes: {}", 1);
-                std::shared_ptr<Scene> scene = SceneManager::GetFirstScene();
+                std::shared_ptr<Scene> scene = SceneManager::GetOnePolygonScene();
                 app->SwitchScene(scene);
                 appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
                 break;
@@ -24,7 +24,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             case GLFW_KEY_2:
             {
                 spdlog::info("Switching scenes: {}", 2);
-                std::shared_ptr<Scene> scene = SceneManager::GetSecondScene();
+                std::shared_ptr<Scene> scene = SceneManager::GetFourSpheresScene();
                 app->SwitchScene(scene);
                 appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
                 break;
@@ -67,7 +67,7 @@ void Application::Run()
     glfwSetFramebufferSizeCallback(appContext.window, framebuffer_size_callback);
 
     spdlog::info("Loading scene 4");
-    appContext.scene = SceneManager::GetEighthScene();
+    appContext.scene = SceneManager::GetFourSpheresScene();
     appContext.shaderLibrary->RegisterCamera(appContext.scene->GetCamera());
 
     spdlog::info("Constructing engine");

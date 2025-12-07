@@ -44,7 +44,9 @@ public:
     }
 
     std::vector<std::shared_ptr<SimpleMesh>> LoadAllPredefinedModels();
-    std::shared_ptr<SimpleMesh> LoadSphere(std::string vertexShaderPath = "", std::string fragmentShaderPath = "");
+    std::shared_ptr<SimpleMesh> LoadSphere(
+        std::string vertexShaderPath = GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
+        std::string fragmentShaderPath = GlobalConfig::GetDefaultSimpleMeshFragmentShaderPath());
     std::shared_ptr<SimpleMesh> LoadTree();
     std::shared_ptr<Model> LoadFromFile(std::string fileName,
         std::string vertexShaderPath = GlobalConfig::GetDefaultMeshVertexShaderPath(),

@@ -31,6 +31,7 @@ struct DirectionalLight
 
 struct SpotLight
 {
+    bool enabled;
     vec3 position;
     vec3 direction;
 
@@ -73,15 +74,12 @@ out vec4 fragColor;
 
 void main()
 {
-    // vec3 normal = texture(normalTexture, fragTexCoord).rgb;
-    // normal = normalize(normal * 2.0 - 1.0);
-    // vec3 N = normal;
 
     vec3 N = normalize(fragNormal);
     vec3 V = normalize(viewPos - fragPos);
     vec3 result = vec3(0.0);
 
-    for (int i = 0; i < MAX_AMBIENT_LIGHTS; i++)
+    for (int i = 0; i < numAmbientLights; i++)
     {
         AmbientLight light = ambientLights[i];
         result += light.color * light.intensity * materialAmbient;
@@ -105,7 +103,7 @@ void main()
         result += diffuse + specular;
     }
 
-    for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)
+    for (int i = 0; i < numDirectionalLights; i++)
     {
         DirectionalLight light = directionalLights[i];
 
@@ -124,26 +122,27 @@ void main()
     for (int i = 0; i < numSpotLights; i++)
     {
         SpotLight light = spotLights[i];
+        if(light.enabled)
+        {
+            vec3 L = normalize(light.position - fragPos);
+            float diff = max(dot(N, L), 0.0);
+            vec3 H = normalize(L + V);
+            float spec = pow(max(dot(N, H), 0.0), materialShinnines);
 
-        vec3 L = normalize(light.position - fragPos);
-        float diff = max(dot(N, L), 0.0);
-        vec3 H = normalize(L + V);
-        float spec = pow(max(dot(N, H), 0.0), materialShinnines);
+            float distance = length(light.position - fragPos);
+            float attenuation = 1.0 / (1.0 + light.k_l * distance + light.k_q * distance * distance);
 
-        float distance = length(light.position - fragPos);
-        float attenuation = 1.0 / (1.0 + light.k_l * distance + light.k_q * distance * distance);
+            float theta = dot(normalize(-light.direction), L);
+            float epsilon = light.cutOff - light.outerCutOff;
+            float intensityFactor = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
 
-        float theta = dot(normalize(-light.direction), L);
-        float epsilon = light.cutOff - light.outerCutOff;
-        float intensityFactor = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
+            vec3 diffuse = diff * light.color * light.intensity * attenuation * materialDiffuse * intensityFactor;
+            vec3 specular = spec * light.color * 0.5 * attenuation * materialSpecular;
 
-        vec3 diffuse = diff * light.color * light.intensity * attenuation * materialDiffuse * intensityFactor;
-        vec3 specular = spec * light.color * 0.5 * attenuation * materialSpecular;
-
-        result += diffuse + specular;
+            result += diffuse + specular;
+        }
     }
 
-    //result = vec3(1.0);
     vec4 texColor = texture(colorTexture, fragTexCoord);
     fragColor = vec4(result * texColor.rgb, texColor.a);
 }
