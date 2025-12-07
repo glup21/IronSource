@@ -291,8 +291,6 @@ std::shared_ptr<Scene> SceneManager::GetWhacAMoleScene()
 
     auto scene = std::make_shared<Scene>(objects, std::move(lights));
 
-    // Need to resolve this issue, because right now for an object to delete any other object it requires pointer to a Scene,
-    // which is bad design
     whacAMole->SetScene(scene.get());
 
     return scene;
@@ -307,8 +305,7 @@ std::shared_ptr<Scene> SceneManager::GetRacingScene()
 
     std::vector<std::shared_ptr<GameObject>> objects;
     auto racingRoad = GameObjectFactory::GetInstance().GetGameObject("Racing", renderTargets[0]);
-    //racingRoad->transform->SetLocalPosition({20.0f, -5.0f, -100.0f});
-    //racingRoad->transform->SetLocalScale(glm::vec3(0.5f));
+
     objects.push_back(racingRoad);
 
     auto car = GameObjectFactory::GetInstance().GetGameObject("Car", renderTargets[1]);
