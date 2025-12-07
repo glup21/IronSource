@@ -1,5 +1,9 @@
 #include "headers/graphics/Light.hpp"
+#include "spdlog/spdlog.h"
+#include "headers/services/ShaderLibrary.hpp"
 
+Light::~Light() {
+}
 
 glm::vec3 Light::GetColor() const 
 {

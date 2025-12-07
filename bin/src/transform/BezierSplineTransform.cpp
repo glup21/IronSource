@@ -32,6 +32,11 @@ glm::mat4 BezierSplineTransform::GetTransformMatrix()
     double deltaTime = currentTime - lastTime;
     lastTime = currentTime;
 
+    if (segments.empty())
+    {
+        return glm::mat4(1.0f);  
+    }
+
     auto points = segments[currentSegment].points;
     if(!hasEndedPath)
     {

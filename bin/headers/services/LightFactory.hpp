@@ -19,6 +19,7 @@ public:
     std::unique_ptr<SpotLight> GetSpotLight(Transform* transform, glm::vec3 color, float intensity, float k_l, float k_q,
         glm::vec3 direction, float cutOff, float outerCutOff, std::shared_ptr<Texture> lightTexture = nullptr);
 
+    void ResetLightCount();
     int pointLightCount = 0;
     int ambientLightCount = 0;
     int directionalLightCount = 0;

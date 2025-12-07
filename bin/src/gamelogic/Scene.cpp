@@ -1,9 +1,9 @@
 #include "headers/gamelogic/Scene.hpp"
 #include "headers/services/MeshFactory.hpp"
-
+#include "headers/services/LightFactory.hpp"
 Scene::~Scene()
 {
-
+    camera.reset();
     for (auto& light : lights)
     {
         if (light)
@@ -14,6 +14,7 @@ Scene::~Scene()
     lights.clear();
 
     gameObjects.clear();
+
 
 }
 

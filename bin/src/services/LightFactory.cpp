@@ -36,3 +36,11 @@ std::unique_ptr<SpotLight> LightFactory::GetSpotLight(Transform* transform, glm:
 
     return spotLight;
 }
+
+void LightFactory::ResetLightCount()
+{
+    spotLightCount = 0;
+    pointLightCount = 0;
+    directionalLightCount = 0;
+    ambientLightCount = 0;
+}

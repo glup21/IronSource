@@ -17,4 +17,6 @@ public:
     ~Engine() = default;
 
     void Run();
+
+    void UpdateSceneLights();
 };

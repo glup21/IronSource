@@ -19,7 +19,7 @@ protected:
 
 public:
     Light() = default;                
-    virtual ~Light() = default;       
+    virtual ~Light();       
 
     virtual LightType GetType() const = 0; 
 

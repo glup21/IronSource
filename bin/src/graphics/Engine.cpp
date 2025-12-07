@@ -16,11 +16,7 @@ void Engine::Run()
     float targetFrameTime = 1.0f / targetFPS;
     float lastFrame = 0.0f;
 
-    auto* lights = appContext->scene->GetLights();
-    for (auto& light : *lights)
-    {
-        light->Update();
-    }
+    UpdateSceneLights();
 
     while (!glfwWindowShouldClose(appContext->window))
     {
@@ -68,3 +64,11 @@ void Engine::Run()
 
 }
 
+void Engine::UpdateSceneLights()
+{
+    auto* lights = appContext->scene->GetLights();
+    for (auto& light : *lights)
+    {
+        light->Update();
+    }
+}
