@@ -82,7 +82,7 @@ void main()
         vec3 L = normalize(light.position - fragPos);
         float diff = max(dot(N, L), 0.0);
         vec3 H = normalize(L + V);
-        float spec = pow(max(dot(N, H), 0.0), 2.0);
+        float spec = pow(max(dot(N, H), 0.0), 32.0);
 
         float distance = length(light.position - fragPos);
         float attenuation = 1.0 / (1.0 + light.k_l * distance + light.k_q * distance * distance);

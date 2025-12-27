@@ -220,4 +220,8 @@ void Camera::RenderSkybox()
     );
 }
 
+glm::vec3 Camera::GetPosition()
+{
+    return eye;
+}
 

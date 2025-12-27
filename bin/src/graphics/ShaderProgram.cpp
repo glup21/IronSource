@@ -128,6 +128,7 @@ void ShaderProgram::Update(Subject* caller)
     {
         SetUniform("viewMatrix", camera->GetViewMatrix());
         SetUniform("projectionMatrix", camera->GetProjectionMatrix());
+        SetUniform("viewPos", camera->GetPosition());
     }
     if(auto* light = dynamic_cast<Light*>(caller))
     {

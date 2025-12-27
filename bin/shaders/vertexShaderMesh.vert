@@ -16,9 +16,10 @@ uniform float w;
 void main()
 {
 
-    vec4 worldPos = transformMatrix * vec4(aPos * w, w);
-    fragPos = worldPos.xyz / w;
+    vec4 worldPos = transformMatrix * vec4(aPos, 1);
+    fragPos = worldPos.xyz;
     fragNormal = normalize(mat3(transpose(inverse(transformMatrix))) * aNormal);
+    //fragNormal = aNormal;
     fragTexCoord = aTexCoord;
 
     gl_Position = projectionMatrix * viewMatrix * worldPos;

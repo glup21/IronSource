@@ -45,4 +45,5 @@ public:
     void ResizeViewport(GLFWwindow* window);
     void SetSkybox(Skybox* skybox);
     void RenderSkybox();
+    glm::vec3 GetPosition();
 };

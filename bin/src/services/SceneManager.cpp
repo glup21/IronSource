@@ -46,13 +46,16 @@ std::shared_ptr<Scene> SceneManager::GetOnePolygonScene()
 
 std::shared_ptr<Scene> SceneManager::GetFourSpheresScene()
 {
-    auto sphereMesh = MeshFactory::GetInstance().LoadSphere();
-
+    //auto sphereMesh = MeshFactory::GetInstance().LoadSphere();
+    auto sphereMesh = MeshFactory::GetInstance().LoadFromFile("./Models/Moon.obj");
+    auto sphere = std::shared_ptr<SimpleMesh>(MeshFactory::GetInstance().LoadSphere(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
+        "./bin/shaders/fragmentShaderFirefly.frag"));
     auto gameObjects = std::vector<std::shared_ptr<GameObject>>{
             GameObjectFactory::GetInstance().GetGameObject("firstSphere", sphereMesh),
             GameObjectFactory::GetInstance().GetGameObject("secondSphere", sphereMesh),
             GameObjectFactory::GetInstance().GetGameObject("thirdSphere", sphereMesh),
             GameObjectFactory::GetInstance().GetGameObject("forthSphere", sphereMesh),
+            GameObjectFactory::GetInstance().GetGameObject("forthSphere", sphere),
     };
 
     for(auto gameObject : gameObjects)
@@ -63,11 +66,14 @@ std::shared_ptr<Scene> SceneManager::GetFourSpheresScene()
     gameObjects[1]->transform->SetLocalPosition({0.0, 1.0, 0.0});
     gameObjects[2]->transform->SetLocalPosition({-1.0, 0.0, 0.0});
     gameObjects[3]->transform->SetLocalPosition({0.0, -1.0, 0.0});
+    gameObjects[4]->transform->SetLocalPosition({0.0, 0.0, 0.0});
+    gameObjects[4]->transform->SetLocalScale(glm::vec3(0.1));
 
     std::vector<std::unique_ptr<Light>> lights;
+
     lights.push_back(LightFactory::GetInstance().GetPointLight(new Transform(), 
-        glm::vec3(1.0f), 1.0f, 0.09f, 0.032f));
-    lights.push_back(LightFactory::GetInstance().GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
+        glm::vec3(1.0f), 2.0f, 0.09f, 0.032f));
+    //lights.push_back(LightFactory::GetInstance().GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
     auto scene = std::make_shared<Scene>
     (
         gameObjects,

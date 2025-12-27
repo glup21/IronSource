@@ -15,7 +15,7 @@ uniform float w;
 
 void main()
 {
-    float w = 100.0f;
+    //float w = 100.0f;
     vec4 worldPos = transformMatrix * vec4(aPos * w, w);
     fragPos = worldPos.xyz / w;
     fragNormal = normalize(mat3(transpose(inverse(transformMatrix))) * aNormal);
