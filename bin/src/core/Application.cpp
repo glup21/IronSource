@@ -111,7 +111,7 @@ void Application::Run()
     glfwSetFramebufferSizeCallback(appContext.window, framebuffer_size_callback);
 
     spdlog::info("Loading scene 4");
-    appContext.scene = SceneManager::GetFourSpheresScene();
+    appContext.scene = SceneManager::GetForestScene();
     appContext.shaderLibrary->RegisterCamera(appContext.scene->GetCamera());
 
     spdlog::info("Constructing engine");

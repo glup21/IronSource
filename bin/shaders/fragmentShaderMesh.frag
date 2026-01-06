@@ -80,43 +80,34 @@ void main()
     vec3 V = normalize(viewPos - fragPos);
     vec3 result = vec3(0.0);
 
-    // for (int i = 0; i < numAmbientLights; i++)
-    // {
-    //     AmbientLight light = ambientLights[i];
-    //     result += light.color * light.intensity * materialAmbient;
-    // }
+    for (int i = 0; i < numAmbientLights; i++)
+    {
+        AmbientLight light = ambientLights[i];
+        result += light.color * light.intensity * materialAmbient;
+    }
 
     for (int i = 0; i < numPointLights; i++)
     {
         PointLight light = pointLights[i];
 
-        //vec3 L = normalize(light.position - fragPos);
-        
+        vec3 N = normalize(fragNormal);
         vec3 L = normalize(light.position - fragPos);
+        vec3 V = normalize(viewPos - fragPos);
         vec3 R = reflect(-L, N);
         float diff = max(dot(N, L), 0.0);
-        float spec = 0.0f;
+
+        float distance = length(light.position - fragPos);
+        float attenuation = 1.0 / (1.0 + light.k_l * distance + light.k_q * distance * distance);
+
+        vec3 diffuse = diff * light.color * light.intensity * attenuation * materialDiffuse;
+        vec3 specular = vec3(0.0f); 
         if(diff > 0.0f)
         {
-            spec = pow(max(dot(V, R), 0.0), 32);
-        }
+            float spec = pow(max(dot(V, R), 0.0), 64);
+            specular = spec * light.color * attenuation * 0.5 * materialSpecular;
+        } 
 
-        result += diff + spec;
-
-        // vec3 N = normalize(fragNormal);
-        // vec3 L = normalize(light.position - fragPos);
-        // vec3 V = normalize(viewPos - fragPos);
-        // vec3 R = reflect(-L, N);
-        // float diff = max(dot(N, L), 0.0);
-        // float spec = pow(max(dot(V, R), 0.0), 64);
-
-        // float distance = length(light.position - fragPos);
-        // float attenuation = 1.0 / (1.0 + light.k_l * distance + light.k_q * distance * distance);
-
-        // vec3 diffuse = diff * light.color * light.intensity * attenuation * materialDiffuse;
-        // vec3 specular = spec * light.color * attenuation * materialSpecular;
-
-        // result += diffuse + specular;
+        result += diffuse + specular;
     }
 
     // for (int i = 0; i < numDirectionalLights; i++)

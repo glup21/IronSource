@@ -6,9 +6,11 @@
 #include "headers/services/ShaderLibrary.hpp"
 #include "headers/transform/Transform.hpp"
 
+class Scene;
 class GameObject
 {
 protected:
+
     std::shared_ptr<IRenderTarget> renderTarget;
     std::string name;
     int id;

@@ -3,16 +3,15 @@
 #include "headers/gameobject/Firefly.hpp"
 
 class WhacAMole;
+class Scene;
 class GameObjectFactory
 {
     int nextId = 0;
-    std::vector<std::shared_ptr<GameObject>> gameObjects;
+    std::vector<std::shared_ptr<GameObject>> gameObjects = std::vector<std::shared_ptr<GameObject>>();
+
+    Scene* scene;
 public:
-    static GameObjectFactory& GetInstance()
-    {
-        static GameObjectFactory instance;
-        return instance;
-    }
+    GameObjectFactory(Scene* scene);
 
     std::shared_ptr<GameObject> GetGameObject(std::string name, std::shared_ptr<IRenderTarget> renderTarget, Transform* transform);
     std::shared_ptr<GameObject> GetGameObject(std::string name, std::shared_ptr<IRenderTarget> renderTarget);

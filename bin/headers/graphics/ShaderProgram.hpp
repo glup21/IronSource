@@ -38,6 +38,7 @@ public:
     void SetUniform(std::string name, glm::vec3 vec);
     void SetUniform(std::string name, float value);
     void SetUniform(std::string name, int value);
+    void SetUniform(std::string name, bool value);
 
     void Update(Subject* caller) override;
     void Reset();

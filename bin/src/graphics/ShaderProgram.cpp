@@ -59,9 +59,9 @@ void ShaderProgram::SetUniform(std::string name, glm::mat4 matrix4)
     GLint uniformLoc = glGetUniformLocation(shaderProgramId, name.c_str());
     if (uniformLoc < 0)
     {
-        spdlog::critical("Failed to find uniform (mat4) in shader program: {}", name);
-        glfwTerminate();
-        exit(EXIT_FAILURE);
+        // spdlog::critical("Failed to find uniform (mat4) in shader program: {}", name);
+        // glfwTerminate();
+        // exit(EXIT_FAILURE);
     }
 
     glUniformMatrix4fv(uniformLoc, 1, GL_FALSE, &matrix4[0][0]);
@@ -92,7 +92,7 @@ void ShaderProgram::SetUniform(std::string name, float value)
     GLint uniformLoc = glGetUniformLocation(this->shaderProgramId, name.c_str());
     if (uniformLoc < 0)
     {
-        // DEBUG
+        //DEBUG
         // spdlog::critical("Failed to find uniform (float) in shader program: {}", name);
         // glfwTerminate();
         // exit(EXIT_FAILURE);
@@ -110,7 +110,25 @@ void ShaderProgram::SetUniform(std::string name, int value)
     GLint uniformLoc = glGetUniformLocation(this->shaderProgramId, name.c_str());
     if (uniformLoc < 0)
     {
-        // DEBUG
+        //DEBUG
+        // spdlog::critical("Failed to find uniform (float) in shader program: {}", name);
+        // glfwTerminate();
+        // exit(EXIT_FAILURE);
+        return;
+    }
+
+    glUniform1i(uniformLoc, value);
+    // spdlog::debug("Set uniform (float): {} = {}", name, value);
+}
+
+void ShaderProgram::SetUniform(std::string name, bool value)
+{
+    glUseProgram(this->shaderProgramId);
+
+    GLint uniformLoc = glGetUniformLocation(this->shaderProgramId, name.c_str());
+    if (uniformLoc < 0)
+    {
+        //DEBUG
         // spdlog::critical("Failed to find uniform (float) in shader program: {}", name);
         // glfwTerminate();
         // exit(EXIT_FAILURE);

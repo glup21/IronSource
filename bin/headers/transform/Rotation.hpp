@@ -1,7 +1,6 @@
 #pragma once
 #include "headers/transform/IBasicTransform.hpp"
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/quaternion.hpp>
 
 class Rotation : public IBasicTransform
 {

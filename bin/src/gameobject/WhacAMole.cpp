@@ -8,8 +8,8 @@
 static std::random_device rd;
 static std::mt19937 rng(rd());
 
-WhacAMole::WhacAMole(std::string name, std::shared_ptr<IRenderTarget> renderTarget, int id)
-    : GameObject(name, renderTarget, id)
+WhacAMole::WhacAMole(std::string name, std::shared_ptr<IRenderTarget> renderTarget, int id, Scene* scene)
+    : GameObject(name, renderTarget, id), scene(scene)
 {
     holes = {
         {-0.75f, 2.5f, 0.75f},
@@ -66,7 +66,7 @@ void WhacAMole::Update(float deltaTime)
 
 void WhacAMole::SpawnMole(glm::vec3 position, float height, float speed)
 {
-    mole = GameObjectFactory::GetInstance().GetMole();
+    mole = scene->gameObjectFactory.GetMole();
 
     mole->transform->SetLocalRotation(glm::radians(glm::vec3{15.0f, 0.0f, 0.0f}));
     mole->transform->SetLocalScale(glm::vec3{1.0f});

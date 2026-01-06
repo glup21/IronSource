@@ -3,6 +3,12 @@
 #include "headers/gameobject/WhacAMole.hpp"
 #include "spdlog/spdlog.h"
 
+
+GameObjectFactory::GameObjectFactory(Scene* scene) : scene(scene)
+{
+
+}
+
 std::shared_ptr<GameObject> GameObjectFactory::GetGameObject(std::string name, std::shared_ptr<IRenderTarget> renderTarget, Transform* transform)
 {
     std::shared_ptr<GameObject> gameObject = std::make_shared<GameObject>(name, renderTarget, transform, nextId);
@@ -52,7 +58,7 @@ std::shared_ptr<GameObject> GameObjectFactory::GetMole()
 std::shared_ptr<WhacAMole> GameObjectFactory::GetMachine(std::string name)
 {
     auto model = MeshFactory::GetInstance().LoadFromFile("./Models/WhacAMole.obj");
-    std::shared_ptr<WhacAMole> gameObject = std::make_shared<WhacAMole>(name, model, nextId);
+    std::shared_ptr<WhacAMole> gameObject = std::make_shared<WhacAMole>(name, model, nextId, scene);
     nextId++;
 
     gameObjects.push_back(gameObject);

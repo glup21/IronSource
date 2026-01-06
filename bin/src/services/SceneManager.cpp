@@ -21,6 +21,8 @@
 
 std::shared_ptr<Scene> SceneManager::GetOnePolygonScene()
 {
+    auto scene = std::make_shared<Scene>();
+
     auto firstMesh = std::make_shared<SimpleMesh>(
         std::vector<glm::vec3>{ 
             {0.0f, 0.5f, 0.0f},
@@ -31,15 +33,13 @@ std::shared_ptr<Scene> SceneManager::GetOnePolygonScene()
         MaterialFactory::GetMaterial()
     );
     
-    auto object = GameObjectFactory::GetInstance().GetGameObject("firstMesh", firstMesh);
+    auto object = scene->gameObjectFactory.GetGameObject("firstMesh", firstMesh);
 
     object->transform->SetLocalPosition({0, 0, -3.0f});
     object->transform->AddBasicTransform(std::make_shared<DynamicRotation>(0, glm::vec3(0.0, 0.0, 1.0), 10.0f));
     object->transform->SetLocalScale(glm::vec3(10.0f));
-    auto scene = std::make_shared<Scene>
-    (
-        std::vector<std::shared_ptr<GameObject>>{object}
-    );
+
+    scene->SetGameObjects(std::vector<std::shared_ptr<GameObject>>{object});
 
     return scene;
 }
@@ -47,15 +47,17 @@ std::shared_ptr<Scene> SceneManager::GetOnePolygonScene()
 std::shared_ptr<Scene> SceneManager::GetFourSpheresScene()
 {
     //auto sphereMesh = MeshFactory::GetInstance().LoadSphere();
+    auto scene = std::make_shared<Scene>();
+
     auto sphereMesh = MeshFactory::GetInstance().LoadFromFile("./Models/Moon.obj");
     auto sphere = std::shared_ptr<SimpleMesh>(MeshFactory::GetInstance().LoadSphere(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
         "./bin/shaders/fragmentShaderFirefly.frag"));
     auto gameObjects = std::vector<std::shared_ptr<GameObject>>{
-            GameObjectFactory::GetInstance().GetGameObject("firstSphere", sphereMesh),
-            GameObjectFactory::GetInstance().GetGameObject("secondSphere", sphereMesh),
-            GameObjectFactory::GetInstance().GetGameObject("thirdSphere", sphereMesh),
-            GameObjectFactory::GetInstance().GetGameObject("forthSphere", sphereMesh),
-            GameObjectFactory::GetInstance().GetGameObject("forthSphere", sphere),
+            scene->gameObjectFactory.GetGameObject("firstSphere", sphereMesh),
+            scene->gameObjectFactory.GetGameObject("secondSphere", sphereMesh),
+            scene->gameObjectFactory.GetGameObject("thirdSphere", sphereMesh),
+            scene->gameObjectFactory.GetGameObject("forthSphere", sphereMesh),
+            scene->gameObjectFactory.GetGameObject("forthSphere", sphere),
     };
 
     for(auto gameObject : gameObjects)
@@ -74,17 +76,17 @@ std::shared_ptr<Scene> SceneManager::GetFourSpheresScene()
     lights.push_back(LightFactory::GetInstance().GetPointLight(new Transform(), 
         glm::vec3(1.0f), 2.0f, 0.09f, 0.032f));
     //lights.push_back(LightFactory::GetInstance().GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
-    auto scene = std::make_shared<Scene>
-    (
-        gameObjects,
-        std::move(lights)
-    );
+
+    scene->SetGameObjects(gameObjects);
+    scene->SetLights(std::move(lights));
 
     return scene;
 }
 
 std::shared_ptr<Scene> SceneManager::GetForestScene()
 {
+    auto scene = std::make_shared<Scene>();
+
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
     std::vector<std::shared_ptr<SimpleMesh>> meshes = MeshFactory::GetInstance().LoadAllPredefinedModels();
@@ -103,7 +105,7 @@ std::shared_ptr<Scene> SceneManager::GetForestScene()
 
     for (int i = 0; i < 500; i++)
     {
-        auto tree = GameObjectFactory::GetInstance().GetGameObject("tree", renderTargets[5]);
+        auto tree = scene->gameObjectFactory.GetGameObject("tree", renderTargets[5]);
         tree->transform->SetLocalPosition(glm::vec3(distPos(gen), 0.0f, distPos(gen)));
         tree->transform->SetLocalScale(glm::vec3(distScale(gen)));
         tree->transform->SetLocalRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
@@ -113,7 +115,7 @@ std::shared_ptr<Scene> SceneManager::GetForestScene()
 
     for (int i = 0; i < 2500; i++)
     {
-        auto bush = GameObjectFactory::GetInstance().GetGameObject("bush", renderTargets[0]);
+        auto bush = scene->gameObjectFactory.GetGameObject("bush", renderTargets[0]);
         bush->transform->SetLocalPosition(glm::vec3(distPos(gen), 0.0f, distPos(gen)));
         bush->transform->SetLocalScale(glm::vec3(distScale(gen) * 2.0f));
         bush->transform->SetLocalRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
@@ -121,7 +123,7 @@ std::shared_ptr<Scene> SceneManager::GetForestScene()
         objects.push_back(bush);
     }
 
-    auto plane = GameObjectFactory::GetInstance().GetGameObject("plain", renderTargets[2]);
+    auto plane = scene->gameObjectFactory.GetGameObject("plain", renderTargets[2]);
     plane->transform->SetLocalPosition(glm::vec3(0.0f, -0.01f, 0.0f));
     plane->transform->SetLocalScale(glm::vec3(50.0f, 1.0f, 50.0f));
     objects.push_back(plane);
@@ -144,7 +146,7 @@ std::shared_ptr<Scene> SceneManager::GetForestScene()
         float k_l = klDist(gen);
         float k_q = kqDist(gen);
 
-        auto firefly = GameObjectFactory::GetInstance().GetFireFly(
+        auto firefly = scene->gameObjectFactory.GetFireFly(
             fireflyTransform,
             10.0f,     
             color,
@@ -171,13 +173,16 @@ std::shared_ptr<Scene> SceneManager::GetForestScene()
     //     0.025f 
     // ));
 
-    auto scene = std::make_shared<Scene>(objects, std::move(lights));
+    scene->SetGameObjects(objects);
+    scene->SetLights(std::move(lights));
 
     return scene;
 }
 
 std::shared_ptr<Scene> SceneManager::GetSolarSystemScene()
 {
+    auto scene = std::make_shared<Scene>();
+
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
     auto earthModel = MeshFactory::GetInstance().LoadFromFile("./Models/Earth.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
@@ -197,7 +202,7 @@ std::shared_ptr<Scene> SceneManager::GetSolarSystemScene()
     std::vector<std::shared_ptr<GameObject>> objects;
 
 
-    auto sun = GameObjectFactory::GetInstance().GetGameObject("Sun", renderTargets[0]);
+    auto sun = scene->gameObjectFactory.GetGameObject("Sun", renderTargets[0]);
 
     std::shared_ptr<Transform> sunTransform = std::make_shared<Transform>();
     auto sunPosition = std::make_shared<Translation>(glm::vec3(0.0f, 2.0f, -10.0f));
@@ -205,7 +210,7 @@ std::shared_ptr<Scene> SceneManager::GetSolarSystemScene()
     sunTransform->AddBasicTransform(std::make_shared<DynamicRotation>(0, glm::vec3(0.0, 0.0, 1.0), 0.5f));
     sun->transform->AddBasicTransform(sunTransform);
     
-    auto earth = GameObjectFactory::GetInstance().GetGameObject("Earth", renderTargets[1]);
+    auto earth = scene->gameObjectFactory.GetGameObject("Earth", renderTargets[1]);
     std::shared_ptr<Transform> earthTransform = std::make_shared<Transform>();
 
     earthTransform->AddBasicTransform(sunTransform);
@@ -214,12 +219,12 @@ std::shared_ptr<Scene> SceneManager::GetSolarSystemScene()
     earth->transform->AddBasicTransform(earthTransform);
     earth->transform->AddBasicTransform(std::make_shared<Scale>(glm::vec3(0.5f)));
 
-    auto moon = GameObjectFactory::GetInstance().GetGameObject("Moon", renderTargets[2]);
+    auto moon = scene->gameObjectFactory.GetGameObject("Moon", renderTargets[2]);
     moon->transform->AddBasicTransform(earthTransform);
     moon->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(2.0f, 0.0f, 0.0f)));
     moon->transform->AddBasicTransform(std::make_shared<Scale>(glm::vec3(0.125f)));
 
-    auto login = GameObjectFactory::GetInstance().GetGameObject("Login", renderTargets[3]);
+    auto login = scene->gameObjectFactory.GetGameObject("Login", renderTargets[3]);
     login->transform->AddBasicTransform(earthTransform);
     login->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(4.0f, 0.0f, 0.0f)));
     login->transform->AddBasicTransform(std::make_shared<Scale>(glm::vec3(0.25f)));
@@ -234,13 +239,16 @@ std::shared_ptr<Scene> SceneManager::GetSolarSystemScene()
     lights.push_back(LightFactory::GetInstance().GetPointLight(pointLightPosition, glm::vec3(1.0f, 1.0f, 1.0f), 5.0f, 0.00001f, 0.00001f));
     lights.push_back(LightFactory::GetInstance().GetAmbientLight(glm::vec3(1.0f), 0.1f));
 
-    auto scene = std::make_shared<Scene>(objects, std::move(lights));
+    scene->SetGameObjects(objects);
+    scene->SetLights(std::move(lights));
 
     return scene;
 }
 
 std::shared_ptr<Scene> SceneManager::GetWhacAMoleScene()
 {
+    auto scene = std::make_shared<Scene>();
+
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
     renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/WhacAMole.obj"));
@@ -251,19 +259,19 @@ std::shared_ptr<Scene> SceneManager::GetWhacAMoleScene()
     std::vector<std::shared_ptr<GameObject>> objects;
     renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/shrek.obj"));
 
-    auto whacAMole = GameObjectFactory::GetInstance().GetMachine("Machine");
+    auto whacAMole = scene->gameObjectFactory.GetMachine("Machine");
     whacAMole->transform->SetLocalPosition({0.0f, -2.0f, -3.0f});
     whacAMole->transform->SetLocalRotation(glm::radians(glm::vec3({15.0f, 0.0f, 0.0f})));
     //whacAMole->transform->AddBasicTransform(std::make_shared<DummyTransform>());
     objects.push_back(whacAMole);
 
-    auto crowbar = GameObjectFactory::GetInstance().GetGameObject("Crowbar", renderTargets[2]);
+    auto crowbar = scene->gameObjectFactory.GetGameObject("Crowbar", renderTargets[2]);
     crowbar->transform->SetLocalPosition({0.0f, 3.0f, -5.0f});
     crowbar->transform->SetLocalScale(glm::vec3(2.0f));
     crowbar->transform->AddBasicTransform(std::make_shared<CurvedTranslation>(glm::vec3(0.0f), 1, 1.0f));
     objects.push_back(crowbar);
 
-    auto shrek = GameObjectFactory::GetInstance().GetGameObject("Shrek", renderTargets[3]);
+    auto shrek = scene->gameObjectFactory.GetGameObject("Shrek", renderTargets[3]);
     shrek->transform->SetLocalPosition({0.0f, 3.0f, -5.0f});
     shrek->transform->SetLocalScale(glm::vec3(1.0f));
 
@@ -295,26 +303,25 @@ std::shared_ptr<Scene> SceneManager::GetWhacAMoleScene()
     std::vector<std::unique_ptr<Light>> lights;
     lights.push_back(LightFactory::GetInstance().GetAmbientLight(glm::vec3(1.0f), 1.0f));
 
-    auto scene = std::make_shared<Scene>(objects, std::move(lights));
-
-    whacAMole->SetScene(scene.get());
-
+    
     return scene;
 }
 
 std::shared_ptr<Scene> SceneManager::GetRacingScene()
 {
+    auto scene = std::make_shared<Scene>();
+
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
     renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/Racing/gp.obj"));
     renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/Car/Untitled.obj"));
 
     std::vector<std::shared_ptr<GameObject>> objects;
-    auto racingRoad = GameObjectFactory::GetInstance().GetGameObject("Racing", renderTargets[0]);
+    auto racingRoad = scene->gameObjectFactory.GetGameObject("Racing", renderTargets[0]);
 
     objects.push_back(racingRoad);
 
-    auto car = GameObjectFactory::GetInstance().GetGameObject("Car", renderTargets[1]);
+    auto car = scene->gameObjectFactory.GetGameObject("Car", renderTargets[1]);
     car->transform->SetLocalPosition({-140.0f, 0.0f, 110.0f});
     car->transform->SetLocalScale(glm::vec3(2.0f));
 
@@ -447,13 +454,16 @@ std::shared_ptr<Scene> SceneManager::GetRacingScene()
     std::vector<std::unique_ptr<Light>> lights;
     lights.push_back(LightFactory::GetInstance().GetAmbientLight(glm::vec3(1.0f), 2.0f));
 
-    auto scene = std::make_shared<Scene>(objects, std::move(lights));
+    scene->SetGameObjects(objects);
+    scene->SetLights(std::move(lights));
 
     return scene;
 }
 
 std::shared_ptr<Scene> SceneManager::GetBezierScene()
 {
+    auto scene = std::make_shared<Scene>();
+
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
     std::vector<std::shared_ptr<SimpleMesh>> meshes = MeshFactory::GetInstance().LoadAllPredefinedModels();
@@ -465,12 +475,12 @@ std::shared_ptr<Scene> SceneManager::GetBezierScene()
     renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/shrek.obj"));
     std::vector<std::shared_ptr<GameObject>> objects;
 
-    auto plane = GameObjectFactory::GetInstance().GetGameObject("plain", renderTargets[2]);
+    auto plane = scene->gameObjectFactory.GetGameObject("plain", renderTargets[2]);
     plane->transform->SetLocalPosition(glm::vec3(0.0f, -0.01f, 0.0f));
     plane->transform->SetLocalScale(glm::vec3(50.0f, 1.0f, 50.0f));
     objects.push_back(std::shared_ptr<GameObject>(plane));
 
-    auto car = GameObjectFactory::GetInstance().GetGameObject("Car", renderTargets[meshes.size() ]);
+    auto car = scene->gameObjectFactory.GetGameObject("Car", renderTargets[meshes.size() ]);
     car->transform->SetLocalScale(glm::vec3(2.0f));
 
     objects.push_back(car);
@@ -483,7 +493,8 @@ std::shared_ptr<Scene> SceneManager::GetBezierScene()
         1.0f 
     ));
 
-    auto scene = std::make_shared<Scene>(objects, std::move(lights));
+    scene->SetGameObjects(objects);
+    scene->SetLights(std::move(lights));
 
     return scene;
 }

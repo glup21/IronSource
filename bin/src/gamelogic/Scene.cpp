@@ -1,6 +1,4 @@
 #include "headers/gamelogic/Scene.hpp"
-#include "headers/services/MeshFactory.hpp"
-#include "headers/services/LightFactory.hpp"
 Scene::~Scene()
 {
     camera.reset();
@@ -18,20 +16,10 @@ Scene::~Scene()
 
 }
 
-
-Scene::Scene(std::vector<std::shared_ptr<GameObject>> gameObjects)
-    : gameObjects(gameObjects)
+Scene::Scene() : gameObjectFactory(this) 
 {
-    this->camera = std::make_unique<Camera>();
-    this->camera->SetSkybox(MeshFactory::GetInstance().GetSkybox());
-}
-
-Scene::Scene(std::vector<std::shared_ptr<GameObject>> gameObjects,
-             std::vector<std::unique_ptr<Light>> lights)
-    : gameObjects(gameObjects), lights(std::move(lights))
-{
-    this->camera = std::make_unique<Camera>();
-    this->camera->SetSkybox(MeshFactory::GetInstance().GetSkybox());
+    camera = std::make_unique<Camera>();
+    camera->SetSkybox(MeshFactory::GetInstance().GetSkybox());
 }
 
 std::vector<std::shared_ptr<GameObject>>* Scene::GetGameObjects()
@@ -83,4 +71,14 @@ GameObject* Scene::FindGameObjectByName(std::string name)
         }
     }
     return nullptr;
+}
+
+void Scene::SetGameObjects(std::vector<std::shared_ptr<GameObject>> gameObjects)
+{
+    this->gameObjects = gameObjects;
+}
+
+void Scene::SetLights(std::vector<std::unique_ptr<Light>> lights)
+{
+    this->lights = std::move(lights);
 }

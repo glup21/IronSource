@@ -16,9 +16,8 @@ private:
     void SpawnMole(glm::vec3 position, float height, float speed);
     void RemoveMole();
 public:
-    WhacAMole(std::string name, std::shared_ptr<IRenderTarget> renderTarget, int id);
+    WhacAMole(std::string name, std::shared_ptr<IRenderTarget> renderTarget, int id, Scene* scene);
     ~WhacAMole() = default;
 
     void Update(float deltaTime) override;
-    void SetScene(Scene* scene) { this->scene = scene; }
 }; 

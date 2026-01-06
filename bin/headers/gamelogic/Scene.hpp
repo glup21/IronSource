@@ -3,6 +3,9 @@
 #include "headers/gameobject/GameObject.hpp"
 #include "headers/gameobject/Camera.hpp"
 #include "headers/graphics/Light.hpp"
+#include "headers/services/GameObjectFactory.hpp"
+#include "headers/services/MeshFactory.hpp"
+#include "headers/services/LightFactory.hpp"
 #include <vector>
 #include <memory>
 
@@ -14,8 +17,9 @@ private:
     std::unique_ptr<Camera> camera;
 
 public:
-    Scene(std::vector<std::shared_ptr<GameObject>> gameObjects);
-    Scene(std::vector<std::shared_ptr<GameObject>> gameObjects, std::vector<std::unique_ptr<Light>> lights);
+    GameObjectFactory gameObjectFactory;
+
+    Scene();
     ~Scene();
 
     std::vector<std::shared_ptr<GameObject>>* GetGameObjects();
@@ -25,4 +29,7 @@ public:
     void AddGameObject(std::shared_ptr<GameObject> gameObject);
     void DeleteGameObject(int id);
     GameObject* FindGameObjectByName(std::string name);
+
+    void SetGameObjects(std::vector<std::shared_ptr<GameObject>> gameObjects);
+    void SetLights(std::vector<std::unique_ptr<Light>> lights);
 };
