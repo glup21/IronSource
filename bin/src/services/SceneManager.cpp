@@ -46,11 +46,11 @@ std::shared_ptr<Scene> SceneManager::GetOnePolygonScene()
 
 std::shared_ptr<Scene> SceneManager::GetFourSpheresScene()
 {
-    //auto sphereMesh = MeshFactory::GetInstance().LoadSphere();
+    //auto sphereMesh = scene->meshFactory.LoadSphere();
     auto scene = std::make_shared<Scene>();
 
-    auto sphereMesh = MeshFactory::GetInstance().LoadFromFile("./Models/Moon.obj");
-    auto sphere = std::shared_ptr<SimpleMesh>(MeshFactory::GetInstance().LoadSphere(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
+    auto sphereMesh = scene->meshFactory.LoadFromFile("./Models/Moon.obj");
+    auto sphere = std::shared_ptr<SimpleMesh>(scene->meshFactory.LoadSphere(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
         "./bin/shaders/fragmentShaderFirefly.frag"));
     auto gameObjects = std::vector<std::shared_ptr<GameObject>>{
             scene->gameObjectFactory.GetGameObject("firstSphere", sphereMesh),
@@ -89,7 +89,7 @@ std::shared_ptr<Scene> SceneManager::GetForestScene()
 
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
-    std::vector<std::shared_ptr<SimpleMesh>> meshes = MeshFactory::GetInstance().LoadAllPredefinedModels();
+    std::vector<std::shared_ptr<SimpleMesh>> meshes = scene->meshFactory.LoadAllPredefinedModels();
     renderTargets.reserve(meshes.size() + 1);  
     for (auto& mesh : meshes)
     {
@@ -184,18 +184,18 @@ std::shared_ptr<Scene> SceneManager::GetSolarSystemScene()
 
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
-    auto earthModel = MeshFactory::GetInstance().LoadFromFile("./Models/Earth.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
+    auto earthModel = scene->meshFactory.LoadFromFile("./Models/Earth.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
         "./bin/shaders/fragmentShaderEarth.frag");
     
     earthModel->GetMesh(0)->GetMaterial()->AddColorTexture(TextureFactory::GetInstance().GetTexture("./Models/2k_earth_nightmap.jpg"));
 
-    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/Sun.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
+    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/Sun.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
         "./bin/shaders/fragmentShaderMeshConstant.frag"));
 
     renderTargets.push_back(earthModel);    
 
-    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/Moon.obj"));  
-    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/Login.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
+    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/Moon.obj"));  
+    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/Login.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
         "./bin/shaders/fragmentShaderMeshConstant.frag" ));  
 
     std::vector<std::shared_ptr<GameObject>> objects;
@@ -249,13 +249,13 @@ std::shared_ptr<Scene> SceneManager::GetWhacAMoleScene()
 
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
-    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/WhacAMole.obj"));
-    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/Headcrab.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
+    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/WhacAMole.obj"));
+    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/Headcrab.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
         "./bin/shaders/fragmentShaderMeshConstant.frag"));
 
-    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/crowbar.obj"));
+    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/crowbar.obj"));
     std::vector<std::shared_ptr<GameObject>> objects;
-    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/shrek.obj"));
+    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/shrek.obj"));
 
     auto whacAMole = scene->gameObjectFactory.GetMachine("Machine");
     whacAMole->transform->SetLocalPosition({0.0f, -2.0f, -3.0f});
@@ -311,8 +311,8 @@ std::shared_ptr<Scene> SceneManager::GetRacingScene()
 
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
-    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/Racing/gp.obj"));
-    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/Car/Untitled.obj"));
+    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/Racing/gp.obj"));
+    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/Car/Untitled.obj"));
 
     std::vector<std::shared_ptr<GameObject>> objects;
     auto racingRoad = scene->gameObjectFactory.GetGameObject("Racing", renderTargets[0]);
@@ -463,13 +463,13 @@ std::shared_ptr<Scene> SceneManager::GetBezierScene()
 
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
-    std::vector<std::shared_ptr<SimpleMesh>> meshes = MeshFactory::GetInstance().LoadAllPredefinedModels();
+    std::vector<std::shared_ptr<SimpleMesh>> meshes = scene->meshFactory.LoadAllPredefinedModels();
     renderTargets.reserve(meshes.size() + 1);  
     for (auto& mesh : meshes)
     {
         renderTargets.push_back(mesh); 
     }
-    renderTargets.push_back(MeshFactory::GetInstance().LoadFromFile("./Models/shrek.obj"));
+    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/shrek.obj"));
     std::vector<std::shared_ptr<GameObject>> objects;
 
     auto plane = scene->gameObjectFactory.GetGameObject("plain", renderTargets[2]);

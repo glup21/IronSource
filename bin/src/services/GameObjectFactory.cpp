@@ -2,7 +2,7 @@
 #include "headers/services/MeshFactory.hpp"
 #include "headers/gameobject/WhacAMole.hpp"
 #include "spdlog/spdlog.h"
-
+#include "headers/gamelogic/Scene.hpp"
 
 GameObjectFactory::GameObjectFactory(Scene* scene) : scene(scene)
 {
@@ -47,7 +47,7 @@ std::shared_ptr<Firefly> GameObjectFactory::GetFireFly(Transform* transform, flo
 
 std::shared_ptr<GameObject> GameObjectFactory::GetMole()
 {
-    std::shared_ptr<Model> moleMesh = MeshFactory::GetInstance().LoadFromFile("./Models/Headcrab.obj");
+    std::shared_ptr<Model> moleMesh = scene->meshFactory.LoadFromFile("./Models/Headcrab.obj");
     std::shared_ptr<GameObject> gameObject = std::make_shared<GameObject>("Mole", moleMesh, nextId);
     nextId++;
 
@@ -57,7 +57,7 @@ std::shared_ptr<GameObject> GameObjectFactory::GetMole()
 
 std::shared_ptr<WhacAMole> GameObjectFactory::GetMachine(std::string name)
 {
-    auto model = MeshFactory::GetInstance().LoadFromFile("./Models/WhacAMole.obj");
+    auto model = scene->meshFactory.LoadFromFile("./Models/WhacAMole.obj");
     std::shared_ptr<WhacAMole> gameObject = std::make_shared<WhacAMole>(name, model, nextId, scene);
     nextId++;
 

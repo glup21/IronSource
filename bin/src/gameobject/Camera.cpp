@@ -162,7 +162,7 @@ void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
 
             auto newTree = appContext->scene->gameObjectFactory.GetGameObject(
                     "newTree",
-                    MeshFactory::GetInstance().LoadTree(),
+                    appContext->scene->meshFactory.LoadTree(),
                     new Transform()
                 );
             newTree->transform->SetLocalPosition(pos);

@@ -14,6 +14,7 @@ class Scene
 public:
     LightFactory lightFactory;
     GameObjectFactory gameObjectFactory;
+    MeshFactory meshFactory;
 
 private:
     std::vector<std::shared_ptr<GameObject>> gameObjects;

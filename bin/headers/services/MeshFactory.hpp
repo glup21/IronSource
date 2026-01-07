@@ -35,13 +35,8 @@ class MeshFactory
 private:
     std::map<MeshKey, std::shared_ptr<Model>> models;
 
-    MeshFactory() = default;
 public:
-    static MeshFactory& GetInstance()
-    {
-        static MeshFactory instance;
-        return instance;
-    }
+    MeshFactory() = default;
 
     std::vector<std::shared_ptr<SimpleMesh>> LoadAllPredefinedModels();
     std::shared_ptr<SimpleMesh> LoadSphere(
