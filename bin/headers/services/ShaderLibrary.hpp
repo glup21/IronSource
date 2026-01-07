@@ -17,7 +17,7 @@ private:
     
 public:
     ShaderLibrary() = default;
-    
+
     std::shared_ptr<ShaderProgram> GetShaderProgram(std::string vertexShaderPath, std::string fragmentShaderPath);
     void RegisterCamera(Camera* camera);
     void RegisterLight(Light* light);
@@ -29,4 +29,9 @@ public:
         int directionalLightCount,
         int spotLightCount
     );
+
+    void SetLightCountOffset(        int ambientLightCountOffset,
+        int pointLightCountOffset,
+        int directionalLightCountOffset,
+        int spotLightCountOffset);
 };

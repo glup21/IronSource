@@ -78,3 +78,15 @@ void ShaderLibrary::UpdateLightCounts(        int ambientLightCount,
         pair.second->SendLightCounts(ambientLightCount, pointLightCount, directionalLightCount, spotLightCount);
     }
 }
+
+void ShaderLibrary::SetLightCountOffset(
+        int ambientLightCountOffset,
+        int pointLightCountOffset,
+        int directionalLightCountOffset,
+        int spotLightCountOffset) 
+{
+    for (auto pair : this->shaderPrograms)
+    {
+        pair.second->SetLightCountOffset(ambientLightCountOffset, pointLightCountOffset, directionalLightCountOffset, spotLightCountOffset);
+    }
+}

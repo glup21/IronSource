@@ -24,7 +24,15 @@ void Engine::Run()
     float targetFrameTime = 1.0f / targetFPS;
     float lastFrame = 0.0f;
 
-    UpdateSceneLights();
+    
+    // auto staticLightsCount = scene->GetStaticLightsCount();
+
+    // shaderLibrary.SetLightCountOffset(
+    //     staticLightsCount.ambientLightCount,
+    //     staticLightsCount.pointLightCount,
+    //     staticLightsCount.directionalLightCount,
+    //     staticLightsCount.spotLightCount        
+    // );
 
     while (!glfwWindowShouldClose(appContext->window))
     {
@@ -39,6 +47,8 @@ void Engine::Run()
         glDepthMask(GL_FALSE);
         scene->GetCamera()->RenderSkybox();
         glDepthMask(GL_TRUE); 
+
+        UpdateSceneLights();
 
         for (auto& gameObject : *gameObjects)
         {

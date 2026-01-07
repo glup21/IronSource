@@ -1,26 +1,25 @@
 #include "headers/graphics/Material.hpp"
 
 Material::Material(std::shared_ptr<ShaderProgram> shaderProgram, glm::vec3 ambient,
-    glm::vec3 diffuse, glm::vec3 specular, float shininess) 
+                   glm::vec3 diffuse, glm::vec3 specular, float shininess)
     : shaderProgram(shaderProgram), ambient(ambient), diffuse(diffuse), specular(specular),
-    shininess(shininess)
+      shininess(shininess)
 {
-    //this->specular = glm::vec3(0.0f, 0.0f, 1.0f);
+    // this->specular = glm::vec3(0.0f, 0.0f, 1.0f);
 }
 
 void Material::Use()
 {
     this->shaderProgram->Use();
 
-    if(colorTexture.size() > 1)
+    if (colorTexture.size() > 1)
     {
         // Its only used on Earth for blend essentially
-        for(int i = 0; i < colorTexture.size(); i++)
+        for (int i = 0; i < colorTexture.size(); i++)
         {
             this->colorTexture[i]->Use(GL_TEXTURE0 + i);
             this->shaderProgram->SetUniform("colorTextures[" + std::to_string(i) + "]", i);
         }
-
     }
     else if (colorTexture.size() == 1)
     {
@@ -28,7 +27,7 @@ void Material::Use()
         this->shaderProgram->SetUniform("colorTexture", 0);
     }
 
-    if(normalTexture)
+    if (normalTexture)
     {
         this->normalTexture->Use(GL_TEXTURE0 + colorTexture.size());
         this->shaderProgram->SetUniform("normalTexture", 0);

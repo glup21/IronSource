@@ -102,3 +102,31 @@ SceneServices Scene::GetSceneServices()
 {
     return { &lightFactory, &gameObjectFactory };
 }
+
+LightsCount Scene::GetStaticLightsCount()
+{
+    LightsCount res;
+    for(int i = 0; i < lights.size(); i++)
+    {
+        Light* light = lights.at(i).get();
+        switch (light->GetType())
+        {
+            case LightType::Point:
+                res.pointLightCount++;
+                break;
+            case LightType::Ambient:
+                res.ambientLightCount++;
+                break;
+            case LightType::Directional:
+                res.directionalLightCount++;
+                break;
+            case LightType::Spot:
+                res.spotLightCount++;
+                break;
+            default:
+                break;
+        }
+    }
+    return res;
+}
+

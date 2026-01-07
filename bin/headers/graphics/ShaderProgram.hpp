@@ -23,6 +23,12 @@ private:
     int directionalLightCount = 0;
     int spotLightCount = 0;
 
+    int pointLightCountOffset = 0;
+    int ambientLightCountOffset = 0;
+    int directionalLightCountOffset = 0;
+    int spotLightCountOffset = 0;
+
+
     void HandlePointLight(PointLight* pointLight);
     void HandleAmbientLight(AmbientLight* ambientLight);
     void HandleDirectionalLight(DirectionalLight* directionalLight);
@@ -46,4 +52,9 @@ public:
         int pointLightCount,
         int directionalLightCount,
         int spotLightCount);
+
+    void SetLightCountOffset(        int ambientLightCountOffset,
+        int pointLightCountOffset,
+        int directionalLightCountOffset,
+        int spotLightCountOffset);
 };

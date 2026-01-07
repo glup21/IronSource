@@ -131,7 +131,7 @@ std::shared_ptr<Scene> SceneManager::GetForestScene(EngineServices services)
     std::uniform_real_distribution<float> kqDist(0.08f, 0.15f);
     std::uniform_real_distribution<float> colorShift(0.8f, 1.0f);
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 3; i++)
     {
         auto fireflyTransform = new Transform();
         fireflyTransform->SetLocalPosition(glm::vec3(posDist(gen), heightDist(gen), posDist(gen)));
@@ -156,12 +156,12 @@ std::shared_ptr<Scene> SceneManager::GetForestScene(EngineServices services)
     }
 
     std::vector<std::unique_ptr<Light>> lights;
-    lights.push_back(scene->GetSceneServices().lightFactory->GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(35.0f, 15.0f, 5.0f))}), 
-        glm::vec3(1.0f, 0.0f, 0.0f), 1.0f, 0.09f, 0.032f));
+    lights.push_back(scene->GetSceneServices().lightFactory->GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(50.0f, 15.0f, 5.0f))}), 
+        glm::vec3(1.0f, 0.0f, 0.0f), 11.0f, 0.09f, 0.032f));
     lights.push_back(scene->GetSceneServices().lightFactory->GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(-25.0f, 10.0f, -5.0f))}), 
         glm::vec3(0.0f, 1.0f, 1.0f), 2.0f, 0.09f, 0.032f));
     lights.push_back(scene->GetSceneServices().lightFactory->GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), 
-        glm::vec3(0.0f, 0.0f, 1.0f), 3.0f, 0.09f, 0.032f));
+        glm::vec3(0.0f, 0.0f, 1.0f), 10.0f, 0.09f, 0.032f));
     lights.push_back(scene->GetSceneServices().lightFactory->GetAmbientLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.1f));//glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
     lights.push_back(scene->GetSceneServices().lightFactory->GetDirectionalLight(
         glm::vec3(1.0f, 1.0f, 1.0f),

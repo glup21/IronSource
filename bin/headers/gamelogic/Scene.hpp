@@ -17,6 +17,14 @@ struct SceneServices
     GameObjectFactory* gameObjectFactory;
 };
 
+struct LightsCount
+{
+    int ambientLightCount;
+    int pointLightCount;
+    int directionalLightCount;
+    int spotLightCount;
+};
+
 class Scene
 {
 private:
@@ -47,4 +55,6 @@ public:
 
     EngineServices GetEngineServices();
     SceneServices GetSceneServices();
+
+    LightsCount GetStaticLightsCount();
 };

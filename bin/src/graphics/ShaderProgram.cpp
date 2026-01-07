@@ -240,3 +240,15 @@ void ShaderProgram::SendLightCounts(
     SetUniform("numDirectionalLights", directionalLightCount);
     SetUniform("numSpotLights", spotLightCount);
 }
+
+void ShaderProgram::SetLightCountOffset(
+        int ambientLightCountOffset,
+        int pointLightCountOffset,
+        int directionalLightCountOffset,
+        int spotLightCountOffset) 
+{
+    this->ambientLightCountOffset = ambientLightCountOffset;
+    this->pointLightCountOffset = pointLightCountOffset;
+    this->directionalLightCountOffset = directionalLightCountOffset;
+    this->spotLightCountOffset = spotLightCountOffset;
+}
