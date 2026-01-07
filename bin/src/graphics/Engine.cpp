@@ -1,11 +1,19 @@
 #include "headers/core/Engine.hpp"
 #include "headers/pch.hpp"
-
+#include "headers/gamelogic/Scene.hpp"
 #include "spdlog/spdlog.h"
 #include <thread>
 #include <chrono>
 
-Engine::Engine(AppContext* appContext)
+/*
+    MeshFactory meshFactory;
+    ShaderLibrary shaderLibrary;
+    TextureFactory textureFactory;
+    MaterialFactory* materialFactory;
+*/
+
+Engine::Engine(AppContext* appContext) :
+    shaderLibrary(), textureFactory(), materialFactory(&shaderLibrary, &textureFactory),  meshFactory(&materialFactory, &shaderLibrary)
 {
     this->appContext = appContext;
 }
@@ -24,12 +32,12 @@ void Engine::Run()
         float deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
-        auto* gameObjects = appContext->scene->GetGameObjects();
+        auto* gameObjects = scene->GetGameObjects();
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
 
         glDepthMask(GL_FALSE);
-        appContext->scene->GetCamera()->RenderSkybox();
+        scene->GetCamera()->RenderSkybox();
         glDepthMask(GL_TRUE); 
 
         for (auto& gameObject : *gameObjects)
@@ -43,19 +51,19 @@ void Engine::Run()
             gameObject->Render();
         }
 
-        appContext->scene->GetCamera()->ProcessInput(appContext->window, deltaTime);
-        appContext->shaderLibrary->UpdateLightCounts(
-            appContext->scene->lightFactory.ambientLightCount,
-            appContext->scene->lightFactory.pointLightCount,
-            appContext->scene->lightFactory.directionalLightCount,
-            appContext->scene->lightFactory.spotLightCount        
+        scene->GetCamera()->ProcessInput(appContext->window, deltaTime);
+        shaderLibrary.UpdateLightCounts(
+            scene->GetSceneServices().lightFactory->ambientLightCount,
+            scene->GetSceneServices().lightFactory->pointLightCount,
+            scene->GetSceneServices().lightFactory->directionalLightCount,
+            scene->GetSceneServices().lightFactory->spotLightCount        
         );
 
         glfwSwapBuffers(appContext->window);
         glfwPollEvents();
 
         // Resets light count
-        appContext->shaderLibrary->ResetShaderPrograms();
+        shaderLibrary.ResetShaderPrograms();
 
         float frameTime = glfwGetTime() - currentFrame;
         if (frameTime < targetFrameTime)
@@ -71,9 +79,14 @@ void Engine::Run()
 
 void Engine::UpdateSceneLights()
 {
-    auto* lights = appContext->scene->GetLights();
+    auto* lights = scene->GetLights();
     for (auto& light : *lights)
     {
         light->Update();
     }
+}
+
+EngineServices Engine::GetServices()
+{
+    return { &meshFactory, &shaderLibrary, &textureFactory, &materialFactory };
 }

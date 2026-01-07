@@ -66,7 +66,7 @@ void WhacAMole::Update(float deltaTime)
 
 void WhacAMole::SpawnMole(glm::vec3 position, float height, float speed)
 {
-    mole = scene->gameObjectFactory.GetMole();
+    mole = scene->GetSceneServices().gameObjectFactory->GetMole();
 
     mole->transform->SetLocalRotation(glm::radians(glm::vec3{15.0f, 0.0f, 0.0f}));
     mole->transform->SetLocalScale(glm::vec3{1.0f});

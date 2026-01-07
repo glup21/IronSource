@@ -13,6 +13,8 @@ public:
 
     void SwitchScene(std::shared_ptr<Scene> newScene);
     AppContext* GetAppContext();
+
+    Engine* GetEngine();
 private:
     AppContext appContext;
     std::unique_ptr<Engine> engine; 

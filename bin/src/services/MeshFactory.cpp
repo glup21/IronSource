@@ -5,6 +5,12 @@
 #include "Models/skybox.h"
 #include <filesystem>
 
+MeshFactory::MeshFactory(MaterialFactory* materialFactory, ShaderLibrary* shaderLibrary) : 
+    materialFactory(materialFactory), shaderLibrary(shaderLibrary)
+{
+
+}
+
 std::shared_ptr<SimpleMesh> MeshFactory::LoadSphere(std::string vertexShaderPath, std::string fragmentShaderPath)
 {
     std::vector<glm::vec3> positions;
@@ -19,7 +25,7 @@ std::shared_ptr<SimpleMesh> MeshFactory::LoadSphere(std::string vertexShaderPath
         colors.emplace_back(sphere[i + 3], sphere[i + 4], sphere[i + 5]);
     }
 
-    auto mesh = std::make_shared<SimpleMesh>(positions, colors, colors, MaterialFactory::GetMaterial(vertexShaderPath, fragmentShaderPath));
+    auto mesh = std::make_shared<SimpleMesh>(positions, colors, colors, materialFactory->GetMaterial(vertexShaderPath, fragmentShaderPath));
     return mesh;
 }
 
@@ -42,7 +48,7 @@ std::shared_ptr<SimpleMesh> MeshFactory::LoadTree()
         normals.emplace_back(tree[i + 3], tree[i + 4], tree[i + 5]);
     }
 
-    auto mesh = std::make_shared<SimpleMesh>(positions, colors, colors, MaterialFactory::GetMaterial());
+    auto mesh = std::make_shared<SimpleMesh>(positions, colors, colors, materialFactory->GetMaterial());
     return mesh;
 }
 
@@ -67,7 +73,7 @@ std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(bushes[i + 3], bushes[i + 4], bushes[i + 5]);
     }
 
-    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, MaterialFactory::GetMaterial()));
+    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, materialFactory->GetMaterial()));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -85,7 +91,7 @@ std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(gift[i + 3], gift[i + 4], gift[i + 5]);
     }
 
-    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, MaterialFactory::GetMaterial()));
+    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, materialFactory->GetMaterial()));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -104,7 +110,7 @@ std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(plain[i + 3], plain[i + 4], plain[i + 5]);
     }
 
-    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, MaterialFactory::GetMaterial()));
+    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, materialFactory->GetMaterial()));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -123,7 +129,7 @@ std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(suziFlat[i + 3], suziFlat[i + 4], suziFlat[i + 5]);
     }
 
-    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, MaterialFactory::GetMaterial()));
+    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, materialFactory->GetMaterial()));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -142,7 +148,7 @@ std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(suziSmooth[i + 3], suziSmooth[i + 4], suziSmooth[i + 5]);
     }
 
-    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, MaterialFactory::GetMaterial()));
+    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, materialFactory->GetMaterial()));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -161,7 +167,7 @@ std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(tree[i + 3], tree[i + 4], tree[i + 5]);
     }
 
-    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, MaterialFactory::GetMaterial()));
+    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, materialFactory->GetMaterial()));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -265,7 +271,7 @@ std::shared_ptr<Model> MeshFactory::LoadFromFile(std::string filePath, std::stri
             int matId = pair.first;
             std::vector<Vertex> vertices = pair.second;
 
-            std::shared_ptr<Material> mat = MaterialFactory::GetMaterialFromMtl(materials[matId], path.parent_path(), vertexShaderPath, fragmentShaderPath);
+            std::shared_ptr<Material> mat = materialFactory->GetMaterialFromMtl(materials[matId], path.parent_path(), vertexShaderPath, fragmentShaderPath);
             std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>(vertices, mat);
             model->AddMesh(mesh);
         }
@@ -286,7 +292,7 @@ Skybox* MeshFactory::GetSkybox()
         positions.emplace_back(skybox[i], skybox[i + 1], skybox[i + 2]);
     }
 
-    auto skybox = new Skybox(positions, GlobalConfig::GetDefaultSkyboxFaces(), ShaderLibrary::GetInstance().GetShaderProgram(
+    auto skybox = new Skybox(positions, GlobalConfig::GetDefaultSkyboxFaces(), shaderLibrary->GetShaderProgram(
         GlobalConfig::GetDefaultSkyboxVertexShaderPath(),
         GlobalConfig::GetDefaultSkyboxFragmentShaderPath()
     ));

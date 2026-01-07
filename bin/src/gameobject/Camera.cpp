@@ -22,7 +22,7 @@ void Camera::Init()
     Transform* flashlightTransform = new Transform();
     flashlightTransform->SetLocalPosition(eye);
 
-    flashLight = scene->lightFactory.GetSpotLight(
+    flashLight = scene->GetSceneServices().lightFactory->GetSpotLight(
         flashlightTransform,
         glm::vec3(1.0f, 1.0f, 1.0f),
         5.0f,
@@ -160,14 +160,14 @@ void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
 
             //appContext->scene->DeleteGameObject(id);
 
-            auto newTree = appContext->scene->gameObjectFactory.GetGameObject(
+            auto newTree = scene->GetSceneServices().gameObjectFactory->GetGameObject(
                     "newTree",
-                    appContext->scene->meshFactory.LoadTree(),
+                    scene->GetEngineServices().meshFactory->LoadTree(),
                     new Transform()
                 );
             newTree->transform->SetLocalPosition(pos);
             newTree->transform->SetLocalScale(glm::vec3(0.1f));
-            appContext->scene->AddGameObject(newTree);
+            scene->AddGameObject(newTree);
 
             points.push_back(pos);
 
@@ -187,7 +187,7 @@ void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
         Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
         AppContext* appContext = app->GetAppContext();
 
-        auto car = appContext->scene->FindGameObjectByName("Car");
+        auto car = scene->FindGameObjectByName("Car");
         if(car)
         {
             car->transform->AddBasicTransform(bezier);

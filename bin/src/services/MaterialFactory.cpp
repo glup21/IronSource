@@ -5,9 +5,15 @@
 
 #include <filesystem>
 
+MaterialFactory::MaterialFactory(ShaderLibrary* shaderLibrary, TextureFactory* textureFactory) :
+    shaderLibrary(shaderLibrary), textureFactory(textureFactory)
+{
+
+}
+
 std::shared_ptr<Material> MaterialFactory::GetMaterial(std::string vertexShaderPath, std::string fragmentShaderPath)
 {
-    auto shaderProgram = ShaderLibrary::GetInstance().GetShaderProgram(
+    auto shaderProgram = shaderLibrary->GetShaderProgram(
         vertexShaderPath,
         fragmentShaderPath);
 
@@ -19,7 +25,7 @@ std::shared_ptr<Material> MaterialFactory::GetMaterialFromMtl(const tinyobj::mat
     std::string vertexShaderPath,
     std::string fragmentShaderPath)
 {
-    auto shaderProgram = ShaderLibrary::GetInstance().GetShaderProgram(
+    auto shaderProgram = shaderLibrary->GetShaderProgram(
         vertexShaderPath,
         fragmentShaderPath);
 
@@ -36,12 +42,12 @@ std::shared_ptr<Material> MaterialFactory::GetMaterialFromMtl(const tinyobj::mat
     {
         colorTexturePath = GlobalConfig::GetDefaultTexturePath();
     }
-    res->AddColorTexture(TextureFactory::GetInstance().GetTexture(colorTexturePath));
+    res->AddColorTexture(textureFactory->GetTexture(colorTexturePath));
 
     std::string normalTexturePath = parentFolder + material.normal_texname;
     if (std::filesystem::exists(normalTexturePath)) 
     {
-        res->SetNormalTexture(TextureFactory::GetInstance().GetTexture(normalTexturePath));
+        res->SetNormalTexture(textureFactory->GetTexture(normalTexturePath));
     }
     
 

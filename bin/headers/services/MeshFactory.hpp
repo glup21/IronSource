@@ -9,6 +9,7 @@
 #include "./Models/tree.h"
 #include "headers/graphics/Mesh.hpp"
 #include "headers/services/GlobalConfig.hpp"
+#include "headers/services/MaterialFactory.hpp"
 #include "headers/graphics/SimpleMesh.hpp"
 #include "headers/graphics/Model.hpp"
 #include "headers/graphics/Skybox.hpp"
@@ -34,9 +35,11 @@ class MeshFactory
 {
 private:
     std::map<MeshKey, std::shared_ptr<Model>> models;
+    MaterialFactory* materialFactory;
+    ShaderLibrary* shaderLibrary;
 
 public:
-    MeshFactory() = default;
+    MeshFactory(MaterialFactory* materialFactory, ShaderLibrary* shaderLibrary);
 
     std::vector<std::shared_ptr<SimpleMesh>> LoadAllPredefinedModels();
     std::shared_ptr<SimpleMesh> LoadSphere(

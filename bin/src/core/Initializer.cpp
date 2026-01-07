@@ -13,13 +13,7 @@ void Initializer::InitApplication()
 {
     spdlog::info("Application initialization");
     InitWindow();
-    InitServices();
     spdlog::info("Initializing scene");
-}
-
-void Initializer::InitServices()
-{
-    this->appContext->shaderLibrary = &ShaderLibrary::GetInstance();
 }
 
 void Initializer::InitWindow()

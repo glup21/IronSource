@@ -6,23 +6,29 @@
 #include "headers/services/GameObjectFactory.hpp"
 #include "headers/services/MeshFactory.hpp"
 #include "headers/services/LightFactory.hpp"
+#include "headers/core/Engine.hpp"
+#include "headers/core/EngineServices.hpp"
 #include <vector>
 #include <memory>
 
+struct SceneServices
+{
+    LightFactory* lightFactory;
+    GameObjectFactory* gameObjectFactory;
+};
+
 class Scene
 {
-public:
+private:
+    EngineServices engineServices;
     LightFactory lightFactory;
     GameObjectFactory gameObjectFactory;
-    MeshFactory meshFactory;
 
-private:
     std::vector<std::shared_ptr<GameObject>> gameObjects;
     std::vector<std::unique_ptr<Light>> lights;
     std::unique_ptr<Camera> camera;
-
 public:
-    Scene();
+    Scene(EngineServices services);
     ~Scene();
 
     void Init(std::vector<std::shared_ptr<GameObject>> gameObjects,
@@ -38,4 +44,7 @@ public:
 
     void SetGameObjects(std::vector<std::shared_ptr<GameObject>> gameObjects);
     void SetLights(std::vector<std::unique_ptr<Light>> lights);
+
+    EngineServices GetEngineServices();
+    SceneServices GetSceneServices();
 };

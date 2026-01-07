@@ -8,11 +8,11 @@ class SceneManager
 private:
     SceneManager() = delete;
 public:
-    static std::shared_ptr<Scene> GetOnePolygonScene();
-    static std::shared_ptr<Scene> GetFourSpheresScene();
-    static std::shared_ptr<Scene> GetForestScene();
-    static std::shared_ptr<Scene> GetSolarSystemScene();
-    static std::shared_ptr<Scene> GetWhacAMoleScene();
-    static std::shared_ptr<Scene> GetRacingScene();
-    static std::shared_ptr<Scene> GetBezierScene();
+    static std::shared_ptr<Scene> GetOnePolygonScene(EngineServices services);
+    static std::shared_ptr<Scene> GetFourSpheresScene(EngineServices services);
+    static std::shared_ptr<Scene> GetForestScene(EngineServices services);
+    static std::shared_ptr<Scene> GetSolarSystemScene(EngineServices services);
+    static std::shared_ptr<Scene> GetWhacAMoleScene(EngineServices services);
+    static std::shared_ptr<Scene> GetRacingScene(EngineServices services);
+    static std::shared_ptr<Scene> GetBezierScene(EngineServices services);
 };

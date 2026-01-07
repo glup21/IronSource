@@ -19,9 +19,9 @@
 #include "headers/transform/BezierSplineTransform.hpp"
 #include <spdlog/spdlog.h>
 
-std::shared_ptr<Scene> SceneManager::GetOnePolygonScene()
+std::shared_ptr<Scene> SceneManager::GetOnePolygonScene(EngineServices services)
 {
-    auto scene = std::make_shared<Scene>();
+    auto scene = std::make_shared<Scene>(services);
 
     auto firstMesh = std::make_shared<SimpleMesh>(
         std::vector<glm::vec3>{ 
@@ -30,10 +30,10 @@ std::shared_ptr<Scene> SceneManager::GetOnePolygonScene()
             {-0.5f, -0.5f, 0.0f} },
         std::vector<glm::vec3>{ {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} },
         std::vector<glm::vec3>{ {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} },
-        MaterialFactory::GetMaterial()
+        services.materialFactory->GetMaterial()
     );
     
-    auto object = scene->gameObjectFactory.GetGameObject("firstMesh", firstMesh);
+    auto object = scene->GetSceneServices().gameObjectFactory->GetGameObject("firstMesh", firstMesh);
 
     object->transform->SetLocalPosition({0, 0, -3.0f});
     object->transform->AddBasicTransform(std::make_shared<DynamicRotation>(0, glm::vec3(0.0, 0.0, 1.0), 10.0f));
@@ -44,20 +44,20 @@ std::shared_ptr<Scene> SceneManager::GetOnePolygonScene()
     return scene;
 }
 
-std::shared_ptr<Scene> SceneManager::GetFourSpheresScene()
+std::shared_ptr<Scene> SceneManager::GetFourSpheresScene(EngineServices services)
 {
-    //auto sphereMesh = scene->meshFactory.LoadSphere();
-    auto scene = std::make_shared<Scene>();
+    //auto sphereMesh = scene->GetEngineServices().meshFactory->LoadSphere();
+    auto scene = std::make_shared<Scene>(services);
 
-    auto sphereMesh = scene->meshFactory.LoadFromFile("./Models/Moon.obj");
-    auto sphere = std::shared_ptr<SimpleMesh>(scene->meshFactory.LoadSphere(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
+    auto sphereMesh = scene->GetEngineServices().meshFactory->LoadFromFile("./Models/Moon.obj");
+    auto sphere = std::shared_ptr<SimpleMesh>(scene->GetEngineServices().meshFactory->LoadSphere(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
         "./bin/shaders/fragmentShaderFirefly.frag"));
     auto objects = std::vector<std::shared_ptr<GameObject>>{
-            scene->gameObjectFactory.GetGameObject("firstSphere", sphereMesh),
-            scene->gameObjectFactory.GetGameObject("secondSphere", sphereMesh),
-            scene->gameObjectFactory.GetGameObject("thirdSphere", sphereMesh),
-            scene->gameObjectFactory.GetGameObject("forthSphere", sphereMesh),
-            scene->gameObjectFactory.GetGameObject("forthSphere", sphere),
+            scene->GetSceneServices().gameObjectFactory->GetGameObject("firstSphere", sphereMesh),
+            scene->GetSceneServices().gameObjectFactory->GetGameObject("secondSphere", sphereMesh),
+            scene->GetSceneServices().gameObjectFactory->GetGameObject("thirdSphere", sphereMesh),
+            scene->GetSceneServices().gameObjectFactory->GetGameObject("forthSphere", sphereMesh),
+            scene->GetSceneServices().gameObjectFactory->GetGameObject("forthSphere", sphere),
     };
 
     for(auto gameObject : objects)
@@ -73,21 +73,21 @@ std::shared_ptr<Scene> SceneManager::GetFourSpheresScene()
 
     std::vector<std::unique_ptr<Light>> lights;
 
-    lights.push_back(scene->lightFactory.GetPointLight(new Transform(), 
+    lights.push_back(scene->GetSceneServices().lightFactory->GetPointLight(new Transform(), 
         glm::vec3(1.0f), 2.0f, 0.09f, 0.032f));
-    //lights.push_back(scene->lightFactory.GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
+    //lights.push_back(scene->GetSceneServices().lightFactory->GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
 
     scene->Init(objects, std::move(lights));
     return scene;
 }
 
-std::shared_ptr<Scene> SceneManager::GetForestScene()
+std::shared_ptr<Scene> SceneManager::GetForestScene(EngineServices services)
 {
-    auto scene = std::make_shared<Scene>();
+    auto scene = std::make_shared<Scene>(services);
 
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
-    std::vector<std::shared_ptr<SimpleMesh>> meshes = scene->meshFactory.LoadAllPredefinedModels();
+    std::vector<std::shared_ptr<SimpleMesh>> meshes = scene->GetEngineServices().meshFactory->LoadAllPredefinedModels();
     renderTargets.reserve(meshes.size() + 1);  
     for (auto& mesh : meshes)
     {
@@ -103,7 +103,7 @@ std::shared_ptr<Scene> SceneManager::GetForestScene()
 
     for (int i = 0; i < 500; i++)
     {
-        auto tree = scene->gameObjectFactory.GetGameObject("tree", renderTargets[5]);
+        auto tree = scene->GetSceneServices().gameObjectFactory->GetGameObject("tree", renderTargets[5]);
         tree->transform->SetLocalPosition(glm::vec3(distPos(gen), 0.0f, distPos(gen)));
         tree->transform->SetLocalScale(glm::vec3(distScale(gen)));
         tree->transform->SetLocalRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
@@ -113,7 +113,7 @@ std::shared_ptr<Scene> SceneManager::GetForestScene()
 
     for (int i = 0; i < 2500; i++)
     {
-        auto bush = scene->gameObjectFactory.GetGameObject("bush", renderTargets[0]);
+        auto bush = scene->GetSceneServices().gameObjectFactory->GetGameObject("bush", renderTargets[0]);
         bush->transform->SetLocalPosition(glm::vec3(distPos(gen), 0.0f, distPos(gen)));
         bush->transform->SetLocalScale(glm::vec3(distScale(gen) * 2.0f));
         bush->transform->SetLocalRotation(glm::vec3(0.0f, distPos(gen) * 36.0f, 0.0f));
@@ -121,7 +121,7 @@ std::shared_ptr<Scene> SceneManager::GetForestScene()
         objects.push_back(bush);
     }
 
-    auto plane = scene->gameObjectFactory.GetGameObject("plain", renderTargets[2]);
+    auto plane = scene->GetSceneServices().gameObjectFactory->GetGameObject("plain", renderTargets[2]);
     plane->transform->SetLocalPosition(glm::vec3(0.0f, -0.01f, 0.0f));
     plane->transform->SetLocalScale(glm::vec3(50.0f, 1.0f, 50.0f));
     objects.push_back(plane);
@@ -144,7 +144,7 @@ std::shared_ptr<Scene> SceneManager::GetForestScene()
         float k_l = klDist(gen);
         float k_q = kqDist(gen);
 
-        auto firefly = scene->gameObjectFactory.GetFireFly(
+        auto firefly = scene->GetSceneServices().gameObjectFactory->GetFireFly(
             fireflyTransform,
             10.0f,     
             color,
@@ -158,14 +158,14 @@ std::shared_ptr<Scene> SceneManager::GetForestScene()
     }
 
     std::vector<std::unique_ptr<Light>> lights;
-    lights.push_back(scene->lightFactory.GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(35.0f, 15.0f, 5.0f))}), 
+    lights.push_back(scene->GetSceneServices().lightFactory->GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(35.0f, 15.0f, 5.0f))}), 
         glm::vec3(1.0f, 0.0f, 0.0f), 1.0f, 0.09f, 0.032f));
-    lights.push_back(scene->lightFactory.GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(-25.0f, 10.0f, -5.0f))}), 
+    lights.push_back(scene->GetSceneServices().lightFactory->GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(-25.0f, 10.0f, -5.0f))}), 
         glm::vec3(0.0f, 1.0f, 1.0f), 2.0f, 0.09f, 0.032f));
-    lights.push_back(scene->lightFactory.GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), 
+    lights.push_back(scene->GetSceneServices().lightFactory->GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), 
         glm::vec3(0.0f, 0.0f, 1.0f), 3.0f, 0.09f, 0.032f));
-    lights.push_back(scene->lightFactory.GetAmbientLight(glm::vec3(1.0f, 0.0f, 0.0f), 0.1f));//glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
-    // lights.push_back(scene->lightFactory.GetDirectionalLight(
+    lights.push_back(scene->GetSceneServices().lightFactory->GetAmbientLight(glm::vec3(1.0f, 0.0f, 0.0f), 0.1f));//glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
+    // lights.push_back(scene->GetSceneServices().lightFactory->GetDirectionalLight(
     //     glm::vec3(0.6f, 0.7f, 1.0f),
     //     glm::vec3(-0.3f, -1.0f, -0.5f), 
     //     0.025f 
@@ -176,30 +176,30 @@ std::shared_ptr<Scene> SceneManager::GetForestScene()
     return scene;
 }
 
-std::shared_ptr<Scene> SceneManager::GetSolarSystemScene()
+std::shared_ptr<Scene> SceneManager::GetSolarSystemScene(EngineServices services)
 {
-    auto scene = std::make_shared<Scene>();
+    auto scene = std::make_shared<Scene>(services);
 
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
-    auto earthModel = scene->meshFactory.LoadFromFile("./Models/Earth.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
+    auto earthModel = scene->GetEngineServices().meshFactory->LoadFromFile("./Models/Earth.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
         "./bin/shaders/fragmentShaderEarth.frag");
     
-    earthModel->GetMesh(0)->GetMaterial()->AddColorTexture(TextureFactory::GetInstance().GetTexture("./Models/2k_earth_nightmap.jpg"));
+    earthModel->GetMesh(0)->GetMaterial()->AddColorTexture(scene->GetEngineServices().textureFactory->GetTexture("./Models/2k_earth_nightmap.jpg"));
 
-    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/Sun.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
+    renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/Sun.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
         "./bin/shaders/fragmentShaderMeshConstant.frag"));
 
     renderTargets.push_back(earthModel);    
 
-    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/Moon.obj"));  
-    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/Login.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
+    renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/Moon.obj"));  
+    renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/Login.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
         "./bin/shaders/fragmentShaderMeshConstant.frag" ));  
 
     std::vector<std::shared_ptr<GameObject>> objects;
 
 
-    auto sun = scene->gameObjectFactory.GetGameObject("Sun", renderTargets[0]);
+    auto sun = scene->GetSceneServices().gameObjectFactory->GetGameObject("Sun", renderTargets[0]);
 
     std::shared_ptr<Transform> sunTransform = std::make_shared<Transform>();
     auto sunPosition = std::make_shared<Translation>(glm::vec3(0.0f, 2.0f, -10.0f));
@@ -207,7 +207,7 @@ std::shared_ptr<Scene> SceneManager::GetSolarSystemScene()
     sunTransform->AddBasicTransform(std::make_shared<DynamicRotation>(0, glm::vec3(0.0, 0.0, 1.0), 0.5f));
     sun->transform->AddBasicTransform(sunTransform);
     
-    auto earth = scene->gameObjectFactory.GetGameObject("Earth", renderTargets[1]);
+    auto earth = scene->GetSceneServices().gameObjectFactory->GetGameObject("Earth", renderTargets[1]);
     std::shared_ptr<Transform> earthTransform = std::make_shared<Transform>();
 
     earthTransform->AddBasicTransform(sunTransform);
@@ -216,12 +216,12 @@ std::shared_ptr<Scene> SceneManager::GetSolarSystemScene()
     earth->transform->AddBasicTransform(earthTransform);
     earth->transform->AddBasicTransform(std::make_shared<Scale>(glm::vec3(0.5f)));
 
-    auto moon = scene->gameObjectFactory.GetGameObject("Moon", renderTargets[2]);
+    auto moon = scene->GetSceneServices().gameObjectFactory->GetGameObject("Moon", renderTargets[2]);
     moon->transform->AddBasicTransform(earthTransform);
     moon->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(2.0f, 0.0f, 0.0f)));
     moon->transform->AddBasicTransform(std::make_shared<Scale>(glm::vec3(0.125f)));
 
-    auto login = scene->gameObjectFactory.GetGameObject("Login", renderTargets[3]);
+    auto login = scene->GetSceneServices().gameObjectFactory->GetGameObject("Login", renderTargets[3]);
     login->transform->AddBasicTransform(earthTransform);
     login->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(4.0f, 0.0f, 0.0f)));
     login->transform->AddBasicTransform(std::make_shared<Scale>(glm::vec3(0.25f)));
@@ -233,41 +233,41 @@ std::shared_ptr<Scene> SceneManager::GetSolarSystemScene()
 
     std::vector<std::unique_ptr<Light>> lights;
     auto pointLightPosition = new Transform(std::vector<IBasicTransform*>{sunPosition.get()});
-    lights.push_back(scene->lightFactory.GetPointLight(pointLightPosition, glm::vec3(1.0f, 1.0f, 1.0f), 5.0f, 0.00001f, 0.00001f));
-    lights.push_back(scene->lightFactory.GetAmbientLight(glm::vec3(1.0f), 0.1f));
+    lights.push_back(scene->GetSceneServices().lightFactory->GetPointLight(pointLightPosition, glm::vec3(1.0f, 1.0f, 1.0f), 5.0f, 0.00001f, 0.00001f));
+    lights.push_back(scene->GetSceneServices().lightFactory->GetAmbientLight(glm::vec3(1.0f), 0.1f));
 
     scene->Init(objects, std::move(lights));
 
     return scene;
 }
 
-std::shared_ptr<Scene> SceneManager::GetWhacAMoleScene()
+std::shared_ptr<Scene> SceneManager::GetWhacAMoleScene(EngineServices services)
 {
-    auto scene = std::make_shared<Scene>();
+    auto scene = std::make_shared<Scene>(services);
 
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
-    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/WhacAMole.obj"));
-    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/Headcrab.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
+    renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/WhacAMole.obj"));
+    renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/Headcrab.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
         "./bin/shaders/fragmentShaderMeshConstant.frag"));
 
-    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/crowbar.obj"));
+    renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/crowbar.obj"));
     std::vector<std::shared_ptr<GameObject>> objects;
-    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/shrek.obj"));
+    renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/shrek.obj"));
 
-    auto whacAMole = scene->gameObjectFactory.GetMachine("Machine");
+    auto whacAMole = scene->GetSceneServices().gameObjectFactory->GetMachine("Machine");
     whacAMole->transform->SetLocalPosition({0.0f, -2.0f, -3.0f});
     whacAMole->transform->SetLocalRotation(glm::radians(glm::vec3({15.0f, 0.0f, 0.0f})));
     //whacAMole->transform->AddBasicTransform(std::make_shared<DummyTransform>());
     objects.push_back(whacAMole);
 
-    auto crowbar = scene->gameObjectFactory.GetGameObject("Crowbar", renderTargets[2]);
+    auto crowbar = scene->GetSceneServices().gameObjectFactory->GetGameObject("Crowbar", renderTargets[2]);
     crowbar->transform->SetLocalPosition({0.0f, 3.0f, -5.0f});
     crowbar->transform->SetLocalScale(glm::vec3(2.0f));
     crowbar->transform->AddBasicTransform(std::make_shared<CurvedTranslation>(glm::vec3(0.0f), 1, 1.0f));
     objects.push_back(crowbar);
 
-    auto shrek = scene->gameObjectFactory.GetGameObject("Shrek", renderTargets[3]);
+    auto shrek = scene->GetSceneServices().gameObjectFactory->GetGameObject("Shrek", renderTargets[3]);
     shrek->transform->SetLocalPosition({0.0f, 3.0f, -5.0f});
     shrek->transform->SetLocalScale(glm::vec3(1.0f));
 
@@ -297,28 +297,28 @@ std::shared_ptr<Scene> SceneManager::GetWhacAMoleScene()
     objects.push_back(shrek);
 
     std::vector<std::unique_ptr<Light>> lights;
-    lights.push_back(scene->lightFactory.GetAmbientLight(glm::vec3(1.0f), 1.0f));
+    lights.push_back(scene->GetSceneServices().lightFactory->GetAmbientLight(glm::vec3(1.0f), 1.0f));
 
     scene->Init(objects, std::move(lights));
     
     return scene;
 }
 
-std::shared_ptr<Scene> SceneManager::GetRacingScene()
+std::shared_ptr<Scene> SceneManager::GetRacingScene(EngineServices services)
 {
-    auto scene = std::make_shared<Scene>();
+    auto scene = std::make_shared<Scene>(services);
 
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
-    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/Racing/gp.obj"));
-    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/Car/Untitled.obj"));
+    renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/Racing/gp.obj"));
+    renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/Car/Untitled.obj"));
 
     std::vector<std::shared_ptr<GameObject>> objects;
-    auto racingRoad = scene->gameObjectFactory.GetGameObject("Racing", renderTargets[0]);
+    auto racingRoad = scene->GetSceneServices().gameObjectFactory->GetGameObject("Racing", renderTargets[0]);
 
     objects.push_back(racingRoad);
 
-    auto car = scene->gameObjectFactory.GetGameObject("Car", renderTargets[1]);
+    auto car = scene->GetSceneServices().gameObjectFactory->GetGameObject("Car", renderTargets[1]);
     car->transform->SetLocalPosition({-140.0f, 0.0f, 110.0f});
     car->transform->SetLocalScale(glm::vec3(2.0f));
 
@@ -449,41 +449,41 @@ std::shared_ptr<Scene> SceneManager::GetRacingScene()
     objects.push_back(car);
 
     std::vector<std::unique_ptr<Light>> lights;
-    lights.push_back(scene->lightFactory.GetAmbientLight(glm::vec3(1.0f), 2.0f));
+    lights.push_back(scene->GetSceneServices().lightFactory->GetAmbientLight(glm::vec3(1.0f), 2.0f));
 
     scene->Init(objects, std::move(lights));
 
     return scene;
 }
 
-std::shared_ptr<Scene> SceneManager::GetBezierScene()
+std::shared_ptr<Scene> SceneManager::GetBezierScene(EngineServices services)
 {
-    auto scene = std::make_shared<Scene>();
+    auto scene = std::make_shared<Scene>(services);
 
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
-    std::vector<std::shared_ptr<SimpleMesh>> meshes = scene->meshFactory.LoadAllPredefinedModels();
+    std::vector<std::shared_ptr<SimpleMesh>> meshes = scene->GetEngineServices().meshFactory->LoadAllPredefinedModels();
     renderTargets.reserve(meshes.size() + 1);  
     for (auto& mesh : meshes)
     {
         renderTargets.push_back(mesh); 
     }
-    renderTargets.push_back(scene->meshFactory.LoadFromFile("./Models/shrek.obj"));
+    renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/shrek.obj"));
     std::vector<std::shared_ptr<GameObject>> objects;
 
-    auto plane = scene->gameObjectFactory.GetGameObject("plain", renderTargets[2]);
+    auto plane = scene->GetSceneServices().gameObjectFactory->GetGameObject("plain", renderTargets[2]);
     plane->transform->SetLocalPosition(glm::vec3(0.0f, -0.01f, 0.0f));
     plane->transform->SetLocalScale(glm::vec3(50.0f, 1.0f, 50.0f));
     objects.push_back(std::shared_ptr<GameObject>(plane));
 
-    auto car = scene->gameObjectFactory.GetGameObject("Car", renderTargets[meshes.size() ]);
+    auto car = scene->GetSceneServices().gameObjectFactory->GetGameObject("Car", renderTargets[meshes.size() ]);
     car->transform->SetLocalScale(glm::vec3(2.0f));
 
     objects.push_back(car);
 
     std::vector<std::unique_ptr<Light>> lights;
-    lights.push_back(scene->lightFactory.GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
-    lights.push_back(scene->lightFactory.GetDirectionalLight(
+    lights.push_back(scene->GetSceneServices().lightFactory->GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
+    lights.push_back(scene->GetSceneServices().lightFactory->GetDirectionalLight(
         glm::vec3(0.6f, 0.7f, 1.0f),
         glm::vec3(-0.3f, -1.0f, -0.5f), 
         1.0f 

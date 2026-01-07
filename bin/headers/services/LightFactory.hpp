@@ -7,7 +7,11 @@
 
 class LightFactory
 {
+    ShaderLibrary* shaderLibrary;
+
 public:
+    LightFactory(ShaderLibrary* shaderLibrary);
+
     std::unique_ptr<PointLight> GetPointLight(Transform* transform, glm::vec3 color, float intensity, float k_l, float k_q);
     std::unique_ptr<AmbientLight> GetAmbientLight(glm::vec3 color, float intensity);
     std::unique_ptr<DirectionalLight> GetDirectionalLight(glm::vec3 color, glm::vec3 direction, float intensity);

@@ -16,7 +16,7 @@ Scene::~Scene()
 
 }
 
-Scene::Scene() : gameObjectFactory(this), lightFactory(), meshFactory()
+Scene::Scene(EngineServices services) : gameObjectFactory(this), lightFactory(services.shaderLibrary), engineServices(services)
 {
 
 }
@@ -24,7 +24,7 @@ Scene::Scene() : gameObjectFactory(this), lightFactory(), meshFactory()
 void Scene::Init(std::vector<std::shared_ptr<GameObject>> gameObjects, std::vector<std::unique_ptr<Light>> lights)
 {
     camera = std::make_unique<Camera>(this);
-    camera->SetSkybox(meshFactory.GetSkybox());
+    camera->SetSkybox(engineServices.meshFactory->GetSkybox());
 
     camera->Init();
 
@@ -91,4 +91,14 @@ void Scene::SetGameObjects(std::vector<std::shared_ptr<GameObject>> gameObjects)
 void Scene::SetLights(std::vector<std::unique_ptr<Light>> lights)
 {
     this->lights = std::move(lights);
+}
+
+EngineServices Scene::GetEngineServices()
+{
+    return engineServices;
+}
+
+SceneServices Scene::GetSceneServices()
+{
+    return { &lightFactory, &gameObjectFactory };
 }

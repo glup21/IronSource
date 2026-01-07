@@ -18,5 +18,4 @@ private:
     AppContext* appContext;
 
     void InitWindow();
-    void InitServices();
 };
