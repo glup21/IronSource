@@ -18,7 +18,7 @@ void main()
 
     vec4 worldPos = transformMatrix * vec4(aPos, 1);
     fragPos = worldPos.xyz;
-    fragNormal = normalize(mat3(transpose(inverse(transformMatrix))) * aNormal);
+    fragNormal = normalize(transpose(inverse(mat3(transformMatrix))) * aNormal);
     //fragNormal = aNormal;
     fragTexCoord = aTexCoord;
 

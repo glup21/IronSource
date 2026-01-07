@@ -142,19 +142,22 @@ void main()
             float distance = length(light.position - fragPos);
             float attenuation = 1.0 / (1.0 + light.k_l * distance + light.k_q * distance * distance);
 
-            float theta = dot(normalize(light.direction), L);
-            float epsilon = light.outerCutOff - light.cutOff;
-            float intensityFactor = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
+            float dotLF = dot(normalize(-L), normalize(light.direction));
 
-            vec3 diffuse = diff * light.color * light.intensity * attenuation * materialDiffuse * intensityFactor;
-            vec3 specular = vec3(0.0f); 
-            if(diff > 0.0f)
+            if(dotLF > light.outerCutOff)
             {
-                float spec = pow(max(dot(V, R), 0.0), materialShininess);
-                specular = spec * light.color * attenuation * 0.5 * materialSpecular;
-            } 
+                // Normalization Formula xn = ( x - Min )/( Max - Min )
+                float intensityFactor = (dotLF - light.outerCutOff)/(light.cutOff - light.outerCutOff );
+                vec3 diffuse = diff * light.color * light.intensity * attenuation * materialDiffuse * intensityFactor;
+                vec3 specular = vec3(0.0f); 
+                if(diff > 0.0f)
+                {
+                    float spec = pow(max(dot(V, R), 0.0), materialShininess);
+                    specular = spec * light.color * attenuation * 0.5 * materialSpecular * intensityFactor;
+                } 
 
-            result += diffuse + specular;
+                result += diffuse + specular;
+            }
         }
     }
 

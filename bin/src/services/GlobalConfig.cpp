@@ -10,14 +10,6 @@ std::string GlobalConfig::GetDefaultMeshVertexShaderPath()
     return "./bin/shaders/vertex/vertexShaderMesh.vert";
 }
 
-/*
-    static std::string GetDefaultMeshFragmentPhongShaderPath();
-    static std::string GetDefaultSimpleMeshFragmentPhongShaderPath();
-    // Blinn
-    static std::string GetDefaultMeshFragmentBlinnShaderPath();
-    static std::string GetDefaultSimpleMeshFragmentBlinnShaderPath();
-*/
-
 //Phong
 std::string GlobalConfig::GetDefaultMeshFragmentPhongShaderPath() 
 {
@@ -37,7 +29,7 @@ std::string GlobalConfig::GetDefaultMeshFragmentBlinnShaderPath()
 
 std::string GlobalConfig::GetDefaultSimpleMeshFragmentBlinnShaderPath() 
 {
-    return "./bin/shaders/fragment/simple/fragmentShaderSimpleMeshBlinn.frag";
+    return "./bin/shaders/fragment/simplemesh/fragmentShaderSimpleMeshBlinn.frag";
 }
 
 

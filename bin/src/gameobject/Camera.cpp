@@ -25,11 +25,11 @@ void Camera::Init()
     flashLight = scene->GetSceneServices().lightFactory->GetSpotLight(
         flashlightTransform,
         glm::vec3(1.0f, 1.0f, 1.0f),
-        5.0f,
+        2.0f,
         0.09f,
         0.032f,
-        -forward,
-        15.0f,
+        forward,
+        12.0f,
         17.0f
     );
     flashLight->SetEnabled(false);
@@ -119,6 +119,8 @@ void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
         dir.y = cos(glm::radians(pitch));
         dir.z = sin(glm::radians(pitch)) * sin(glm::radians(yaw));
         forward = glm::normalize(dir);
+
+        flashLight->SetDirection(forward);
     }
     else
     {
