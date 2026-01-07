@@ -39,7 +39,7 @@ std::shared_ptr<Scene> SceneManager::GetOnePolygonScene()
     object->transform->AddBasicTransform(std::make_shared<DynamicRotation>(0, glm::vec3(0.0, 0.0, 1.0), 10.0f));
     object->transform->SetLocalScale(glm::vec3(10.0f));
 
-    scene->SetGameObjects(std::vector<std::shared_ptr<GameObject>>{object});
+    scene->Init(std::vector<std::shared_ptr<GameObject>>{object});
 
     return scene;
 }
@@ -52,7 +52,7 @@ std::shared_ptr<Scene> SceneManager::GetFourSpheresScene()
     auto sphereMesh = scene->meshFactory.LoadFromFile("./Models/Moon.obj");
     auto sphere = std::shared_ptr<SimpleMesh>(scene->meshFactory.LoadSphere(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
         "./bin/shaders/fragmentShaderFirefly.frag"));
-    auto gameObjects = std::vector<std::shared_ptr<GameObject>>{
+    auto objects = std::vector<std::shared_ptr<GameObject>>{
             scene->gameObjectFactory.GetGameObject("firstSphere", sphereMesh),
             scene->gameObjectFactory.GetGameObject("secondSphere", sphereMesh),
             scene->gameObjectFactory.GetGameObject("thirdSphere", sphereMesh),
@@ -60,16 +60,16 @@ std::shared_ptr<Scene> SceneManager::GetFourSpheresScene()
             scene->gameObjectFactory.GetGameObject("forthSphere", sphere),
     };
 
-    for(auto gameObject : gameObjects)
+    for(auto gameObject : objects)
     {
         gameObject->transform->SetLocalScale(glm::vec3(0.25f));
     }
-    gameObjects[0]->transform->SetLocalPosition({1.0, 0.0, 0.0});
-    gameObjects[1]->transform->SetLocalPosition({0.0, 1.0, 0.0});
-    gameObjects[2]->transform->SetLocalPosition({-1.0, 0.0, 0.0});
-    gameObjects[3]->transform->SetLocalPosition({0.0, -1.0, 0.0});
-    gameObjects[4]->transform->SetLocalPosition({0.0, 0.0, 0.0});
-    gameObjects[4]->transform->SetLocalScale(glm::vec3(0.1));
+    objects[0]->transform->SetLocalPosition({1.0, 0.0, 0.0});
+    objects[1]->transform->SetLocalPosition({0.0, 1.0, 0.0});
+    objects[2]->transform->SetLocalPosition({-1.0, 0.0, 0.0});
+    objects[3]->transform->SetLocalPosition({0.0, -1.0, 0.0});
+    objects[4]->transform->SetLocalPosition({0.0, 0.0, 0.0});
+    objects[4]->transform->SetLocalScale(glm::vec3(0.1));
 
     std::vector<std::unique_ptr<Light>> lights;
 
@@ -77,9 +77,7 @@ std::shared_ptr<Scene> SceneManager::GetFourSpheresScene()
         glm::vec3(1.0f), 2.0f, 0.09f, 0.032f));
     //lights.push_back(scene->lightFactory.GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
 
-    scene->SetGameObjects(gameObjects);
-    scene->SetLights(std::move(lights));
-
+    scene->Init(objects, std::move(lights));
     return scene;
 }
 
@@ -301,6 +299,7 @@ std::shared_ptr<Scene> SceneManager::GetWhacAMoleScene()
     std::vector<std::unique_ptr<Light>> lights;
     lights.push_back(scene->lightFactory.GetAmbientLight(glm::vec3(1.0f), 1.0f));
 
+    scene->Init(objects, std::move(lights));
     
     return scene;
 }

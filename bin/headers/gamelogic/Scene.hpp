@@ -25,7 +25,8 @@ public:
     Scene();
     ~Scene();
 
-    void Init(std::vector<std::shared_ptr<GameObject>> gameObjects, std::vector<std::unique_ptr<Light>> lights);
+    void Init(std::vector<std::shared_ptr<GameObject>> gameObjects,
+        std::vector<std::unique_ptr<Light>> lights = std::vector<std::unique_ptr<Light>>{});
 
     std::vector<std::shared_ptr<GameObject>>* GetGameObjects();
     std::vector<Light*>* GetLights();

@@ -27,6 +27,7 @@ void Scene::Init(std::vector<std::shared_ptr<GameObject>> gameObjects, std::vect
     camera->SetSkybox(meshFactory.GetSkybox());
 
     camera->Init();
+
     this->gameObjects = gameObjects;
     this->lights = std::move(lights);
 }
