@@ -5,7 +5,7 @@ Material::Material(std::shared_ptr<ShaderProgram> shaderProgram, glm::vec3 ambie
     : shaderProgram(shaderProgram), ambient(ambient), diffuse(diffuse), specular(specular),
     shininess(shininess)
 {
-
+    //this->specular = glm::vec3(0.0f, 0.0f, 1.0f);
 }
 
 void Material::Use()
@@ -37,7 +37,7 @@ void Material::Use()
     this->shaderProgram->SetUniform("materialAmbient", this->ambient);
     this->shaderProgram->SetUniform("materialDiffuse", this->diffuse);
     this->shaderProgram->SetUniform("materialSpecular", this->specular);
-    this->shaderProgram->SetUniform("materialShinnines", this->shininess);
+    this->shaderProgram->SetUniform("materialShininess", this->shininess);
     this->shaderProgram->SetUniform("time", static_cast<float>(glfwGetTime()));
 }
 
@@ -54,4 +54,24 @@ void Material::AddColorTexture(std::shared_ptr<Texture> texture)
 void Material::SetNormalTexture(std::shared_ptr<Texture> texture)
 {
     this->normalTexture = texture;
+}
+
+void Material::SetAmbient(glm::vec3 ambient)
+{
+    this->ambient = ambient;
+}
+
+void Material::SetDiffuse(glm::vec3 diffuse)
+{
+    this->diffuse = diffuse;
+}
+
+void Material::SetSpecular(glm::vec3 specular)
+{
+    this->specular = specular;
+}
+
+void Material::SetShininess(float shininess)
+{
+    this->shininess = shininess;
 }

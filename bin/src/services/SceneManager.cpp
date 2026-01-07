@@ -50,15 +50,16 @@ std::shared_ptr<Scene> SceneManager::GetFourSpheresScene(EngineServices services
     auto scene = std::make_shared<Scene>(services);
 
     auto sphereMesh = scene->GetEngineServices().meshFactory->LoadFromFile("./Models/Moon.obj");
-    auto sphere = std::shared_ptr<SimpleMesh>(scene->GetEngineServices().meshFactory->LoadSphere(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
-        "./bin/shaders/fragmentShaderFirefly.frag"));
+    sphereMesh->GetMesh(0)->GetMaterial()->SetShininess(64);
+    //sphereMesh->GetMesh(0)->GetMaterial()->SetDiffuse({1.0f, 0.0f, 0.0f});
+
     auto objects = std::vector<std::shared_ptr<GameObject>>{
             scene->GetSceneServices().gameObjectFactory->GetGameObject("firstSphere", sphereMesh),
             scene->GetSceneServices().gameObjectFactory->GetGameObject("secondSphere", sphereMesh),
             scene->GetSceneServices().gameObjectFactory->GetGameObject("thirdSphere", sphereMesh),
-            scene->GetSceneServices().gameObjectFactory->GetGameObject("forthSphere", sphereMesh),
-            scene->GetSceneServices().gameObjectFactory->GetGameObject("forthSphere", sphere),
+            scene->GetSceneServices().gameObjectFactory->GetGameObject("forthSphere", sphereMesh)
     };
+
 
     for(auto gameObject : objects)
     {
@@ -68,15 +69,12 @@ std::shared_ptr<Scene> SceneManager::GetFourSpheresScene(EngineServices services
     objects[1]->transform->SetLocalPosition({0.0, 1.0, 0.0});
     objects[2]->transform->SetLocalPosition({-1.0, 0.0, 0.0});
     objects[3]->transform->SetLocalPosition({0.0, -1.0, 0.0});
-    objects[4]->transform->SetLocalPosition({0.0, 0.0, 0.0});
-    objects[4]->transform->SetLocalScale(glm::vec3(0.1));
 
     std::vector<std::unique_ptr<Light>> lights;
 
     lights.push_back(scene->GetSceneServices().lightFactory->GetPointLight(new Transform(), 
         glm::vec3(1.0f), 2.0f, 0.09f, 0.032f));
     //lights.push_back(scene->GetSceneServices().lightFactory->GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
-
     scene->Init(objects, std::move(lights));
     return scene;
 }
@@ -164,12 +162,12 @@ std::shared_ptr<Scene> SceneManager::GetForestScene(EngineServices services)
         glm::vec3(0.0f, 1.0f, 1.0f), 2.0f, 0.09f, 0.032f));
     lights.push_back(scene->GetSceneServices().lightFactory->GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), 
         glm::vec3(0.0f, 0.0f, 1.0f), 3.0f, 0.09f, 0.032f));
-    lights.push_back(scene->GetSceneServices().lightFactory->GetAmbientLight(glm::vec3(1.0f, 0.0f, 0.0f), 0.1f));//glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
-    // lights.push_back(scene->GetSceneServices().lightFactory->GetDirectionalLight(
-    //     glm::vec3(0.6f, 0.7f, 1.0f),
-    //     glm::vec3(-0.3f, -1.0f, -0.5f), 
-    //     0.025f 
-    // ));
+    lights.push_back(scene->GetSceneServices().lightFactory->GetAmbientLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.1f));//glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
+    lights.push_back(scene->GetSceneServices().lightFactory->GetDirectionalLight(
+        glm::vec3(1.0f, 1.0f, 1.0f),
+        glm::vec3(-1.0f, 0.0f, 0.0f), 
+        0.1f 
+    ));
 
     scene->Init(objects, std::move(lights));
 
@@ -183,22 +181,20 @@ std::shared_ptr<Scene> SceneManager::GetSolarSystemScene(EngineServices services
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
     auto earthModel = scene->GetEngineServices().meshFactory->LoadFromFile("./Models/Earth.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
-        "./bin/shaders/fragmentShaderEarth.frag");
+        "./bin/shaders/fragment/other/fragmentShaderEarth.frag");
     
     earthModel->GetMesh(0)->GetMaterial()->AddColorTexture(scene->GetEngineServices().textureFactory->GetTexture("./Models/2k_earth_nightmap.jpg"));
 
     renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/Sun.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
-        "./bin/shaders/fragmentShaderMeshConstant.frag"));
+        "./bin/shaders/fragment/const/fragmentShaderMeshConstant.frag"));
 
     renderTargets.push_back(earthModel);    
 
     renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/Moon.obj"));  
     renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/Login.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
-        "./bin/shaders/fragmentShaderMeshConstant.frag" ));  
+        "./bin/shaders/fragment/const/fragmentShaderMeshConstant.frag" ));  
 
     std::vector<std::shared_ptr<GameObject>> objects;
-
-
     auto sun = scene->GetSceneServices().gameObjectFactory->GetGameObject("Sun", renderTargets[0]);
 
     std::shared_ptr<Transform> sunTransform = std::make_shared<Transform>();
@@ -226,6 +222,12 @@ std::shared_ptr<Scene> SceneManager::GetSolarSystemScene(EngineServices services
     login->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(4.0f, 0.0f, 0.0f)));
     login->transform->AddBasicTransform(std::make_shared<Scale>(glm::vec3(0.25f)));
 
+    // login->transform->AddBasicTransform(sunTransform);
+    // login->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(4.0f, 0.0f, 0.0f)));
+    // login->transform->AddBasicTransform(std::make_shared<DynamicRotation>(0, glm::vec3(0.0, 1.0, 0.0), -2.0f));
+    // login->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(2.0f, 0.0f, 0.0f)));
+    // login->transform->AddBasicTransform(std::make_shared<Scale>(glm::vec3(0.125f)));
+
     objects.push_back(std::shared_ptr<GameObject>(sun));
     objects.push_back(std::shared_ptr<GameObject>(earth));
     objects.push_back(std::shared_ptr<GameObject>(moon));
@@ -249,7 +251,7 @@ std::shared_ptr<Scene> SceneManager::GetWhacAMoleScene(EngineServices services)
 
     renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/WhacAMole.obj"));
     renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/Headcrab.obj", GlobalConfig::GetDefaultMeshVertexShaderPath(),
-        "./bin/shaders/fragmentShaderMeshConstant.frag"));
+        "./bin/shaders/fragment/const/fragmentShaderMeshConstant.frag"));
 
     renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/crowbar.obj"));
     std::vector<std::shared_ptr<GameObject>> objects;

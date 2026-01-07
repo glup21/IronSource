@@ -24,4 +24,9 @@ public:
 
     void AddColorTexture(std::shared_ptr<Texture> texture);
     void SetNormalTexture(std::shared_ptr<Texture> texture);
+
+    void SetAmbient(glm::vec3 ambient);
+    void SetDiffuse(glm::vec3 diffuse);
+    void SetSpecular(glm::vec3 specular);
+    void SetShininess(float shininess);
 };

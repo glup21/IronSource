@@ -10,7 +10,7 @@ Firefly::Firefly(Transform* transform, float distance, glm::vec3 color, float in
 {
     // Mesh
     this->renderTarget = std::shared_ptr<SimpleMesh>(scene->GetEngineServices().meshFactory->LoadSphere(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
-        "./bin/shaders/fragmentShaderFirefly.frag"));
+        "./bin/shaders/fragment/const/fragmentShaderFirefly.frag"));
     // Light
     this->light = scene->GetSceneServices().lightFactory->GetPointLight(transform, color, intensity, k_l, k_q);
 

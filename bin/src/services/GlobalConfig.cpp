@@ -2,23 +2,44 @@
 
 std::string GlobalConfig::GetDefaultSimpleMeshVertexShaderPath() 
 {
-    return "./bin/shaders/vertexShaderSimpleMesh.vert";
+    return "./bin/shaders/vertex/vertexShaderSimpleMesh.vert";
 }
 
 std::string GlobalConfig::GetDefaultMeshVertexShaderPath() 
 {
-    return "./bin/shaders/vertexShaderMesh.vert";
+    return "./bin/shaders/vertex/vertexShaderMesh.vert";
 }
 
-std::string GlobalConfig::GetDefaultMeshFragmentShaderPath() 
+/*
+    static std::string GetDefaultMeshFragmentPhongShaderPath();
+    static std::string GetDefaultSimpleMeshFragmentPhongShaderPath();
+    // Blinn
+    static std::string GetDefaultMeshFragmentBlinnShaderPath();
+    static std::string GetDefaultSimpleMeshFragmentBlinnShaderPath();
+*/
+
+//Phong
+std::string GlobalConfig::GetDefaultMeshFragmentPhongShaderPath() 
 {
-    return "./bin/shaders/fragmentShaderMesh.frag";
+    return "./bin/shaders/fragment/mesh/fragmentShaderMeshPhong.frag";
 }
 
-std::string GlobalConfig::GetDefaultSimpleMeshFragmentShaderPath() 
+std::string GlobalConfig::GetDefaultSimpleMeshFragmentPhongShaderPath() 
 {
-    return "./bin/shaders/fragmentShaderSimpleMesh.frag";
+    return "./bin/shaders/fragment/simplemesh/fragmentShaderSimpleMeshPhong.frag";
 }
+
+// Blinn
+std::string GlobalConfig::GetDefaultMeshFragmentBlinnShaderPath() 
+{
+    return "./bin/shaders/fragment/mesh/fragmentShaderMeshBlinn.frag";
+}
+
+std::string GlobalConfig::GetDefaultSimpleMeshFragmentBlinnShaderPath() 
+{
+    return "./bin/shaders/fragment/simple/fragmentShaderSimpleMeshBlinn.frag";
+}
+
 
 std::string GlobalConfig::GetModelsPath()
 {
@@ -45,10 +66,10 @@ std::vector<std::string> GlobalConfig::GetDefaultSkyboxFaces()
 }
 std::string GlobalConfig::GetDefaultSkyboxVertexShaderPath()
 {
-    return "./bin/shaders/vertexShaderSkybox.vert";
+    return "./bin/shaders/vertex/vertexShaderSkybox.vert";
 }
 
 std::string GlobalConfig::GetDefaultSkyboxFragmentShaderPath()
 {
-    return "./bin/shaders/fragmentShaderSkybox.frag";
+    return "./bin/shaders/fragment/other/fragmentShaderSkybox.frag";
 }
