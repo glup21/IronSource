@@ -17,8 +17,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             case GLFW_KEY_1:
             {
                 spdlog::info("Switching scenes: One Polygon Scene");
-                LightFactory::GetInstance().ResetLightCount();
                 std::shared_ptr<Scene> scene = SceneManager::GetOnePolygonScene();
+                scene->lightFactory.ResetLightCount();
                 app->SwitchScene(scene);
                 appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
                 scene->GetCamera()->ResizeViewport(window);
@@ -27,8 +27,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             case GLFW_KEY_2:
             {
                 spdlog::info("Switching scenes: Four Spheres Scene");
-                LightFactory::GetInstance().ResetLightCount();
                 std::shared_ptr<Scene> scene = SceneManager::GetFourSpheresScene();
+                scene->lightFactory.ResetLightCount();
                 app->SwitchScene(scene);
                 appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
                 scene->GetCamera()->ResizeViewport(window);
@@ -37,8 +37,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             case GLFW_KEY_3:
             {
                 spdlog::info("Switching scenes: Forest Scene");
-                LightFactory::GetInstance().ResetLightCount();
                 std::shared_ptr<Scene> scene = SceneManager::GetForestScene();
+                scene->lightFactory.ResetLightCount();
                 app->SwitchScene(scene);
                 appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
                 scene->GetCamera()->ResizeViewport(window);
@@ -47,8 +47,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             case GLFW_KEY_4:
             {
                 spdlog::info("Switching scenes: Solar System Scene");
-                LightFactory::GetInstance().ResetLightCount();
                 std::shared_ptr<Scene> scene = SceneManager::GetSolarSystemScene();
+                scene->lightFactory.ResetLightCount();
                 app->SwitchScene(scene);
                 appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
                 scene->GetCamera()->ResizeViewport(window);
@@ -57,8 +57,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             case GLFW_KEY_5:
             {
                 spdlog::info("Switching scenes: Whac A Mole Scene");
-                LightFactory::GetInstance().ResetLightCount();
                 std::shared_ptr<Scene> scene = SceneManager::GetWhacAMoleScene();
+                scene->lightFactory.ResetLightCount();
                 app->SwitchScene(scene);
                 appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
                 scene->GetCamera()->ResizeViewport(window);
@@ -67,8 +67,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             case GLFW_KEY_6:
             {
                 spdlog::info("Switching scenes: Racing Scene");
-                LightFactory::GetInstance().ResetLightCount();
                 std::shared_ptr<Scene> scene = SceneManager::GetRacingScene();
+                scene->lightFactory.ResetLightCount();
                 app->SwitchScene(scene);
                 appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
                 scene->GetCamera()->ResizeViewport(window);
@@ -77,8 +77,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             case GLFW_KEY_7:
             {
                 spdlog::info("Switching scenes: Bezier");
-                LightFactory::GetInstance().ResetLightCount();
                 std::shared_ptr<Scene> scene = SceneManager::GetBezierScene();
+                scene->lightFactory.ResetLightCount();
                 app->SwitchScene(scene);
                 appContext->shaderLibrary->RegisterCamera(scene->GetCamera());
                 scene->GetCamera()->ResizeViewport(window);

@@ -68,10 +68,13 @@ void ShaderLibrary::ResetShaderPrograms()
     }
 }
 
-void ShaderLibrary::UpdateLightCounts()
+void ShaderLibrary::UpdateLightCounts(        int ambientLightCount,
+        int pointLightCount,
+        int directionalLightCount,
+        int spotLightCount)
 {
     for (auto pair : this->shaderPrograms)
     {
-        pair.second->SendLightCounts();
+        pair.second->SendLightCounts(ambientLightCount, pointLightCount, directionalLightCount, spotLightCount);
     }
 }

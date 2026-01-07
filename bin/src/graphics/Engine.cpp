@@ -44,7 +44,12 @@ void Engine::Run()
         }
 
         appContext->scene->GetCamera()->ProcessInput(appContext->window, deltaTime);
-        appContext->shaderLibrary->UpdateLightCounts();
+        appContext->shaderLibrary->UpdateLightCounts(
+            appContext->scene->lightFactory.ambientLightCount,
+            appContext->scene->lightFactory.pointLightCount,
+            appContext->scene->lightFactory.directionalLightCount,
+            appContext->scene->lightFactory.spotLightCount        
+        );
 
         glfwSwapBuffers(appContext->window);
         glfwPollEvents();

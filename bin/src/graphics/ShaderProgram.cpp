@@ -129,7 +129,7 @@ void ShaderProgram::SetUniform(std::string name, bool value)
     if (uniformLoc < 0)
     {
         //DEBUG
-        // spdlog::critical("Failed to find uniform (float) in shader program: {}", name);
+        //spdlog::critical("Failed to find uniform (bool) in shader program: {}", name);
         // glfwTerminate();
         // exit(EXIT_FAILURE);
         return;
@@ -229,11 +229,14 @@ void ShaderProgram::Reset()
     ambientLightCount = pointLightCount = directionalLightCount = spotLightCount = 0;
 }
 
-void ShaderProgram::SendLightCounts() 
+void ShaderProgram::SendLightCounts(
+        int ambientLightCount,
+        int pointLightCount,
+        int directionalLightCount,
+        int spotLightCount) 
 {
-    auto lightFactory = LightFactory::GetInstance();
-    SetUniform("numAmbientLights", lightFactory.ambientLightCount);
-    SetUniform("numPointLights", lightFactory.pointLightCount);
-    SetUniform("numDirectionalLights", lightFactory.directionalLightCount);
-    SetUniform("numSpotLights", lightFactory.spotLightCount);
+    SetUniform("numAmbientLights", ambientLightCount);
+    SetUniform("numPointLights", pointLightCount);
+    SetUniform("numDirectionalLights", directionalLightCount);
+    SetUniform("numSpotLights", spotLightCount);
 }

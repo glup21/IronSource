@@ -42,5 +42,8 @@ public:
 
     void Update(Subject* caller) override;
     void Reset();
-    void SendLightCounts();
+    void SendLightCounts(        int ambientLightCount,
+        int pointLightCount,
+        int directionalLightCount,
+        int spotLightCount);
 };

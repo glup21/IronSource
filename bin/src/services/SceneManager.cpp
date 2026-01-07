@@ -73,9 +73,9 @@ std::shared_ptr<Scene> SceneManager::GetFourSpheresScene()
 
     std::vector<std::unique_ptr<Light>> lights;
 
-    lights.push_back(LightFactory::GetInstance().GetPointLight(new Transform(), 
+    lights.push_back(scene->lightFactory.GetPointLight(new Transform(), 
         glm::vec3(1.0f), 2.0f, 0.09f, 0.032f));
-    //lights.push_back(LightFactory::GetInstance().GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
+    //lights.push_back(scene->lightFactory.GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
 
     scene->SetGameObjects(gameObjects);
     scene->SetLights(std::move(lights));
@@ -160,21 +160,20 @@ std::shared_ptr<Scene> SceneManager::GetForestScene()
     }
 
     std::vector<std::unique_ptr<Light>> lights;
-    lights.push_back(LightFactory::GetInstance().GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(35.0f, 15.0f, 5.0f))}), 
+    lights.push_back(scene->lightFactory.GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(35.0f, 15.0f, 5.0f))}), 
         glm::vec3(1.0f, 0.0f, 0.0f), 1.0f, 0.09f, 0.032f));
-    lights.push_back(LightFactory::GetInstance().GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(-25.0f, 10.0f, -5.0f))}), 
+    lights.push_back(scene->lightFactory.GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(-25.0f, 10.0f, -5.0f))}), 
         glm::vec3(0.0f, 1.0f, 1.0f), 2.0f, 0.09f, 0.032f));
-    lights.push_back(LightFactory::GetInstance().GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), 
+    lights.push_back(scene->lightFactory.GetPointLight(new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}), 
         glm::vec3(0.0f, 0.0f, 1.0f), 3.0f, 0.09f, 0.032f));
-    lights.push_back(LightFactory::GetInstance().GetAmbientLight(glm::vec3(1.0f, 0.0f, 0.0f), 0.1f));//glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
-    // lights.push_back(LightFactory::GetInstance().GetDirectionalLight(
+    lights.push_back(scene->lightFactory.GetAmbientLight(glm::vec3(1.0f, 0.0f, 0.0f), 0.1f));//glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
+    // lights.push_back(scene->lightFactory.GetDirectionalLight(
     //     glm::vec3(0.6f, 0.7f, 1.0f),
     //     glm::vec3(-0.3f, -1.0f, -0.5f), 
     //     0.025f 
     // ));
 
-    scene->SetGameObjects(objects);
-    scene->SetLights(std::move(lights));
+    scene->Init(objects, std::move(lights));
 
     return scene;
 }
@@ -236,11 +235,10 @@ std::shared_ptr<Scene> SceneManager::GetSolarSystemScene()
 
     std::vector<std::unique_ptr<Light>> lights;
     auto pointLightPosition = new Transform(std::vector<IBasicTransform*>{sunPosition.get()});
-    lights.push_back(LightFactory::GetInstance().GetPointLight(pointLightPosition, glm::vec3(1.0f, 1.0f, 1.0f), 5.0f, 0.00001f, 0.00001f));
-    lights.push_back(LightFactory::GetInstance().GetAmbientLight(glm::vec3(1.0f), 0.1f));
+    lights.push_back(scene->lightFactory.GetPointLight(pointLightPosition, glm::vec3(1.0f, 1.0f, 1.0f), 5.0f, 0.00001f, 0.00001f));
+    lights.push_back(scene->lightFactory.GetAmbientLight(glm::vec3(1.0f), 0.1f));
 
-    scene->SetGameObjects(objects);
-    scene->SetLights(std::move(lights));
+    scene->Init(objects, std::move(lights));
 
     return scene;
 }
@@ -301,7 +299,7 @@ std::shared_ptr<Scene> SceneManager::GetWhacAMoleScene()
     objects.push_back(shrek);
 
     std::vector<std::unique_ptr<Light>> lights;
-    lights.push_back(LightFactory::GetInstance().GetAmbientLight(glm::vec3(1.0f), 1.0f));
+    lights.push_back(scene->lightFactory.GetAmbientLight(glm::vec3(1.0f), 1.0f));
 
     
     return scene;
@@ -452,10 +450,9 @@ std::shared_ptr<Scene> SceneManager::GetRacingScene()
     objects.push_back(car);
 
     std::vector<std::unique_ptr<Light>> lights;
-    lights.push_back(LightFactory::GetInstance().GetAmbientLight(glm::vec3(1.0f), 2.0f));
+    lights.push_back(scene->lightFactory.GetAmbientLight(glm::vec3(1.0f), 2.0f));
 
-    scene->SetGameObjects(objects);
-    scene->SetLights(std::move(lights));
+    scene->Init(objects, std::move(lights));
 
     return scene;
 }
@@ -486,15 +483,14 @@ std::shared_ptr<Scene> SceneManager::GetBezierScene()
     objects.push_back(car);
 
     std::vector<std::unique_ptr<Light>> lights;
-    lights.push_back(LightFactory::GetInstance().GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
-    lights.push_back(LightFactory::GetInstance().GetDirectionalLight(
+    lights.push_back(scene->lightFactory.GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
+    lights.push_back(scene->lightFactory.GetDirectionalLight(
         glm::vec3(0.6f, 0.7f, 1.0f),
         glm::vec3(-0.3f, -1.0f, -0.5f), 
         1.0f 
     ));
 
-    scene->SetGameObjects(objects);
-    scene->SetLights(std::move(lights));
+    scene->Init(objects, std::move(lights));
 
     return scene;
 }

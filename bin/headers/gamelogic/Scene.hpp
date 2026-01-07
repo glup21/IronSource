@@ -11,16 +11,20 @@
 
 class Scene
 {
+public:
+    LightFactory lightFactory;
+    GameObjectFactory gameObjectFactory;
+
 private:
     std::vector<std::shared_ptr<GameObject>> gameObjects;
     std::vector<std::unique_ptr<Light>> lights;
     std::unique_ptr<Camera> camera;
 
 public:
-    GameObjectFactory gameObjectFactory;
-
     Scene();
     ~Scene();
+
+    void Init(std::vector<std::shared_ptr<GameObject>> gameObjects, std::vector<std::unique_ptr<Light>> lights);
 
     std::vector<std::shared_ptr<GameObject>>* GetGameObjects();
     std::vector<Light*>* GetLights();

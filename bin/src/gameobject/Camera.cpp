@@ -7,17 +7,22 @@
 #include "headers/core/Application.hpp"
 #include "headers/services/GameObjectFactory.hpp"
 #include "headers/services/MeshFactory.hpp"
+#include "headers/gamelogic/Scene.hpp"
 
-Camera::Camera() : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 2.0f, 2.0f), up(0.0f, 1.0f, 0.0f), speed(25.0f)
+Camera::Camera(Scene* scene) : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 2.0f, 2.0f), up(0.0f, 1.0f, 0.0f), speed(25.0f), scene(scene)
 {
     forward = glm::normalize(forward);
     pitch = 90.0f;
     yaw = -90.0f;
 
+}
+
+void Camera::Init()
+{
     Transform* flashlightTransform = new Transform();
     flashlightTransform->SetLocalPosition(eye);
 
-    flashLight = LightFactory::GetInstance().GetSpotLight(
+    flashLight = scene->lightFactory.GetSpotLight(
         flashlightTransform,
         glm::vec3(1.0f, 1.0f, 1.0f),
         5.0f,

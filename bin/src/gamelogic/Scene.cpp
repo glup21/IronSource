@@ -16,10 +16,19 @@ Scene::~Scene()
 
 }
 
-Scene::Scene() : gameObjectFactory(this) 
+Scene::Scene() : gameObjectFactory(this), lightFactory()
 {
-    camera = std::make_unique<Camera>();
+
+}
+
+void Scene::Init(std::vector<std::shared_ptr<GameObject>> gameObjects, std::vector<std::unique_ptr<Light>> lights)
+{
+    camera = std::make_unique<Camera>(this);
     camera->SetSkybox(MeshFactory::GetInstance().GetSkybox());
+
+    camera->Init();
+    this->gameObjects = gameObjects;
+    this->lights = std::move(lights);
 }
 
 std::vector<std::shared_ptr<GameObject>>* Scene::GetGameObjects()

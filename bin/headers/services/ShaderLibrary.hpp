@@ -27,5 +27,10 @@ public:
     void RegisterLight(Light* light);
 
     void ResetShaderPrograms();
-    void UpdateLightCounts();
+    void UpdateLightCounts(
+        int ambientLightCount,
+        int pointLightCount,
+        int directionalLightCount,
+        int spotLightCount
+    );
 };

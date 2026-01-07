@@ -3,15 +3,16 @@
 #include "headers/services/LightFactory.hpp"
 #include <spdlog/spdlog.h>
 #include "headers/services/GlobalConfig.hpp"
+#include "headers/gamelogic/Scene.hpp"
 
-Firefly::Firefly(Transform* transform, float distance, glm::vec3 color, float intensity, float k_l, float k_q, float speed, int id) 
+Firefly::Firefly(Transform* transform, float distance, glm::vec3 color, float intensity, float k_l, float k_q, float speed, int id, Scene* scene) 
     : GameObject(std::string("Firefly"), transform, id), distance(distance), speed(speed)
 {
     // Mesh
     this->renderTarget = std::shared_ptr<SimpleMesh>(MeshFactory::GetInstance().LoadSphere(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
         "./bin/shaders/fragmentShaderFirefly.frag"));
     // Light
-    this->light = LightFactory::GetInstance().GetPointLight(transform, color, intensity, k_l, k_q);
+    this->light = scene->lightFactory.GetPointLight(transform, color, intensity, k_l, k_q);
 
     this->transform->SetLocalScale(glm::vec3(0.05));
 }

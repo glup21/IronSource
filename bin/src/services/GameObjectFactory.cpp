@@ -38,7 +38,7 @@ std::shared_ptr<GameObject> GameObjectFactory::GetGameObject(std::string name, T
 
 std::shared_ptr<Firefly> GameObjectFactory::GetFireFly(Transform* transform, float distance, glm::vec3 color, float intensity, float k_l, float k_q, float speed)
 {
-    std::shared_ptr<Firefly> gameObject = std::make_shared<Firefly>(transform, distance, color, intensity, k_l, k_q, speed, nextId);
+    std::shared_ptr<Firefly> gameObject = std::make_shared<Firefly>(transform, distance, color, intensity, k_l, k_q, speed, nextId, scene);
     nextId++;
 
     gameObjects.push_back(gameObject);

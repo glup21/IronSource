@@ -5,6 +5,7 @@
 #include "headers/pch.hpp"
 
 class Skybox;
+class Scene;
 class Camera : public Subject
 {
 private:
@@ -32,10 +33,14 @@ private:
     std::vector<glm::vec3> points;
     std::shared_ptr<BezierSplineTransform> bezier;
 
+    Scene* scene;
+
     void NotifyAll() override;
 public:
-    Camera();
+    Camera(Scene* scene);
     ~Camera() = default;
+
+    void Init();
 
     glm::mat4 GetProjectionMatrix();
     glm::mat4 GetViewMatrix();
