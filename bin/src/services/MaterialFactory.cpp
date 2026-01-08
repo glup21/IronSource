@@ -34,11 +34,11 @@ std::shared_ptr<Material> MaterialFactory::GetMaterialFromMtl(const tinyobj::mat
         glm::vec3(material.ambient[0], material.ambient[1], material.ambient[2]),
         glm::vec3(material.diffuse[0], material.diffuse[1], material.diffuse[2]),
         glm::vec3(material.specular[0], material.specular[1], material.specular[2]),
-        material.shininess
+        material.shininess/10
     );
 
     std::string colorTexturePath = parentFolder + "/" + material.diffuse_texname;
-    if (!std::filesystem::exists(colorTexturePath)) 
+    if (!std::filesystem::exists(colorTexturePath) || std::filesystem::is_directory(colorTexturePath)) 
     {
         colorTexturePath = GlobalConfig::GetDefaultTexturePath();
     }

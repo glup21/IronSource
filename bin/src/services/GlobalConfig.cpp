@@ -40,7 +40,7 @@ std::string GlobalConfig::GetModelsPath()
 
 std::string GlobalConfig::GetDefaultTexturePath()
 {
-    return "./Models/default_texture.png";
+    return "./Models/White.jpg";
 }
 
 std::vector<std::string> GlobalConfig::GetDefaultSkyboxFaces()

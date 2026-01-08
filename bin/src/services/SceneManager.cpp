@@ -274,9 +274,27 @@ std::shared_ptr<Scene> SceneManager::GetForestScene(EngineServices services)
     }
 
     //auto plane = scene->GetSceneServices().gameObjectFactory->GetGameObject("plain", renderTargets[2]);
+    auto plane = scene->GetSceneServices().gameObjectFactory->GetGameObject("plain", 
+        scene->GetEngineServices().meshFactory->LoadFromFile("./Models/grass.obj"));
     plane->transform->SetLocalPosition(glm::vec3(0.0f, -0.01f, 0.0f));
     plane->transform->SetLocalScale(glm::vec3(50.0f, 1.0f, 50.0f));
     objects.push_back(plane);
+
+    auto shrekMesh = scene->GetEngineServices().meshFactory->LoadFromFile("./Models/shrek.obj");
+    shrekMesh->GetMesh(0)->GetMaterial()->SetShininess(2);
+    auto shrek = scene->GetSceneServices().gameObjectFactory->GetGameObject("plain", shrekMesh);
+
+    shrek->transform->SetLocalPosition(glm::vec3(0.0f, -0.01f, 0.0f));
+    shrek->transform->SetLocalScale(glm::vec3(7.0f));
+    objects.push_back(shrek);
+
+    auto fionaMesh = scene->GetEngineServices().meshFactory->LoadFromFile("./Models/fiona.obj");
+    fionaMesh->GetMesh(0)->GetMaterial()->SetShininess(2);
+    auto fiona = scene->GetSceneServices().gameObjectFactory->GetGameObject("plain", fionaMesh);
+
+    fiona->transform->SetLocalPosition(glm::vec3(10.0f, -0.01f, 0.0f));
+    fiona->transform->SetLocalScale(glm::vec3(7.0f));
+    objects.push_back(fiona);
 
     std::uniform_real_distribution<float> posDist(-10.0f, 10.0f);
     std::uniform_real_distribution<float> heightDist(9.0f, 12.0f);
@@ -371,10 +389,10 @@ std::shared_ptr<Scene> SceneManager::GetSolarSystemScene(EngineServices services
     moon->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(2.0f, 0.0f, 0.0f)));
     moon->transform->AddBasicTransform(std::make_shared<Scale>(glm::vec3(0.125f)));
 
-    auto login = scene->GetSceneServices().gameObjectFactory->GetGameObject("Login", renderTargets[3]);
-    login->transform->AddBasicTransform(earthTransform);
-    login->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(4.0f, 0.0f, 0.0f)));
-    login->transform->AddBasicTransform(std::make_shared<Scale>(glm::vec3(0.25f)));
+    // auto login = scene->GetSceneServices().gameObjectFactory->GetGameObject("Login", renderTargets[3]);
+    // login->transform->AddBasicTransform(earthTransform);
+    // login->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(4.0f, 0.0f, 0.0f)));
+    // login->transform->AddBasicTransform(std::make_shared<Scale>(glm::vec3(0.25f)));
 
     // login->transform->AddBasicTransform(sunTransform);
     // login->transform->AddBasicTransform(std::make_shared<Translation>(glm::vec3(4.0f, 0.0f, 0.0f)));
@@ -385,7 +403,7 @@ std::shared_ptr<Scene> SceneManager::GetSolarSystemScene(EngineServices services
     objects.push_back(std::shared_ptr<GameObject>(sun));
     objects.push_back(std::shared_ptr<GameObject>(earth));
     objects.push_back(std::shared_ptr<GameObject>(moon));
-    objects.push_back(std::shared_ptr<GameObject>(login));
+    //objects.push_back(std::shared_ptr<GameObject>(login));
 
     std::vector<std::unique_ptr<Light>> lights;
     auto pointLightPosition = new Transform(std::vector<IBasicTransform*>{sunPosition.get()});
@@ -467,7 +485,7 @@ std::shared_ptr<Scene> SceneManager::GetRacingScene(EngineServices services)
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
     renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/Racing/gp.obj"));
-    renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/Car/Untitled.obj"));
+    renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/ferrari.obj"));
 
     std::vector<std::shared_ptr<GameObject>> objects;
     auto racingRoad = scene->GetSceneServices().gameObjectFactory->GetGameObject("Racing", renderTargets[0]);
@@ -624,7 +642,7 @@ std::shared_ptr<Scene> SceneManager::GetBezierScene(EngineServices services)
     {
         renderTargets.push_back(mesh); 
     }
-    renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/shrek.obj"));
+    renderTargets.push_back(scene->GetEngineServices().meshFactory->LoadFromFile("./Models/ferrari.obj"));
     std::vector<std::shared_ptr<GameObject>> objects;
 
     auto plane = scene->GetSceneServices().gameObjectFactory->GetGameObject("plain", renderTargets[2]);
@@ -633,7 +651,7 @@ std::shared_ptr<Scene> SceneManager::GetBezierScene(EngineServices services)
     objects.push_back(std::shared_ptr<GameObject>(plane));
 
     auto car = scene->GetSceneServices().gameObjectFactory->GetGameObject("Car", renderTargets[meshes.size() ]);
-    car->transform->SetLocalScale(glm::vec3(2.0f));
+    car->transform->SetLocalScale(glm::vec3(1.0f));
 
     objects.push_back(car);
 

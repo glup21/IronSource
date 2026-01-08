@@ -16,10 +16,10 @@ public:
     // By default returns material for SimpleMesh
     std::shared_ptr<Material> GetMaterial(
         std::string vertexShaderPath = GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
-        std::string fragmentShaderPath = GlobalConfig::GetDefaultSimpleMeshFragmentPhongShaderPath());
+        std::string fragmentShaderPath = GlobalConfig::GetDefaultSimpleMeshFragmentBlinnShaderPath());
 
     std::shared_ptr<Material> GetMaterialFromMtl(const tinyobj::material_t& material,
         std::string parentFolder,
         std::string vertexShaderPath = GlobalConfig::GetDefaultMeshVertexShaderPath(),
-        std::string fragmentShaderPath = GlobalConfig::GetDefaultMeshFragmentPhongShaderPath());
+        std::string fragmentShaderPath = GlobalConfig::GetDefaultMeshFragmentBlinnShaderPath());
 };
