@@ -274,8 +274,13 @@ std::shared_ptr<Scene> SceneManager::GetForestScene(EngineServices services)
     }
 
     //auto plane = scene->GetSceneServices().gameObjectFactory->GetGameObject("plain", renderTargets[2]);
+    // auto plane = scene->GetSceneServices().gameObjectFactory->GetGameObject("plain", 
+    //     scene->GetEngineServices().meshFactory->LoadFromFile("./Models/grass.obj"));
+
+    auto texture = scene->GetEngineServices().textureFactory->GetTexture("./Models/grass.png");
     auto plane = scene->GetSceneServices().gameObjectFactory->GetGameObject("plain", 
-        scene->GetEngineServices().meshFactory->LoadFromFile("./Models/grass.obj"));
+        scene->GetEngineServices().meshFactory->GetPlain(texture));
+
     plane->transform->SetLocalPosition(glm::vec3(0.0f, -0.01f, 0.0f));
     plane->transform->SetLocalScale(glm::vec3(50.0f, 1.0f, 50.0f));
     objects.push_back(plane);

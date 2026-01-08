@@ -181,6 +181,34 @@ std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels(st
     return meshes;
 }
 
+std::shared_ptr<TextSimpleMesh> MeshFactory::GetPlain(std::shared_ptr<Texture> texture)
+{
+    std::vector<glm::vec3> positions;
+    std::vector<glm::vec3> normals;
+    std::vector<glm::vec2> uv;
+
+    int vertexCount = 48;
+
+    positions.reserve(vertexCount / 8);
+    normals.reserve(vertexCount / 8);
+    uv.reserve(vertexCount / 8);
+
+    for (size_t i = 0; i < vertexCount; i += 8)
+    {
+        positions.emplace_back(plain_uv[i], plain_uv[i + 1], plain_uv[i + 2]);
+        normals.emplace_back(plain_uv[i + 3], plain_uv[i + 4], plain_uv[i + 5]);
+        uv.emplace_back(plain_uv[i + 6], plain_uv[i + 7]);
+    }
+    std::shared_ptr<Material> material = materialFactory->GetMaterial(
+        GlobalConfig::GetDefaultMeshVertexShaderPath(),
+        GlobalConfig::GetDefaultMeshFragmentPhongShaderPath());
+
+    material->AddColorTexture(texture);
+    auto res = std::make_shared<TextSimpleMesh>(positions, normals, uv, material);
+
+    return res;
+}
+
 std::shared_ptr<Model> MeshFactory::LoadFromFile(std::string filePath, std::string vertexShaderPath, std::string fragmentShaderPath)
 {
     spdlog::info("Trying to find a model in cache");

@@ -13,6 +13,7 @@
 #include "headers/graphics/SimpleMesh.hpp"
 #include "headers/graphics/Model.hpp"
 #include "headers/graphics/Skybox.hpp"
+#include "headers/graphics/TextSimpleMesh.hpp"
 
 #include <vector>
 #include <string>
@@ -49,6 +50,8 @@ public:
     std::shared_ptr<Model> LoadFromFile(std::string fileName,
         std::string vertexShaderPath = GlobalConfig::GetDefaultMeshVertexShaderPath(),
         std::string fragmentShaderPath = GlobalConfig::GetDefaultMeshFragmentPhongShaderPath());
+
+    std::shared_ptr<TextSimpleMesh> GetPlain(std::shared_ptr<Texture>  texture);
 
     Skybox* GetSkybox();
 };
