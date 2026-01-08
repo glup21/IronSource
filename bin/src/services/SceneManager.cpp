@@ -281,7 +281,8 @@ std::shared_ptr<Scene> SceneManager::GetForestScene(EngineServices services)
     objects.push_back(plane);
 
     auto shrekMesh = scene->GetEngineServices().meshFactory->LoadFromFile("./Models/shrek.obj");
-    shrekMesh->GetMesh(0)->GetMaterial()->SetShininess(2);
+    shrekMesh->GetMesh(0)->GetMaterial()->SetShininess(64);
+    shrekMesh->GetMesh(0)->GetMaterial()->SetSpecular(glm::vec3(1.0f, 0.0f, 1.0f) * 2.0f );
     auto shrek = scene->GetSceneServices().gameObjectFactory->GetGameObject("plain", shrekMesh);
 
     shrek->transform->SetLocalPosition(glm::vec3(0.0f, -0.01f, 0.0f));
@@ -340,6 +341,15 @@ std::shared_ptr<Scene> SceneManager::GetForestScene(EngineServices services)
         glm::vec3(-1.0f, 0.0f, 0.0f), 
         0.1f 
     ));
+
+    lights.push_back(scene->GetSceneServices().lightFactory->GetSpotLight(
+        new Transform(std::vector<IBasicTransform*>{new Translation(glm::vec3(0.0f, 10.0f, 0.0f))}),
+        glm::vec3(1.0f, 0.0f, 1.0f),
+        20.0f,
+        0.09f, 0.032f,
+        glm::vec3(0.0f, 0.0f, 1.0f),
+        30.0f,
+        30.0f));
 
     scene->Init(objects, std::move(lights));
 
@@ -441,35 +451,6 @@ std::shared_ptr<Scene> SceneManager::GetWhacAMoleScene(EngineServices services)
     crowbar->transform->AddBasicTransform(std::make_shared<CurvedTranslation>(glm::vec3(0.0f), 1, 1.0f));
     objects.push_back(crowbar);
 
-    auto shrek = scene->GetSceneServices().gameObjectFactory->GetGameObject("Shrek", renderTargets[3]);
-    shrek->transform->SetLocalPosition({0.0f, 3.0f, -5.0f});
-    shrek->transform->SetLocalScale(glm::vec3(1.0f));
-
-    std::vector<glm::vec3> path =
-    {
-        { -1.0000f,  0.0000f, -0.0000f }, // Control point
-        { -1.0315f, -0.7293f, -0.0000f }, // Handle LEFT
-        { -0.9695f,  0.7054f, -0.0000f }, // Handle RIGHT
-
-        {  1.0000f,  0.0000f, -0.0000f },
-        {  1.1835f, -0.8823f, -0.0000f },
-        {  0.8109f,  0.9096f, -0.0000f },
-
-        { 0.9712f, 1.2836f, 0.0000f },
-        { 0.0622f, 1.2817f, 0.0000f },
-        { 1.9461f, 1.2856f, 0.0000f },
-
-        { 1.7982f, -0.3968f, -0.4020f },
-        { 1.5226f,  0.1633f, -0.2680f },
-        { 2.0739f, -0.9569f, -0.5361f },
-    };
-
-
-    shrek->transform->AddBasicTransform(
-        std::make_shared<BezierSplineTransform>(path, 0.2f));
-
-    objects.push_back(shrek);
-
     std::vector<std::unique_ptr<Light>> lights;
     lights.push_back(scene->GetSceneServices().lightFactory->GetAmbientLight(glm::vec3(1.0f), 1.0f));
 
@@ -497,125 +478,88 @@ std::shared_ptr<Scene> SceneManager::GetRacingScene(EngineServices services)
     car->transform->SetLocalScale(glm::vec3(2.0f));
 
     std::vector<glm::vec3> points = {
-        {-1.0000f, 0.0f, 0.0000f},
-        {-1.5000f, 0.0f, 0.0000f},
-        {-0.5000f, 0.0f, 0.0000f},
+        { -1.0000f, 0.0000f, 46.0048f },  // Anchor
+        { -1.5000f, 0.0000f, 46.0048f },  // Left Handle
+        { -0.5000f, 0.0000f, 46.0048f },  // Right Handle
+        { 1.0000f, 0.0000f, 46.0048f },  // Anchor
+        { 0.0000f, 0.0000f, 46.0048f },  // Left Handle
+        { 2.0000f, 0.0000f, 46.0048f },  // Right Handle
+        { 23.9278f, 0.0000f, 46.0048f },  // Anchor
+        { 24.2367f, 0.0000f, 46.0048f },  // Left Handle
+        { 23.6188f, 0.0000f, 46.0048f },  // Right Handle
+        { 21.7260f, 0.0000f, 46.0048f },  // Anchor
+        { 17.9956f, 0.0000f, 46.0048f },  // Left Handle
+        { 24.1037f, 0.0000f, 46.0048f },  // Right Handle
+        { 25.5387f, 0.0000f, 46.0048f },  // Anchor
+        { 23.5782f, 0.0000f, 46.0048f },  // Left Handle
+        { 42.0905f, 0.0000f, 46.0048f },  // Right Handle
+        { 110.6565f, 0.0000f, 46.0048f },  // Anchor
+        { 81.4212f, 0.0000f, 46.0048f },  // Left Handle
+        { 113.1906f, 0.0000f, 46.0048f },  // Right Handle
+        { 117.0931f, 0.0000f, 46.0048f },  // Anchor
+        { 115.7509f, 0.0000f, 46.0048f },  // Left Handle
+        { 122.8519f, 0.0000f, 46.0048f },  // Right Handle
+        { 113.5364f, 0.0000f, 46.0048f },  // Anchor
+        { 122.7443f, 0.0000f, 46.0048f },  // Left Handle
+        { 111.7625f, 0.0000f, 46.0048f },  // Right Handle
+        { 108.4696f, 0.0000f, 46.0048f },  // Anchor
+        { 109.5585f, 0.0000f, 46.0048f },  // Left Handle
+        { 102.7001f, 0.0000f, 46.0048f },  // Right Handle
+        { 62.5367f, 0.0000f, 46.0048f },  // Anchor
+        { 72.7493f, 0.0000f, 46.0048f },  // Left Handle
+        { 60.9441f, 0.0000f, 46.0048f },  // Right Handle
+        { 59.8751f, 0.0000f, 46.0048f },  // Anchor
+        { 60.7501f, 0.0000f, 46.0048f },  // Left Handle
+        { 56.8119f, 0.0000f, 46.0048f },  // Right Handle
+        { 66.2124f, 0.0000f, 46.0048f },  // Anchor
+        { 61.0998f, 0.0000f, 46.0048f },  // Left Handle
+        { 71.4579f, 0.0000f, 46.0048f },  // Right Handle
+        { 87.4834f, 0.0000f, 46.0048f },  // Anchor
+        { 81.9872f, 0.0000f, 46.0048f },  // Left Handle
+        { 95.7475f, 0.0000f, 46.0048f },  // Right Handle
+        { 122.9937f, 0.0000f, 46.0048f },  // Anchor
+        { 117.0266f, 0.0000f, 46.0048f },  // Left Handle
+        { 129.9873f, 0.0000f, 46.0048f },  // Right Handle
+        { 160.3668f, 0.0000f, 46.0048f },  // Anchor
+        { 155.1203f, 0.0000f, 46.0048f },  // Left Handle
+        { 171.7043f, 0.0000f, 46.0048f },  // Right Handle
+        { 196.1642f, 0.0000f, 46.0048f },  // Anchor
+        { 175.2697f, 0.0000f, 46.0048f },  // Left Handle
+        { 208.5069f, 0.0000f, 46.0048f },  // Right Handle
+        { 266.6294f, 0.0000f, 46.0048f },  // Anchor
+        { 254.9850f, 0.0000f, 46.0048f },  // Left Handle
+        { 276.9738f, 0.0000f, 46.0048f },  // Right Handle
+        { 277.9765f, 0.0000f, 46.0048f },  // Anchor
+        { 274.1156f, 0.0000f, 46.0048f },  // Left Handle
+        { 283.8063f, 0.0000f, 46.0048f },  // Right Handle
+        { 263.5479f, 0.0000f, 46.0048f },  // Anchor
+        { 278.2399f, 0.0000f, 46.0048f },  // Left Handle
+        { 254.4257f, 0.0000f, 46.0048f },  // Right Handle
+        { 231.6154f, 0.0000f, 46.0048f },  // Anchor
+        { 242.1528f, 0.0000f, 46.0048f },  // Left Handle
+        { 225.2226f, 0.0000f, 46.0048f },  // Right Handle
+        { 193.1917f, 0.0000f, 46.0048f },  // Anchor
+        { 199.2716f, 0.0000f, 46.0048f },  // Left Handle
+        { 180.1416f, 0.0000f, 46.0048f },  // Right Handle
+        { 106.2995f, 0.0000f, 46.0048f },  // Anchor
+        { 118.2448f, 0.0000f, 46.0048f },  // Left Handle
+        { 94.4388f, 0.0000f, 46.0048f },  // Right Handle
+        { 65.7002f, 0.0000f, 46.0048f },  // Anchor
+        { 77.7224f, 0.0000f, 46.0048f },  // Left Handle
+        { 61.6315f, 0.0000f, 46.0048f },  // Right Handle
+        { 46.8705f, 0.0000f, 46.0048f },  // Anchor
+        { 50.2955f, 0.0000f, 46.0048f },  // Left Handle
+        { 44.7705f, 0.0000f, 46.0048f },  // Right Handle
+        { 36.3112f, 0.0000f, 46.0048f },  // Anchor
+        { 37.7159f, 0.0000f, 46.0048f },  // Left Handle
+        { 34.4492f, 0.0000f, 46.0048f },  // Right Handle
+        { 27.1402f, 0.0000f, 46.0048f },  // Anchor
+        { 29.9344f, 0.0000f, 46.0048f },  // Left Handle
+        { 24.8146f, 0.0000f, 46.0048f },  // Right Handle
+        { 22.4471f, 0.0000f, 46.0048f },  // Anchor
+        { 24.0169f, 0.0000f, 46.0048f },  // Left Handle
+        { 20.8772f, 0.0000f, 46.0048f },  // Right Handle
 
-        {1.0000f, 0.0f, 0.0000f},
-        {0.0000f, 0.0f, 0.0000f},
-        {2.0000f, 0.0f, 0.0000f},
-
-        {-2.7021f, 0.0f, -0.0778f},
-        {-0.0820f, 0.0f, 0.1377f},
-        {-5.3222f, 0.0f, -0.2932f},
-
-        {-14.1975f, 0.0f, -0.7580f},
-        {-12.4807f, 0.0f, -1.8427f},
-        {-18.5180f, 0.0f, 1.9717f},
-
-        {-33.9178f, 0.0f, -0.7623f},
-        {-29.6267f, 0.0f, -3.3122f},
-        {-45.3594f, 0.0f, 6.0368f},
-
-        {-90.4967f, 0.0f, -0.5267f},
-        {-74.1399f, 0.0f, -7.5856f},
-        {-98.1000f, 0.0f, 2.7546f},
-
-        {-124.8200f, 0.0f, 0.1598f},
-        {-117.5200f, 0.0f, -2.9195f},
-        {-132.6367f, 0.0f, 3.4571f},
-
-        {-144.5949f, 0.0f, -1.2005f},
-        {-144.1417f, 0.0f, -2.0989f},
-        {-144.6700f, 0.0f, -1.0517f},
-
-        {-134.8671f, 0.0f, 0.0496f},
-        {-137.8262f, 0.0f, 0.9374f},
-        {-128.1568f, 0.0f, -1.9638f},
-
-        {-90.7427f, 0.0f, -0.7970f},
-        {-97.3963f, 0.0f, 1.4098f},
-        {-83.8675f, 0.0f, -3.0774f},
-
-        {-65.8677f, 0.0f, -0.0831f},
-        {-71.3416f, 0.0f, -0.8252f},
-        {-61.7659f, 0.0f, 0.4730f},
-
-        {-63.9821f, 0.0f, -0.0386f},
-        {-59.2863f, 0.0f, -2.2722f},
-        {-67.3640f, 0.0f, 1.5700f},
-
-        {-83.7610f, 0.0f, -1.0543f},
-        {-79.9601f, 0.0f, -2.4329f},
-        {-96.8070f, 0.0f, 3.6776f},
-
-        {-141.3524f, 0.0f, -0.5923f},
-        {-129.1272f, 0.0f, -4.4936f},
-        {-146.9824f, 0.0f, 1.2043f},
-
-        {-164.4589f, 0.0f, -1.0275f},
-        {-159.8462f, 0.0f, -3.0221f},
-        {-172.7358f, 0.0f, 2.5517f},
-
-        {-169.5144f, 0.0f, -1.0494f},
-        {-169.2276f, 0.0f, -0.5790f},
-        {-169.9998f, 0.0f, -1.8457f},
-
-        {-145.7054f, 0.0f, -1.1124f},
-        {-163.5978f, 0.0f, -2.5843f},
-        {-138.9315f, 0.0f, -0.5551f},
-
-        {-125.2594f, 0.0f, -0.2538f},
-        {-132.3335f, 0.0f, 2.0272f},
-        {-109.2652f, 0.0f, -5.4113f},
-
-        {-31.3218f, 0.0f, -0.5317f},
-        {-46.9226f, 0.0f, 5.7066f},
-        {-28.9376f, 0.0f, -1.4851f},
-
-        {-15.1054f, 0.0f, -0.4058f},
-        {-16.7166f, 0.0f, -1.3350f},
-        {-10.2646f, 0.0f, 2.3861f},
-
-        {6.9189f, 0.0f, -0.6972f},
-        {1.3071f, 0.0f, -1.2485f},
-        {20.2232f, 0.0f, 0.6098f},
-
-        {60.2647f, 0.0f, -0.7345f},
-        {47.6281f, 0.0f, 3.0735f},
-        {65.6241f, 0.0f, -2.3496f},
-
-        {86.5528f, 0.0f, -0.1852f},
-        {81.9425f, 0.0f, 2.1598f},
-        {90.2686f, 0.0f, -2.0751f},
-
-        {97.0321f, 0.0f, -0.2718f},
-        {97.5796f, 0.0f, 0.3885f},
-        {96.6629f, 0.0f, -0.7171f},
-
-        {99.1138f, 0.0f, -0.3322f},
-        {98.5474f, 0.0f, -0.5037f},
-        {102.5618f, 0.0f, 0.7118f},
-
-        {79.1959f, 0.0f, -0.7362f},
-        {92.0682f, 0.0f, 0.0239f},
-        {75.1223f, 0.0f, -0.9767f},
-
-        {58.6171f, 0.0f, -0.4535f},
-        {64.0189f, 0.0f, -0.0094f},
-        {50.7144f, 0.0f, -1.1031f},
-
-        {25.5166f, 0.0f, 0.0256f},
-        {34.1591f, 0.0f, 0.8750f},
-        {17.6552f, 0.0f, -0.7470f},
-
-        {0.7101f, 0.0f, -0.3158f},
-        {5.4651f, 0.0f, 0.3953f},
-        {-1.5762f, 0.0f, -0.6577f},
-
-        {-6.3939f, 0.0f, 0.2674f},
-        {-2.9377f, 0.0f, 0.5517f},
-        {-9.8500f, 0.0f, -0.0170f},
     };
 
     car->transform->AddBasicTransform(

@@ -24,11 +24,11 @@ void Camera::Init()
     flashLight = scene->GetSceneServices().lightFactory->GetSpotLight(
         flashlightTransform,
         glm::vec3(1.0f, 1.0f, 1.0f),
-        2.0f,
+        1.0f,
         0.09f,
         0.032f,
         forward,
-        12.0f,
+        15.0f,
         17.0f
     );
     flashLight->SetEnabled(false);
@@ -159,7 +159,7 @@ void Camera::ProcessInput(GLFWwindow* window, float deltaTime)
             // newTree->transform->SetLocalPosition(pos);
             // appContext->scene->AddGameObject(newTree);
 
-            //appContext->scene->DeleteGameObject(id);
+            //scene->DeleteGameObject(id);
 
             auto newTree = scene->GetSceneServices().gameObjectFactory->GetGameObject(
                     "newTree",

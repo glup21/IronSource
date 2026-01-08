@@ -218,7 +218,7 @@ void ShaderProgram::HandleDirectionalLight(DirectionalLight* directionalLight)
 void ShaderProgram::HandleSpotLight(SpotLight* spotLight)
 {
     SetUniform("spotLights[" + std::to_string(spotLightCount) + "].enabled", spotLight->IsEnabled());
-    SetUniform("spotLights[" + std::to_string(spotLightCount) + "].position", spotLight->transform->GetLocalPosition());
+    SetUniform("spotLights[" + std::to_string(spotLightCount) + "].position", glm::vec3(spotLight->transform->GetTransformMatrix()[3]));
     SetUniform("spotLights[" + std::to_string(spotLightCount) + "].direction", spotLight->GetDirection());
 
     SetUniform("spotLights[" + std::to_string(spotLightCount) + "].color", spotLight->GetColor());

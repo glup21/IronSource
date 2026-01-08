@@ -136,13 +136,13 @@ void main()
             if(dotLF > light.outerCutOff)
             {
                 // Normalization Formula xn = ( x - Min )/( Max - Min )
-                float intensityFactor = (dotLF - light.outerCutOff)/(light.cutOff - light.outerCutOff );
+                float intensityFactor = clamp((dotLF - light.outerCutOff)/(light.cutOff - light.outerCutOff ), 0.0, 1.0);
                 vec3 diffuse = diff * light.color * light.intensity * attenuation * intensityFactor * materialDiffuse;
                 vec3 specular = vec3(0.0f); 
                 if(diff > 0.0f)
                 {
                     float spec = pow(max(dot(V, R), 0.0), materialShininess);
-                    specular = spec * light.color * attenuation  * materialSpecular;
+                    specular = spec * light.color * attenuation  * materialSpecular * intensityFactor;
                 } 
                 result += diffuse + specular;
             }
