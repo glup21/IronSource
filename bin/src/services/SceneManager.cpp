@@ -30,13 +30,13 @@ std::shared_ptr<Scene> SceneManager::GetOnePolygonScene(EngineServices services)
             {-0.5f, -0.5f, 0.0f} },
         std::vector<glm::vec3>{ {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} },
         std::vector<glm::vec3>{ {1.0f, 0, 0}, {0, 1.0f, 0}, {0, 0, 1.0f} },
-        services.materialFactory->GetMaterial()
+        services.materialFactory->GetMaterial(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
+            "./bin/shaders/fragment/const/fragmentShaderSimpleMeshConstant.frag")
     );
     
     auto object = scene->GetSceneServices().gameObjectFactory->GetGameObject("firstMesh", firstMesh);
 
     object->transform->SetLocalPosition({0, 0, -3.0f});
-    object->transform->AddBasicTransform(std::make_shared<DynamicRotation>(0, glm::vec3(0.0, 0.0, 1.0), 10.0f));
     object->transform->SetLocalScale(glm::vec3(10.0f));
 
     scene->Init(std::vector<std::shared_ptr<GameObject>>{object});
@@ -46,12 +46,13 @@ std::shared_ptr<Scene> SceneManager::GetOnePolygonScene(EngineServices services)
 
 std::shared_ptr<Scene> SceneManager::GetFourSpheresScene(EngineServices services)
 {
-    //auto sphereMesh = scene->GetEngineServices().meshFactory->LoadSphere();
+    
     auto scene = std::make_shared<Scene>(services);
+    auto sphereMesh = scene->GetEngineServices().meshFactory->LoadSphere();
 
-    auto sphereMesh = scene->GetEngineServices().meshFactory->LoadFromFile("./Models/Moon.obj");
-    sphereMesh->GetMesh(0)->GetMaterial()->SetShininess(64);
-    //sphereMesh->GetMesh(0)->GetMaterial()->SetDiffuse({1.0f, 0.0f, 0.0f});
+    //auto sphereMesh = scene->GetEngineServices().meshFactory->LoadFromFile("./Models/Moon.obj");
+    sphereMesh->GetMaterial()->SetShininess(24);
+    sphereMesh->GetMaterial()->SetDiffuse({0.51f, 0.78f, 0.90f});
 
     auto objects = std::vector<std::shared_ptr<GameObject>>{
             scene->GetSceneServices().gameObjectFactory->GetGameObject("firstSphere", sphereMesh),
@@ -65,16 +66,16 @@ std::shared_ptr<Scene> SceneManager::GetFourSpheresScene(EngineServices services
     {
         gameObject->transform->SetLocalScale(glm::vec3(0.25f));
     }
-    objects[0]->transform->SetLocalPosition({1.0, 0.0, 0.0});
-    objects[1]->transform->SetLocalPosition({0.0, 1.0, 0.0});
-    objects[2]->transform->SetLocalPosition({-1.0, 0.0, 0.0});
-    objects[3]->transform->SetLocalPosition({0.0, -1.0, 0.0});
+    objects[0]->transform->SetLocalPosition({0.75, 0.0, 0.0});
+    objects[1]->transform->SetLocalPosition({0.0, 0.75, 0.0});
+    objects[2]->transform->SetLocalPosition({-0.75, 0.0, 0.0});
+    objects[3]->transform->SetLocalPosition({0.0, -0.75, 0.0});
 
     std::vector<std::unique_ptr<Light>> lights;
 
     lights.push_back(scene->GetSceneServices().lightFactory->GetPointLight(new Transform(), 
         glm::vec3(1.0f), 2.0f, 0.09f, 0.032f));
-    //lights.push_back(scene->GetSceneServices().lightFactory->GetAmbientLight(glm::vec3(0.05f, 0.05f, 0.1f), 0.1f));
+    lights.push_back(scene->GetSceneServices().lightFactory->GetAmbientLight(glm::vec3(1.0f), 0.1f));
     scene->Init(objects, std::move(lights));
     return scene;
 }

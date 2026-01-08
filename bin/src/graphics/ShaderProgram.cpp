@@ -85,6 +85,23 @@ void ShaderProgram::SetUniform(std::string name, glm::vec3 vec)
     //spdlog::debug("Set uniform (vec3): {} = {}", name, glm::to_string(vec));
 }
 
+void ShaderProgram::SetUniform(std::string name, glm::vec2 vec)
+{
+    glUseProgram(this->shaderProgramId);
+
+    GLint uniformLoc = glGetUniformLocation(this->shaderProgramId, name.c_str());
+    if (uniformLoc < 0)
+    {
+        // DEBUG
+        // spdlog::critical("Failed to find uniform (vec3) in shader program: {}", name);
+        // glfwTerminate();
+        // exit(EXIT_FAILURE);
+    }
+
+    glUniform2fv(uniformLoc, 1, &vec[0]);
+    //spdlog::debug("Set uniform (vec3): {} = {}", name, glm::to_string(vec));
+}
+
 void ShaderProgram::SetUniform(std::string name, float value)
 {
     glUseProgram(this->shaderProgramId);
@@ -137,6 +154,7 @@ void ShaderProgram::SetUniform(std::string name, bool value)
 
     glUniform1i(uniformLoc, value);
     // spdlog::debug("Set uniform (float): {} = {}", name, value);
+    
 }
 
 void ShaderProgram::Update(Subject* caller)
@@ -177,8 +195,7 @@ void ShaderProgram::HandlePointLight(PointLight* pointLight)
 
     SetUniform("pointLights[" + std::to_string(pointLightCount) + "].position", pointLight->GetPosition());
     
-    SetUniform("pointLights[" + std::to_string(pointLightCount) + "].k_l", pointLight->GetLinear());
-    SetUniform("pointLights[" + std::to_string(pointLightCount) + "].k_q", pointLight->GetQuadratic());
+    SetUniform("pointLights[" + std::to_string(pointLightCount) + "].attenuation", glm::vec2{ pointLight->GetLinear(), pointLight->GetQuadratic()});
 
     pointLightCount++;  
 }
@@ -208,8 +225,9 @@ void ShaderProgram::HandleSpotLight(SpotLight* spotLight)
 
     SetUniform("spotLights[" + std::to_string(spotLightCount) + "].intensity", spotLight->GetIntensity());
     
-    SetUniform("spotLights[" + std::to_string(spotLightCount) + "].k_l", spotLight->GetLinear());
-    SetUniform("spotLights[" + std::to_string(spotLightCount) + "].k_q", spotLight->GetQuadratic());
+    // SetUniform("spotLights[" + std::to_string(spotLightCount) + "].k_l", spotLight->GetLinear());
+    // SetUniform("spotLights[" + std::to_string(spotLightCount) + "].k_q", spotLight->GetQuadratic());
+    SetUniform("spotLights[" + std::to_string(spotLightCount) + "].attenuation", glm::vec2{ spotLight->GetQuadratic(), spotLight->GetQuadratic()});
 
     SetUniform("spotLights[" + std::to_string(spotLightCount) + "].cutOff", (float)cos(glm::radians(spotLight->GetCutOff())));
     SetUniform("spotLights[" + std::to_string(spotLightCount) + "].outerCutOff", (float)cos(glm::radians(spotLight->GetOuterCutOff())));

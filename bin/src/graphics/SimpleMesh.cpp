@@ -51,3 +51,7 @@ void SimpleMesh::Render(glm::mat4 transformMatrix)
     glBindVertexArray(0);
 }
 
+Material* SimpleMesh::GetMaterial()
+{
+    return material.get();
+}

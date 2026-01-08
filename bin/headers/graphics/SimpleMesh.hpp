@@ -26,7 +26,8 @@ public:
     ~SimpleMesh() = default;
 
     void Render(glm::mat4 transformMatrix);
-
+    Material* GetMaterial();
+    
 private:
     vector<SimpleVertex> vertices;
     std::shared_ptr<Material> material;

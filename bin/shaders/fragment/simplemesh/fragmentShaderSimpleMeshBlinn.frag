@@ -17,9 +17,7 @@ struct PointLight
     float intensity;
 
     vec3 position;
-    float k_l;
-
-    float k_q;
+    vec2 attenuation;
 };
 
 struct DirectionalLight
@@ -38,8 +36,7 @@ struct SpotLight
     vec3 color;
     float intensity;
 
-    float k_l;
-    float k_q;
+    vec2 attenuation;
 
     float cutOff;      
     float outerCutOff; 
@@ -90,10 +87,10 @@ void main()
         float spec = pow(max(dot(N, H), 0.0), materialShininess);
 
         float distance = length(light.position - fragPos);
-        float attenuation = 1.0 / (1.0 + light.k_l * distance + light.k_q * distance * distance);
+        float attenuation = 1.0 / (1.0 + light.attenuation.x * distance + light.attenuation.y * distance * distance);
 
         vec3 diffuse = diff * light.color * light.intensity * attenuation * materialDiffuse;
-        vec3 specular = spec * light.color * 0.5 * attenuation * materialSpecular;
+        vec3 specular = spec * light.color  * attenuation * materialSpecular;
 
         result += diffuse + specular;
     }
@@ -109,7 +106,7 @@ void main()
         float spec = pow(max(dot(N, H), 0.0), materialShininess);
 
         vec3 diffuse = diff * light.color * light.intensity * materialDiffuse;
-        vec3 specular = spec * light.color * 0.5 * materialSpecular;
+        vec3 specular = spec * light.color  * materialSpecular;
 
         result += diffuse + specular;
     }
@@ -125,7 +122,7 @@ void main()
             float spec = pow(max(dot(N, H), 0.0), materialShininess);
 
             float distance = length(light.position - fragPos);
-            float attenuation = 1.0 / (1.0 + light.k_l * distance + light.k_q * distance * distance);
+            float attenuation = 1.0 / (1.0 + light.attenuation.x * distance + light.attenuation.y * distance * distance);
 
             float dotLF = dot(normalize(-L), normalize(light.direction));
 
@@ -135,7 +132,7 @@ void main()
                 float intensityFactor = (dotLF - light.outerCutOff)/(light.cutOff - light.outerCutOff );
 
                 vec3 diffuse = diff * light.color * light.intensity * attenuation * intensityFactor * materialDiffuse;
-                vec3 specular = spec * light.color * 0.5 * attenuation * intensityFactor * materialSpecular;
+                vec3 specular = spec * light.color  * attenuation * intensityFactor * materialSpecular;
 
                 result += diffuse + specular;
             }

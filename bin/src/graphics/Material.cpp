@@ -5,7 +5,8 @@ Material::Material(std::shared_ptr<ShaderProgram> shaderProgram, glm::vec3 ambie
     : shaderProgram(shaderProgram), ambient(ambient), diffuse(diffuse), specular(specular),
       shininess(shininess)
 {
-    // this->specular = glm::vec3(0.0f, 0.0f, 1.0f);
+     //this->diffuse = glm::vec3(0.0f, 0.0f, 1.0f);
+     this->shininess = 128;
 }
 
 void Material::Use()

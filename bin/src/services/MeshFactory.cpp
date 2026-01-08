@@ -14,18 +14,19 @@ MeshFactory::MeshFactory(MaterialFactory* materialFactory, ShaderLibrary* shader
 std::shared_ptr<SimpleMesh> MeshFactory::LoadSphere(std::string vertexShaderPath, std::string fragmentShaderPath)
 {
     std::vector<glm::vec3> positions;
-    std::vector<glm::vec3> colors;
+    std::vector<glm::vec3> normals;
+    std::vector<glm::vec3> colors(17280 / 6, glm::vec3(1.0f));
 
     positions.reserve(17280 / 6);
-    colors.reserve(17280 / 6);
+    normals.reserve(17280 / 6);
 
     for (size_t i = 0; i < 17280; i += 6)
     {
         positions.emplace_back(sphere[i], sphere[i + 1], sphere[i + 2]);
-        colors.emplace_back(sphere[i + 3], sphere[i + 4], sphere[i + 5]);
+        normals.emplace_back(sphere[i + 3], sphere[i + 4], sphere[i + 5]);
     }
 
-    auto mesh = std::make_shared<SimpleMesh>(positions, colors, colors, materialFactory->GetMaterial(vertexShaderPath, fragmentShaderPath));
+    auto mesh = std::make_shared<SimpleMesh>(positions, colors, normals, materialFactory->GetMaterial(vertexShaderPath, fragmentShaderPath));
     return mesh;
 }
 

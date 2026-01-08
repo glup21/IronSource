@@ -14,7 +14,6 @@ Camera::Camera(Scene* scene) : forward(0.0f, 0.0f, -1.0f), eye(0.0f, 2.0f, 2.0f)
     forward = glm::normalize(forward);
     pitch = 90.0f;
     yaw = -90.0f;
-
 }
 
 void Camera::Init()
