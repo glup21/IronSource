@@ -53,8 +53,13 @@ std::shared_ptr<SimpleMesh> MeshFactory::LoadTree()
     return mesh;
 }
 
-std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels()
+std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels(std::shared_ptr<Material> material)
 {
+    if(material == nullptr)
+    {
+        material = materialFactory->GetMaterial();
+    }
+
     std::vector<std::shared_ptr<SimpleMesh>> meshes;
     std::vector<glm::vec3> positions;
     std::vector<glm::vec3> colors;
@@ -74,7 +79,7 @@ std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(bushes[i + 3], bushes[i + 4], bushes[i + 5]);
     }
 
-    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, materialFactory->GetMaterial()));
+    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, material));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -92,7 +97,7 @@ std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(gift[i + 3], gift[i + 4], gift[i + 5]);
     }
 
-    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, materialFactory->GetMaterial()));
+    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, material));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -111,7 +116,7 @@ std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(plain[i + 3], plain[i + 4], plain[i + 5]);
     }
 
-    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, materialFactory->GetMaterial()));
+    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, material));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -130,7 +135,7 @@ std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(suziFlat[i + 3], suziFlat[i + 4], suziFlat[i + 5]);
     }
 
-    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, materialFactory->GetMaterial()));
+    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, material));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -149,7 +154,7 @@ std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(suziSmooth[i + 3], suziSmooth[i + 4], suziSmooth[i + 5]);
     }
 
-    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, materialFactory->GetMaterial()));
+    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, material));
     positions.clear();
     colors.clear();
     normals.clear();
@@ -168,7 +173,7 @@ std::vector<std::shared_ptr<SimpleMesh>> MeshFactory::LoadAllPredefinedModels()
         normals.emplace_back(tree[i + 3], tree[i + 4], tree[i + 5]);
     }
 
-    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, materialFactory->GetMaterial()));
+    meshes.push_back(std::make_shared<SimpleMesh>(positions, colors, normals, material));
     positions.clear();
     colors.clear();
     normals.clear();

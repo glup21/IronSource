@@ -77,6 +77,15 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
                 scene->GetCamera()->ResizeViewport(window);
                 break;
             }
+            case GLFW_KEY_8:
+            {
+                spdlog::info("Switching scenes: Different shaders");
+                std::shared_ptr<Scene> scene = SceneManager::GetDifferentShadersScene(engine->GetServices());
+                app->SwitchScene(scene);
+                engine->GetServices().shaderLibrary->RegisterCamera(scene->GetCamera());
+                scene->GetCamera()->ResizeViewport(window);
+                break;
+            }
             default:
                 break;
         }

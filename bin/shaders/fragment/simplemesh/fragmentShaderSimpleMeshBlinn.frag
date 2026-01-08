@@ -106,7 +106,7 @@ void main()
         float spec = pow(max(dot(N, H), 0.0), materialShininess);
 
         vec3 diffuse = diff * light.color * light.intensity * materialDiffuse;
-        vec3 specular = spec * light.color  * materialSpecular;
+        vec3 specular = spec * light.color  * materialSpecular * 0.1;
 
         result += diffuse + specular;
     }

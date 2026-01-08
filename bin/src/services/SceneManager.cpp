@@ -80,6 +80,154 @@ std::shared_ptr<Scene> SceneManager::GetFourSpheresScene(EngineServices services
     return scene;
 }
 
+std::shared_ptr<Scene> SceneManager::GetDifferentShadersScene(EngineServices services)
+{
+
+    // Bushes 0
+    // Gift 1
+    // Plain 2
+    // Suzi flat 3
+    // Suzi smooth 4
+    // Tree 5
+    // Sphere 6
+
+    auto scene = std::make_shared<Scene>(services);
+    auto lambertMeshes = scene->GetEngineServices().meshFactory->LoadAllPredefinedModels(
+        scene->GetEngineServices().materialFactory->GetMaterial(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
+        "./bin/shaders/fragment/simplemesh/fragmentShaderSimpleMeshLambert.frag"));
+    lambertMeshes.push_back(scene->GetEngineServices().meshFactory->LoadSphere(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
+        "./bin/shaders/fragment/simplemesh/fragmentShaderSimpleMeshLambert.frag"));
+
+    auto constMeshes = scene->GetEngineServices().meshFactory->LoadAllPredefinedModels(
+        scene->GetEngineServices().materialFactory->GetMaterial(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
+        "./bin/shaders/fragment/const/fragmentShaderSimpleMeshConstant.frag"));
+    constMeshes.push_back(scene->GetEngineServices().meshFactory->LoadSphere(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
+        "./bin/shaders/fragment/const/fragmentShaderSimpleMeshConstant.frag"));
+
+    auto phongMeshes = scene->GetEngineServices().meshFactory->LoadAllPredefinedModels(
+        scene->GetEngineServices().materialFactory->GetMaterial(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
+        "./bin/shaders/fragment/simplemesh/fragmentShaderSimpleMeshPhong.frag"));
+    phongMeshes.push_back(scene->GetEngineServices().meshFactory->LoadSphere(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
+        "./bin/shaders/fragment/simplemesh/fragmentShaderSimpleMeshPhong.frag"));
+
+    auto blinnMeshes = scene->GetEngineServices().meshFactory->LoadAllPredefinedModels(
+        scene->GetEngineServices().materialFactory->GetMaterial(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
+        "./bin/shaders/fragment/simplemesh/fragmentShaderSimpleMeshBlinn.frag"));
+    blinnMeshes.push_back(scene->GetEngineServices().meshFactory->LoadSphere(GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
+        "./bin/shaders/fragment/simplemesh/fragmentShaderSimpleMeshBlinn.frag"));
+
+    auto objects = std::vector<std::shared_ptr<GameObject>>{
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("firstSphere", lambertMeshes[2]),
+        // Lambert
+
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("firstSphere", lambertMeshes[0]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("secondSphere", lambertMeshes[1]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("thirdSphere", lambertMeshes[3]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("forthSphere", lambertMeshes[4]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("secondSphere", lambertMeshes[5]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("thirdSphere", lambertMeshes[6]),
+
+        // Const
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("firstSphere", constMeshes[0]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("secondSphere", constMeshes[1]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("thirdSphere", constMeshes[3]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("forthSphere", constMeshes[4]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("secondSphere", constMeshes[5]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("thirdSphere", constMeshes[6]),
+
+        // Phong
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("firstSphere", phongMeshes[0]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("secondSphere", phongMeshes[1]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("thirdSphere", phongMeshes[3]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("forthSphere", phongMeshes[4]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("secondSphere", phongMeshes[5]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("thirdSphere", phongMeshes[6]),
+
+        // Blinn
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("firstSphere", blinnMeshes[0]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("secondSphere", blinnMeshes[1]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("thirdSphere", blinnMeshes[3]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("forthSphere", blinnMeshes[4]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("secondSphere", blinnMeshes[5]),
+        scene->GetSceneServices().gameObjectFactory->GetGameObject("thirdSphere", blinnMeshes[6])
+    };
+
+
+    for(auto gameObject : objects)
+    {
+        gameObject->transform->SetLocalScale(glm::vec3(0.25f));
+    }
+
+    objects[0]->transform->SetLocalScale(glm::vec3(20.0f));
+
+    // Lambert
+    objects[1]->transform->SetLocalPosition({0.0, 0.0, 0.0});
+    objects[2]->transform->SetLocalPosition({3, 0.0, 0.0});
+    objects[3]->transform->SetLocalPosition({6, 0, 0.0});
+    objects[4]->transform->SetLocalPosition({9, 0, 0.0});
+    objects[5]->transform->SetLocalPosition({12, 0, 0.0});
+    objects[6]->transform->SetLocalPosition({15, 0, 0.0});
+
+    objects[1]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[2]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[3]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[4]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[5]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[6]->transform->SetLocalScale(glm::vec3(1.0f));
+
+    // Const
+    objects[7]->transform->SetLocalPosition({0.0, 0.0, 5.0});
+    objects[8]->transform->SetLocalPosition({3, 0.0, 5.0});
+    objects[9]->transform->SetLocalPosition({6, 0, 5.0});
+    objects[10]->transform->SetLocalPosition({9, 0, 5.0});
+    objects[11]->transform->SetLocalPosition({12, 0, 5.0});
+    objects[12]->transform->SetLocalPosition({15, 0, 5.0});
+
+    objects[7]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[8]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[9]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[10]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[11]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[12]->transform->SetLocalScale(glm::vec3(1.0f));
+
+    // Phong
+    objects[13]->transform->SetLocalPosition({0.0, 0.0, 10.0});
+    objects[14]->transform->SetLocalPosition({3, 0.0, 10.0});
+    objects[15]->transform->SetLocalPosition({6, 0, 10.0});
+    objects[16]->transform->SetLocalPosition({9, 0, 10.0});
+    objects[17]->transform->SetLocalPosition({12, 0, 10.0});
+    objects[18]->transform->SetLocalPosition({15, 0, 10.0});
+
+    objects[13]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[14]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[15]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[16]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[17]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[18]->transform->SetLocalScale(glm::vec3(1.0f));
+
+    // Blinn
+    objects[19]->transform->SetLocalPosition({0.0, 0.0, 15.0});
+    objects[20]->transform->SetLocalPosition({3, 0.0, 15.0});
+    objects[21]->transform->SetLocalPosition({6, 0, 15.0});
+    objects[22]->transform->SetLocalPosition({9, 0, 15.0});
+    objects[23]->transform->SetLocalPosition({12, 0, 15.0});
+    objects[24]->transform->SetLocalPosition({15, 0, 15.0});
+
+    objects[19]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[20]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[21]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[22]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[23]->transform->SetLocalScale(glm::vec3(1.0f));
+    objects[24]->transform->SetLocalScale(glm::vec3(1.0f));
+
+    std::vector<std::unique_ptr<Light>> lights;
+
+    lights.push_back(scene->GetSceneServices().lightFactory->GetAmbientLight(glm::vec3(1.0f), 0.5f));
+    scene->Init(objects, std::move(lights));
+    return scene;
+}
+
+
 std::shared_ptr<Scene> SceneManager::GetForestScene(EngineServices services)
 {
     auto scene = std::make_shared<Scene>(services);
@@ -87,6 +235,11 @@ std::shared_ptr<Scene> SceneManager::GetForestScene(EngineServices services)
     std::vector<std::shared_ptr<IRenderTarget>> renderTargets;
 
     std::vector<std::shared_ptr<SimpleMesh>> meshes = scene->GetEngineServices().meshFactory->LoadAllPredefinedModels();
+    for(auto mesh : meshes)
+    {
+        mesh->GetMaterial()->SetShininess(2);
+    }
+
     renderTargets.reserve(meshes.size() + 1);  
     for (auto& mesh : meshes)
     {
@@ -120,19 +273,19 @@ std::shared_ptr<Scene> SceneManager::GetForestScene(EngineServices services)
         objects.push_back(bush);
     }
 
-    auto plane = scene->GetSceneServices().gameObjectFactory->GetGameObject("plain", renderTargets[2]);
+    //auto plane = scene->GetSceneServices().gameObjectFactory->GetGameObject("plain", renderTargets[2]);
     plane->transform->SetLocalPosition(glm::vec3(0.0f, -0.01f, 0.0f));
     plane->transform->SetLocalScale(glm::vec3(50.0f, 1.0f, 50.0f));
     objects.push_back(plane);
 
     std::uniform_real_distribution<float> posDist(-10.0f, 10.0f);
     std::uniform_real_distribution<float> heightDist(9.0f, 12.0f);
-    std::uniform_real_distribution<float> intensityDist(0.5f, 0.75f);
-    std::uniform_real_distribution<float> klDist(0.2f, 0.4f);
-    std::uniform_real_distribution<float> kqDist(0.08f, 0.15f);
+    std::uniform_real_distribution<float> intensityDist(0.25f, 0.5f);
+    std::uniform_real_distribution<float> klDist(0.3f, 0.5f);
+    std::uniform_real_distribution<float> kqDist(0.15f, 0.25f);
     std::uniform_real_distribution<float> colorShift(0.8f, 1.0f);
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 10; i++)
     {
         auto fireflyTransform = new Transform();
         fireflyTransform->SetLocalPosition(glm::vec3(posDist(gen), heightDist(gen), posDist(gen)));

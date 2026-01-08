@@ -93,7 +93,7 @@ void main()
         if(diff > 0.0f)
         {
             float spec = pow(max(dot(V, R), 0.0), materialShininess);
-            specular = spec * light.color * attenuation * 3.0f * materialSpecular;
+            specular = spec * light.color * attenuation * materialSpecular;
         } 
 
         result += diffuse + specular;
@@ -113,7 +113,7 @@ void main()
         if(diff > 0.0f)
         {
             float spec = pow(max(dot(V, R), 0.0), materialShininess);
-            specular = spec * light.color  * materialSpecular;
+            specular = spec * light.color  * materialSpecular * 0.1;
         } 
 
         result += diffuse + specular;

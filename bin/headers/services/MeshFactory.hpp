@@ -41,7 +41,7 @@ private:
 public:
     MeshFactory(MaterialFactory* materialFactory, ShaderLibrary* shaderLibrary);
 
-    std::vector<std::shared_ptr<SimpleMesh>> LoadAllPredefinedModels();
+    std::vector<std::shared_ptr<SimpleMesh>> LoadAllPredefinedModels(std::shared_ptr<Material> material = nullptr);
     std::shared_ptr<SimpleMesh> LoadSphere(
         std::string vertexShaderPath = GlobalConfig::GetDefaultSimpleMeshVertexShaderPath(),
         std::string fragmentShaderPath = GlobalConfig::GetDefaultSimpleMeshFragmentPhongShaderPath());
